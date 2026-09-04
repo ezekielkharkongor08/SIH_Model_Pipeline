@@ -1,8 +1,7 @@
 import base64
-import csv
-import io
 import json
 import os
+import re
 from typing import Dict, List, Tuple
 from agent1_extraction.config import settings
 from agent1_extraction.models.schemas import EntityType, InputFormat, RawTripleItem
@@ -18,10 +17,9 @@ if os.name == "nt":
 
 
 class UniversalInputParser:
-  """Parses arbitrary file formats (JSON, CSV, Text, Image) into standardized text or explicit structural triples."""
+  """Parses JSON, Plain Text, and Document Images into standardized text or explicit structural triples."""
 
   def _reconstruct_ocr_text(self, raw_ocr_text: str) -> str:
-    """Uses a fast LLM pass to clean up OCR noise before extraction."""
     prompt = f"""You are a document restoration expert. 
 Clean up the following raw OCR text extracted from a scanned document.
 Rules:
@@ -95,29 +93,6 @@ Raw OCR Text:
       logger.warning(f"Failed to parse JSON content natively: {e}")
       return InputFormat.JSON, text_content, []
 
-  def _parse_csv(
-      self, content: bytes, is_tsv: bool = False
-  ) -> Tuple[InputFormat, str, List[RawTripleItem]]:
-    text_content = content.decode("utf-8", errors="ignore")
-    delimiter = "\t" if is_tsv else ","
-    reader = csv.reader(io.StringIO(text_content), delimiter=delimiter)
-
-    lines = []
-    rows = list(reader)
-    if not rows:
-      return InputFormat.CSV, "", []
-
-    headers = rows[0]
-    for row_idx, row in enumerate(rows[1:], start=1):
-      row_str = ", ".join([
-          f"{headers[i]}: {val}"
-          for i, val in enumerate(row)
-          if i < len(headers)
-      ])
-      lines.append(f"Row {row_idx}: {row_str}")
-
-    return InputFormat.CSV, "\n".join(lines), []
-
   def _parse_image(
       self, content: bytes
   ) -> Tuple[InputFormat, str, List[RawTripleItem]]:
@@ -141,15 +116,14 @@ Raw OCR Text:
   def parse(
       self, raw_content: bytes, filename: str
   ) -> Tuple[InputFormat, str, List[RawTripleItem]]:
-    """Main entrypoint for parsing any file input."""
+    """Main entrypoint for parsing file input."""
     ext = filename.split(".")[-1].lower() if "." in filename else ""
 
     if ext == "json":
       return self._parse_json(raw_content)
-    elif ext in ["csv", "tsv"]:
-      return self._parse_csv(raw_content, is_tsv=(ext == "tsv"))
     elif ext in ["png", "jpg", "jpeg", "webp", "tiff"]:
       return self._parse_image(raw_content)
     else:
+      # Default fallback to plain text parsing
       text = raw_content.decode("utf-8", errors="ignore")
       return InputFormat.TEXT, text, []

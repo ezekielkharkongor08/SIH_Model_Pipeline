@@ -24,11 +24,11 @@ pipeline = UniversalExtractionPipeline()
 
 @app.get("/")
 async def root():
-    return {
-        "status": "active",
-        "service": "Agent 1 Universal Extraction Pipeline",
-        "supported_formats": ["JSON", "CSV", "TSV", "TXT", "PNG", "JPG", "PDF"],
-    }
+  return {
+      "status": "active",
+      "service": "Agent 1 Universal Extraction Pipeline",
+      "supported_formats": ["JSON", "TXT", "PNG", "JPG", "JPEG", "TIFF"],
+  }
 
 
 @app.post("/api/v1/extract", response_model=ExtractionPayload)

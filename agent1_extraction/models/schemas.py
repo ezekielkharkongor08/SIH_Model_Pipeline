@@ -6,7 +6,6 @@ from pydantic import BaseModel, Field
 class InputFormat(str, Enum):
   TEXT = "TEXT"
   JSON = "JSON"
-  CSV = "CSV"
   IMAGE = "IMAGE"
 
 
