@@ -2,96 +2,154 @@ import base64
 import csv
 import io
 import json
+import os
 from typing import Dict, List, Tuple
-from agent1_extraction.models.schemas import InputFormat, RawTripleItem, EntityType
+from agent1_extraction.config import settings
+from agent1_extraction.models.schemas import EntityType, InputFormat, RawTripleItem
+import httpx
 from loguru import logger
+from PIL import Image
+import pytesseract
+
+if os.name == "nt":
+  pytesseract.pytesseract.tesseract_cmd = (
+      r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+  )
 
 
 class UniversalInputParser:
-    """Parses arbitrary file formats (JSON, CSV, Text, Image) into standardized text or explicit structural triples."""
+  """Parses arbitrary file formats (JSON, CSV, Text, Image) into standardized text or explicit structural triples."""
 
-    @staticmethod
-    def parse(raw_content: bytes, filename: str) -> Tuple[InputFormat, str, List[RawTripleItem]]:
-        """
-        Returns:
-            - InputFormat
-            - Normalized raw text representation for NLP/Span matching
-            - Direct structural triples (if parsed natively from structured JSON/CSV)
-        """
-        ext = filename.split(".")[-1].lower() if "." in filename else ""
+  def _reconstruct_ocr_text(self, raw_ocr_text: str) -> str:
+    """Uses a fast LLM pass to clean up OCR noise before extraction."""
+    prompt = f"""You are a document restoration expert. 
+Clean up the following raw OCR text extracted from a scanned document.
+Rules:
+1. Fix broken words, OCR typos, and awkward line wraps.
+2. Maintain all original facts, names, dates, numbers, and statements exactly.
+3. Output ONLY the restored plain text narrative without introductory remarks or conversational responses.
 
-        if ext == "json":
-            return UniversalInputParser._parse_json(raw_content)
-        elif ext in ["csv", "tsv"]:
-            return UniversalInputParser._parse_csv(raw_content, is_tsv=(ext == "tsv"))
-        elif ext in ["png", "jpg", "jpeg", "webp", "tiff"]:
-            return UniversalInputParser._parse_image(raw_content)
-        else:
-            # Default fallback to plain text parsing
-            text = raw_content.decode("utf-8", errors="ignore")
-            return InputFormat.TEXT, text, []
+Raw OCR Text:
+{raw_ocr_text}
+"""
+    try:
+      with httpx.Client(timeout=30.0) as client:
+        response = client.post(
+            f"{settings.LLM_BASE_URL}/chat/completions",
+            json={
+                "model": settings.LLM_MODEL_NAME,
+                "messages": [{"role": "user", "content": prompt}],
+                "temperature": 0.0,
+            },
+        )
+        if response.status_code == 200:
+          content = response.json()["choices"][0]["message"]["content"]
+          return content.strip()
+    except Exception as e:
+      logger.warning(f"OCR text reconstruction bypassed: {e}")
 
-    @staticmethod
-    def _parse_json(content: bytes) -> Tuple[InputFormat, str, List[RawTripleItem]]:
-        text_content = content.decode("utf-8", errors="ignore")
-        direct_triples = []
-        
-        try:
-            data = json.loads(text_content)
-            
-            # 1. Direct JSON Schema Triples (if pre-structured)
-            if isinstance(data, list) and len(data) > 0 and isinstance(data[0], dict):
-                if "subject" in data[0] and "predicate" in data[0] and "object" in data[0]:
-                    for item in data:
-                        direct_triples.append(RawTripleItem(
-                            subject=str(item.get("subject")),
-                            subject_type=EntityType(item.get("subject_type", EntityType.UNKNOWN)),
-                            predicate=str(item.get("predicate")),
-                            object=str(item.get("object")),
-                            object_type=EntityType(item.get("object_type", EntityType.UNKNOWN)),
-                            timestamp=item.get("timestamp"),
-                            location=item.get("location")
-                        ))
-                    return InputFormat.JSON, json.dumps(data, indent=2), direct_triples
+    return raw_ocr_text.strip()
 
-            # 2. Key-Value or Arbitrary JSON structure -> Convert to narrative text representation
-            lines = []
-            if isinstance(data, dict):
-                for k, v in data.items():
-                    lines.append(f"{k}: {v}")
-            elif isinstance(data, list):
-                for idx, row in enumerate(data):
-                    lines.append(f"Record {idx + 1}: {json.dumps(row)}")
-            
-            return InputFormat.JSON, "\n".join(lines), direct_triples
+  def _parse_json(
+      self, content: bytes
+  ) -> Tuple[InputFormat, str, List[RawTripleItem]]:
+    text_content = content.decode("utf-8", errors="ignore")
+    direct_triples = []
 
-        except Exception as e:
-            logger.warning(f"Failed to parse JSON content natively: {e}")
-            return InputFormat.JSON, text_content, []
+    try:
+      data = json.loads(text_content)
+      if isinstance(data, list) and len(data) > 0 and isinstance(data[0], dict):
+        if (
+            "subject" in data[0]
+            and "predicate" in data[0]
+            and "object" in data[0]
+        ):
+          for item in data:
+            direct_triples.append(
+                RawTripleItem(
+                    subject=str(item.get("subject")),
+                    subject_type=EntityType(
+                        item.get("subject_type", EntityType.UNKNOWN)
+                    ),
+                    predicate=str(item.get("predicate")),
+                    object=str(item.get("object")),
+                    object_type=EntityType(
+                        item.get("object_type", EntityType.UNKNOWN)
+                    ),
+                    timestamp=item.get("timestamp"),
+                    location=item.get("location"),
+                )
+            )
+          return InputFormat.JSON, json.dumps(data, indent=2), direct_triples
 
-    @staticmethod
-    def _parse_csv(content: bytes, is_tsv: bool = False) -> Tuple[InputFormat, str, List[RawTripleItem]]:
-        text_content = content.decode("utf-8", errors="ignore")
-        delimiter = "\t" if is_tsv else ","
-        reader = csv.reader(io.StringIO(text_content), delimiter=delimiter)
-        
-        lines = []
-        rows = list(reader)
-        if not rows:
-            return InputFormat.CSV, "", []
+      lines = []
+      if isinstance(data, dict):
+        for k, v in data.items():
+          lines.append(f"{k}: {v}")
+      elif isinstance(data, list):
+        for idx, row in enumerate(data):
+          lines.append(f"Record {idx + 1}: {json.dumps(row)}")
 
-        headers = rows[0]
-        for row_idx, row in enumerate(rows[1:], start=1):
-            row_str = ", ".join([f"{headers[i]}: {val}" for i, val in enumerate(row) if i < len(headers)])
-            lines.append(f"Row {row_idx}: {row_str}")
+      return InputFormat.JSON, "\n".join(lines), direct_triples
+    except Exception as e:
+      logger.warning(f"Failed to parse JSON content natively: {e}")
+      return InputFormat.JSON, text_content, []
 
-        formatted_text = "\n".join(lines)
-        return InputFormat.CSV, formatted_text, []
+  def _parse_csv(
+      self, content: bytes, is_tsv: bool = False
+  ) -> Tuple[InputFormat, str, List[RawTripleItem]]:
+    text_content = content.decode("utf-8", errors="ignore")
+    delimiter = "\t" if is_tsv else ","
+    reader = csv.reader(io.StringIO(text_content), delimiter=delimiter)
 
-    @staticmethod
-    def _parse_image(content: bytes) -> Tuple[InputFormat, str, List[RawTripleItem]]:
-        """Encodes image content to base64 string for direct Multimodal Vision LLM execution."""
-        b64_image = base64.b64encode(content).decode("utf-8")
-        # Format payload specifically as image URI for multimodal models
-        image_uri = f"data:image/png;base64,{b64_image}"
-        return InputFormat.IMAGE, image_uri, []
+    lines = []
+    rows = list(reader)
+    if not rows:
+      return InputFormat.CSV, "", []
+
+    headers = rows[0]
+    for row_idx, row in enumerate(rows[1:], start=1):
+      row_str = ", ".join([
+          f"{headers[i]}: {val}"
+          for i, val in enumerate(row)
+          if i < len(headers)
+      ])
+      lines.append(f"Row {row_idx}: {row_str}")
+
+    return InputFormat.CSV, "\n".join(lines), []
+
+  def _parse_image(
+      self, content: bytes
+  ) -> Tuple[InputFormat, str, List[RawTripleItem]]:
+    try:
+      image = Image.open(io.BytesIO(content))
+      raw_ocr_text = pytesseract.image_to_string(image)
+
+      if raw_ocr_text.strip():
+        logger.info(
+            f"Raw Tesseract output: {len(raw_ocr_text)} chars. Reconstructing"
+            " text..."
+        )
+        cleaned_text = self._reconstruct_ocr_text(raw_ocr_text)
+        return InputFormat.IMAGE, cleaned_text, []
+    except Exception as e:
+      logger.warning(f"Local OCR execution failed: {e}")
+
+    b64_image = base64.b64encode(content).decode("utf-8")
+    return InputFormat.IMAGE, f"data:image/png;base64,{b64_image}", []
+
+  def parse(
+      self, raw_content: bytes, filename: str
+  ) -> Tuple[InputFormat, str, List[RawTripleItem]]:
+    """Main entrypoint for parsing any file input."""
+    ext = filename.split(".")[-1].lower() if "." in filename else ""
+
+    if ext == "json":
+      return self._parse_json(raw_content)
+    elif ext in ["csv", "tsv"]:
+      return self._parse_csv(raw_content, is_tsv=(ext == "tsv"))
+    elif ext in ["png", "jpg", "jpeg", "webp", "tiff"]:
+      return self._parse_image(raw_content)
+    else:
+      text = raw_content.decode("utf-8", errors="ignore")
+      return InputFormat.TEXT, text, []
