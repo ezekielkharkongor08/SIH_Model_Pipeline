@@ -1,0 +1,13 @@
+fastapi>=0.110.0
+uvicorn>=0.28.0
+pydantic>=2.6.0
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.9
+outlines>=0.0.35          # Schema-guided LLM decoding
+gliner>=0.1.2             # Fast zero-shot fallback for exact entity bounds
+surya-ocr>=0.4.0          # Layout-aware OCR (or doctr)
+spacy>=3.7.0              # Span alignment & linguistic parsing
+sutime>=0.1.8             # Temporal normalization
+geopy>=2.4.1              # Geocoding normalization
+loguru>=0.7.2
+pytest>=8.0.0

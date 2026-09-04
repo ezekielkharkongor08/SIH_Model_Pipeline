@@ -1,0 +1,68 @@
+# =========================
+# Environment & Secrets
+# =========================
+.env
+.env.*
+!.env.example
+secrets.json
+
+# =========================
+# Virtual Environments
+# =========================
+venv/
+.venv/
+env/
+.env_dir/
+
+# =========================
+# Python Cache & Bytecode
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# =========================
+# Logs
+# =========================
+*.log
+logs/
+
+# =========================
+# Testing & Coverage
+# =========================
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# =========================
+# Databases (Local caching)
+# =========================
+*.sqlite3
+*.db
+
+# =========================
+# Project Data & Uploads
+# =========================
+# (Don't commit raw evidence, FIRs, images, or PDFs to GitHub)
+data/
+uploads/
+temp/
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.csv
+*.tsv
+# Note: If you want to keep dummy data for testing, you can explicitly add an exception like:
+# !data/sample_fir.txt
+
+# =========================
+# IDEs & OS Files
+# =========================
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
