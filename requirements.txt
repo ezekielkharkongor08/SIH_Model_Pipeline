@@ -27,6 +27,15 @@ pillow>=10.2.0
 sutime>=0.1.8             # Temporal normalization
 geopy>=2.4.1              # Geocoding normalization
 
+# Agent 2: Entity Resolution (BGE-m3 + Metaphone + HAC)
+sentence-transformers>=2.2.0  # BGE-m3 embeddings
+scipy>=1.11.0             # Hierarchical Agglomerative Clustering
+jellyfish>=1.0.0          # Metaphone phonetic encoding
+
+# Agent 3: Knowledge Graph (Neo4j + NetworkX)
+neo4j>=5.0.0              # Neo4j graph database driver
+networkx>=3.0.0           # Python graph analysis library
+
 # Logging & Testing
 loguru>=0.7.2
 pytest>=8.0.0

@@ -1,14 +1,27 @@
+"""
+main.py — Unified FastAPI server for SIH Agent 1 & Agent 2 & Agent 3
+Agent 1: Universal Forensic Extraction Engine
+Agent 2: Entity Resolution Engine (BGE-m3 + HAC clustering)
+Agent 3: Knowledge Graph Builder
+"""
+
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-# 1. Import the router you built in routes.py
+# Agent 1 extraction routes
 from agent1_extraction.api.routes import router as extraction_router
 
+# Agent 2 resolution routes
+from agent2_resolution.api.routes import router as resolution_router
+
+# Agent 3 knowledge graph routes
+from agent3_graph.api.routes import router as graph_router
+
 app = FastAPI(
-    title="SIH Agent 1 - Universal Forensic Extraction Engine",
-    version="2.0.0",
-    description="Multi-format extraction API supporting JSON, Text, and Document Images.",
+    title="SIH Unified Extraction, Resolution & Graph Engine",
+    version="1.0.0",
+    description="Agent 1: Extraction | Agent 2: Resolution | Agent 3: Knowledge Graph",
 )
 
 app.add_middleware(
@@ -19,16 +32,28 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 2. Attach the external routes to the main application
-app.include_router(extraction_router)
+# Agent 1: Extraction endpoints
+app.include_router(extraction_router, prefix="/api/v1/extraction")
+
+# Agent 2: Resolution endpoints
+app.include_router(resolution_router, prefix="/api/v1/resolution")
+
+# Agent 3: Knowledge Graph endpoints
+app.include_router(graph_router, prefix="")
+
 
 @app.get("/")
 async def root():
-  return {
-      "status": "active",
-      "service": "Agent 1 Universal Extraction Pipeline",
-      "supported_formats": ["JSON", "TXT", "PNG", "JPG", "JPEG", "TIFF"],
-  }
+    return {
+        "status": "active",
+        "services": ["Agent 1 Extraction", "Agent 2 Resolution", "Agent 3 Graph Builder"],
+        "endpoints": {
+            "extraction_docs": "/api/v1/extraction/docs",
+            "resolution_docs": "/api/v1/resolution/docs",
+            "graph_docs": "/api/v1/graph/docs",
+        },
+    }
+
 
 if __name__ == "__main__":
-  uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
