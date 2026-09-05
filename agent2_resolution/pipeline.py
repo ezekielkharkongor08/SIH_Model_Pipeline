@@ -117,7 +117,7 @@ class EntityResolutionPipeline:
 
         # 1. Collect all mentions across all payloads, with entity IDs
         all_mentions: list[EntityMention] = []
-        all_triples: list[ExtractedTriple] = []
+        all_triples: list[tuple[str, ExtractedTriple]] = []
         evidence_ids: set[str] = set()
 
         agent1_session = self.agent1_session()
@@ -140,8 +140,9 @@ class EntityResolutionPipeline:
                             entity_id=entity_id,
                         )
                     )
-                # Collect triples for graph edge building
-                all_triples.extend(p.triples)
+                # Collect triples for graph edge building paired with evidence_id
+                for t in p.triples:
+                    all_triples.append((p.evidence_id, t))
         finally:
             agent1_session.close()
 
@@ -213,9 +214,9 @@ class EntityResolutionPipeline:
         resolved_triples: list[ResolvedTriple] = []
         agent1_session = self.agent1_session()
         try:
-            for triple in all_triples:
-                subj_key = (triple.subject.canonical_name.lower(), triple.evidence_id)
-                obj_key = (triple.object.canonical_name.lower(), triple.evidence_id)
+            for evidence_id, triple in all_triples:
+                subj_key = (triple.subject.canonical_name.lower(), evidence_id)
+                obj_key = (triple.object.canonical_name.lower(), evidence_id)
 
                 subj_cluster = cluster_map.get(subj_key)
                 obj_cluster = cluster_map.get(obj_key)
@@ -227,7 +228,7 @@ class EntityResolutionPipeline:
                         triple.subject.canonical_name,
                         triple.predicate,
                         triple.object.canonical_name,
-                        triple.evidence_id
+                        evidence_id
                     )
 
                     resolved_triples.append(

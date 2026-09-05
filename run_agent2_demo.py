@@ -115,7 +115,7 @@ def run_agents_demo():
     """Run Agent 1 → Agent 2 end-to-end demo."""
 
     print("=" * 85)
-    print("AGENT 1 → AGENT 2 END-TO-END DEMO")
+    print("AGENT 1 -> AGENT 2 END-TO-END DEMO")
     print("=" * 85)
 
     # --- Step 1: Run Agent 1 extraction ---
@@ -139,7 +139,7 @@ def run_agents_demo():
             filename=filename,
         )
         extraction_payloads.append(payload)
-        print(f"    → {len(payload.entities)} entities, {len(payload.triples)} triples")
+        print(f"    -> {len(payload.entities)} entities, {len(payload.triples)} triples")
 
     # --- Step 2: Run Agent 2 resolution ---
     print("\n[STEP 2] Running Agent 2: Entity Resolution Pipeline")
@@ -177,8 +177,8 @@ def run_agents_demo():
         print("PENDING REVIEW PAIRS (similarity 0.80 – 0.94)")
         print("=" * 85)
         for pair in resolution.pending_review:
-            print(f"  {pair.mention_a} ↔ {pair.mention_b}")
-            print(f"    Similarity: {pair.similarity:.3f} → {pair.decision.value}")
+            print(f"  {pair.mention_a} <-> {pair.mention_b}")
+            print(f"    Similarity: {pair.similarity:.3f} -> {pair.decision.value}")
 
     print("\n" + "=" * 85)
     print("END-TO-END DEMO COMPLETE")

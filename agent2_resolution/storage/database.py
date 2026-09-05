@@ -26,9 +26,14 @@ from sqlalchemy import (
     func,
 )
 from sqlalchemy.dialects.postgresql import insert as pg_insert
-from sqlalchemy.orm import declarative_base, relationship, sessionmaker
+from sqlalchemy.orm import relationship, sessionmaker
 
-Base = declarative_base()
+from agent1_extraction.storage.database import (
+    Base,
+    EntityModel,
+    EvidenceModel,
+    TripleModel,
+)
 
 
 class ClusterModel(Base):
