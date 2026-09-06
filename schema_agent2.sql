@@ -1,13 +1,21 @@
 -- schema_agent2.sql
--- Entity resolution tables for Agent 2 (BGE-m3 + HAC clustering)
+-- Entity resolution tables for Agent 2 (BGE-m3 + HAC clustering + pgvector)
 -- This complements the base evidence and extraction tables in schema.sql
 -- Enables connected knowledge graph with full entity-to-cluster-to-relationship traceability
+-- pgvector integration for embedding storage and similarity search
+
+-- ═══════════════════════════════════════════════════════════════════════════════
+-- PGVECTOR SETUP
+-- ═══════════════════════════════════════════════════════════════════════════════
+
+-- Enable pgvector extension for vector operations
+CREATE EXTENSION IF NOT EXISTS vector;
 
 -- ═══════════════════════════════════════════════════════════════════════════════
 -- CORE RESOLUTION TABLES
 -- ═══════════════════════════════════════════════════════════════════════════════
 
--- Resolved entity clusters (final canonical entities)
+-- Resolved entity clusters (final canonical entities) with pgvector embeddings
 CREATE TABLE IF NOT EXISTS entity_clusters (
     id SERIAL PRIMARY KEY,
     run_id VARCHAR(128) NOT NULL,
@@ -16,11 +24,19 @@ CREATE TABLE IF NOT EXISTS entity_clusters (
     entity_type VARCHAR(50) NOT NULL,
     avg_similarity FLOAT NOT NULL,
     member_count INTEGER NOT NULL,
+    centroid_embedding VECTOR(1024),  -- BGE-m3 centroid embedding (unit-norm)
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
     INDEX idx_clusters_run_id (run_id),
     INDEX idx_clusters_entity_type (entity_type)
 );
+
+-- HNSW index for fast cosine similarity search on centroid embeddings
+-- Uses cosine distance (<-> operator) for similarity ranking
+CREATE INDEX IF NOT EXISTS idx_clusters_centroid_hnsw
+ON entity_clusters
+USING hnsw (centroid_embedding vector_cosine_ops)
+WITH (m = 16, ef_construction = 64);
 
 -- Pending resolution decisions (requires human/LLM review)
 CREATE TABLE IF NOT EXISTS resolution_decisions (

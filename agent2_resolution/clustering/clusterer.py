@@ -98,7 +98,7 @@ class EntityClusterer:
         dist_threshold: float,
         min_similarity: float,
     ) -> list[EntityCluster]:
-        """Cut the dendrogram at dist_threshold and build EntityCluster objects."""
+        """Cut the dendrogram at dist_threshold and build EntityCluster objects with centroid embeddings."""
         cluster_labels = fcluster(Z, dist_threshold, criterion="distance")
 
         clusters_dict = {}
@@ -125,6 +125,11 @@ class EntityClusterer:
             else:
                 avg_sim = 1.0
 
+            # Calculate centroid embedding (mean of member embeddings, normalized)
+            centroid = np.mean(member_embeds, axis=0)
+            centroid_norm = centroid / (np.linalg.norm(centroid) + 1e-9)
+            centroid_list = centroid_norm.astype(np.float32).tolist()
+
             entity_type = member_mentions[0].entity_type
 
             clu = EntityCluster(
@@ -133,6 +138,7 @@ class EntityClusterer:
                 entity_type=entity_type,
                 members=member_mentions,
                 avg_similarity=avg_sim,
+                centroid_embedding=centroid_list,
             )
             result.append(clu)
 

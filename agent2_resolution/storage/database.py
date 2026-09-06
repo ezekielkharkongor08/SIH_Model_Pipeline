@@ -5,6 +5,8 @@ Uses same connection as Agent 1, adds entity_clusters and resolution_decisions t
 Includes full relational graph support: memberships, resolved triples, evidence sources.
 """
 
+import json
+
 from agent2_resolution.config import settings
 from agent2_resolution.models.schemas import (
     EntityCluster,
@@ -19,6 +21,7 @@ from sqlalchemy import (
     DateTime,
     Float,
     ForeignKey,
+    Index,
     Integer,
     String,
     Text,
@@ -47,11 +50,18 @@ class ClusterModel(Base):
     entity_type = Column(String(50), nullable=False)
     avg_similarity = Column(Float, nullable=False)
     member_count = Column(Integer, nullable=False)
+    # pgvector column for centroid embedding (BGE-m3 = 1024 dimensions)
+    centroid_embedding = Column(Text, nullable=True)  # Stored as JSON string, parsed on read
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     # Relationships for graph traversal
     memberships = relationship("ClusterMembershipModel", back_populates="cluster", cascade="all, delete-orphan")
     evidence_sources = relationship("ClusterEvidenceSourceModel", back_populates="cluster", cascade="all, delete-orphan")
+
+    __table_args__ = (
+        Index("idx_clusters_centroid_hnsw", "centroid_embedding", postgresql_using="gin",
+              postgresql_ops={"centroid_embedding": "vector_cosine_ops"}),
+    )
 
 
 class ResolutionPairModel(Base):
@@ -127,6 +137,11 @@ class ResolutionRepository:
         try:
             # 1. Bulk upsert for clusters
             for cluster in payload.clusters:
+                # Convert centroid embedding to JSON string if present
+                centroid_json = None
+                if cluster.centroid_embedding is not None:
+                    centroid_json = json.dumps(cluster.centroid_embedding)
+
                 stmt = pg_insert(ClusterModel).values(
                     run_id=payload.run_id,
                     cluster_id=cluster.cluster_id,
@@ -134,6 +149,7 @@ class ResolutionRepository:
                     entity_type=cluster.entity_type,
                     avg_similarity=cluster.avg_similarity,
                     member_count=len(cluster.members),
+                    centroid_embedding=centroid_json,
                 )
                 stmt = stmt.on_conflict_do_update(
                     index_elements=["cluster_id"],
@@ -143,6 +159,7 @@ class ResolutionRepository:
                         "entity_type": stmt.excluded.entity_type,
                         "avg_similarity": stmt.excluded.avg_similarity,
                         "member_count": stmt.excluded.member_count,
+                        "centroid_embedding": stmt.excluded.centroid_embedding,
                     },
                 )
                 session.execute(stmt)
@@ -217,5 +234,62 @@ class ResolutionRepository:
             session.rollback()
             logger.error(f"Failed to save resolution: {e}")
             return False
+        finally:
+            session.close()
+
+    def find_similar_clusters(
+        self,
+        embedding: list[float],
+        entity_type: str = None,
+        top_k: int = 5,
+        threshold: float = 0.80,
+    ) -> list[tuple[str, str, float]]:
+        """
+        Find existing clusters similar to the given embedding using pgvector cosine similarity.
+
+        Args:
+            embedding: 1024-dim BGE-m3 embedding (unit-norm)
+            entity_type: Optional filter by entity_type
+            top_k: Max number of results
+            threshold: Min similarity score (cosine similarity, 0-1)
+
+        Returns:
+            List of (cluster_id, canonical_name, similarity_score) tuples
+        """
+        session = self.Session()
+        try:
+            from sqlalchemy import text
+            embedding_json = json.dumps(embedding)
+
+            # Build query with optional entity_type filter
+            type_filter = "AND entity_type = :entity_type" if entity_type else ""
+
+            query = text(f"""
+                SELECT cluster_id, canonical_name, entity_type,
+                       1 - (centroid_embedding <-> :embedding::vector) AS similarity
+                FROM entity_clusters
+                WHERE centroid_embedding IS NOT NULL
+                {type_filter}
+                AND (1 - (centroid_embedding <-> :embedding::vector)) >= :threshold
+                ORDER BY centroid_embedding <-> :embedding::vector
+                LIMIT :top_k
+            """)
+
+            params = {
+                "embedding": embedding_json,
+                "threshold": threshold,
+                "top_k": top_k,
+            }
+            if entity_type:
+                params["entity_type"] = entity_type
+
+            result = session.execute(query, params)
+            rows = result.fetchall()
+
+            return [(row[0], row[1], float(row[3])) for row in rows]
+
+        except Exception as e:
+            logger.error(f"Vector similarity search failed: {e}")
+            return []
         finally:
             session.close()

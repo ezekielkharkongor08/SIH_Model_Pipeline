@@ -10,6 +10,7 @@ import time
 import uuid
 from collections import defaultdict
 from typing import Dict, Optional, Set
+import numpy as np
 from loguru import logger
 
 from agent2_resolution.embeddings.embedder import BGEEmbedder
@@ -351,3 +352,94 @@ class EntityResolutionPipeline:
             execution_time_ms=execution_time,
             status="SUCCESS",
         )
+
+    # ── Incremental Resolution API ─────────────────────────────────────────────
+
+    def resolve_new_mention(
+        self,
+        surface: str,
+        entity_type: str,
+        evidence_id: str = "INC-001",
+        confidence: float = 1.0,
+        reuse_threshold: float = 0.90,
+    ) -> tuple[Optional[str], Optional[ResolutionPayload]]:
+        """
+        Resolve a single new entity mention by querying stored cluster centroids.
+
+        Uses pgvector cosine similarity to find if this mention matches an existing
+        cluster. If found above threshold, returns the cluster_id without reclustering.
+        Otherwise, returns None and a resolution payload for the new mention.
+
+        Args:
+            surface: Entity surface text
+            entity_type: Entity type (PERSON, LOCATION, etc.)
+            evidence_id: Source evidence ID
+            confidence: Mention confidence
+            reuse_threshold: Min similarity to reuse existing cluster
+
+        Returns:
+            (cluster_id_if_reused, new_resolution_payload_if_new_entity)
+        """
+        # Embed the new mention
+        embedding = self.embedder.embed(surface)
+        embedding_list = embedding.astype(np.float32).tolist()
+
+        # Query for similar existing clusters
+        similar = self.db_repo.find_similar_clusters(
+            embedding=embedding_list,
+            entity_type=entity_type,
+            top_k=1,
+            threshold=reuse_threshold,
+        )
+
+        if similar:
+            cluster_id, canonical, similarity = similar[0]
+            logger.info(
+                f"Reused cluster '{cluster_id}' for '{surface}' "
+                f"(similarity={similarity:.4f})"
+            )
+            return cluster_id, None
+
+        # No match - create a new single-mention resolution
+        logger.info(f"No match for '{surface}', creating new resolution")
+        new_mention = EntityMention(
+            surface=surface,
+            entity_type=entity_type,
+            evidence_id=evidence_id,
+            confidence=confidence,
+        )
+
+        new_clusters, new_pending = self.clusterer.cluster([new_mention], [embedding])
+
+        # Attach centroid embedding to the cluster
+        if new_clusters:
+            new_clusters[0].centroid_embedding = embedding_list
+
+        execution_time = 0.0  # Skip timing for single mention
+        payload = ResolutionPayload(
+            run_id=f"INC-{uuid.uuid4().hex[:8].upper()}",
+            evidence_ids=[evidence_id],
+            clusters=new_clusters,
+            pending_review=new_pending,
+            resolved_triples=[],
+            evidence_sources=[
+                ClusterEvidenceSource(
+                    cluster_id=new_clusters[0].cluster_id if new_clusters else "NONE",
+                    evidence_id=evidence_id,
+                    mention_count=1,
+                )
+            ],
+            total_mentions=1,
+            total_clusters=len(new_clusters),
+            total_triples=0,
+            execution_time_ms=execution_time,
+            status="SUCCESS",
+        )
+
+        # Persist the new cluster with its embedding
+        try:
+            self.db_repo.save_resolution(payload)
+        except Exception as e:
+            logger.error(f"Failed to persist new cluster: {e}")
+
+        return None, payload

@@ -31,6 +31,7 @@ class EntityCluster(BaseModel):
     entity_type: str
     members: List[EntityMention]     # all surface mentions in this cluster
     avg_similarity: float            # intra-cluster mean pairwise similarity
+    centroid_embedding: Optional[List[float]] = None  # 1024-dim BGE-m3 centroid (unit-norm)
 
 
 # ── Per-pair resolution decision ──────────────────────────────────────────────
