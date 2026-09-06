@@ -69,7 +69,7 @@ class Neo4jExporter:
             n.entity_type = $entity_type,
             n.confidence = $confidence,
             n.created_at = datetime(),
-            n.labels = apoc.text.join([$entity_type], '_'),
+            n.labels = $entity_type,
             n.source_entity_count = size($source_entities),
             n.evidence_count = size($evidence_sources)
         RETURN n.node_id as node_id

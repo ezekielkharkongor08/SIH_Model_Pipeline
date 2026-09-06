@@ -1,0 +1,26 @@
+[
+  {
+    "query": "Who is mentioned in the FIR documents?",
+    "success": true,
+    "answer": "I couldn't find any relevant information in the knowledge graph to answer your question.",
+    "confidence": 0.1,
+    "related_nodes_count": 0,
+    "query_time_ms": 2053.8558959960938
+  },
+  {
+    "query": "What relationships exist between people?",
+    "success": true,
+    "answer": "I couldn't find any relevant information in the knowledge graph to answer your question.",
+    "confidence": 0.1,
+    "related_nodes_count": 0,
+    "query_time_ms": 0.0
+  },
+  {
+    "query": "Show all organizations found",
+    "success": true,
+    "answer": "I couldn't find any relevant information in the knowledge graph to answer your question.",
+    "confidence": 0.1,
+    "related_nodes_count": 0,
+    "query_time_ms": 5.014896392822266
+  }
+]

@@ -1,0 +1,307 @@
+[
+  {
+    "evidence_id": "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788721686834-188783",
+    "filename": "Gemini_Generated_Image_396qrl396qrl396q.png",
+    "entities_count": 19,
+    "triples_count": 10,
+    "execution_time_ms": 33777.76,
+    "status": "SUCCESS",
+    "entities": [
+      {
+        "canonical_name": "9988776655",
+        "entity_type": "PHONE_NUMBER"
+      },
+      {
+        "canonical_name": "Rs. 5,00,00,000,000",
+        "entity_type": "MONEY_AMOUNT"
+      },
+      {
+        "canonical_name": "Rs. 50,00,000",
+        "entity_type": "MONEY_AMOUNT"
+      },
+      {
+        "canonical_name": "10:15 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "14:00 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "IPC 420",
+        "entity_type": "LEGAL_SECTION"
+      },
+      {
+        "canonical_name": "Section 15G",
+        "entity_type": "LEGAL_SECTION"
+      },
+      {
+        "canonical_name": "IPC 120B",
+        "entity_type": "LEGAL_SECTION"
+      },
+      {
+        "canonical_name": "Section 3",
+        "entity_type": "LEGAL_SECTION"
+      },
+      {
+        "canonical_name": "Rajesh Khurana",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "Apex Pharmaceuticals stock",
+        "entity_type": "ORGANIZATION"
+      },
+      {
+        "canonical_name": "Ananya Rao",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "market panic",
+        "entity_type": "UNKNOWN"
+      },
+      {
+        "canonical_name": "Vikram Sethi",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "Lower Parel, Mumbai",
+        "entity_type": "LOCATION"
+      },
+      {
+        "canonical_name": "server",
+        "entity_type": "UNKNOWN"
+      },
+      {
+        "canonical_name": "multiple proxy shell accounts",
+        "entity_type": "UNKNOWN"
+      },
+      {
+        "canonical_name": "Inspector Sanjay Gupta",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "case",
+        "entity_type": "UNKNOWN"
+      }
+    ],
+    "triples": [
+      {
+        "subject": "Rajesh Khurana",
+        "predicate": "reported_anomalous_short_selling",
+        "object": "Apex Pharmaceuticals stock"
+      },
+      {
+        "subject": "Ananya Rao",
+        "predicate": "orchestrated_short_selling",
+        "object": "Apex Pharmaceuticals stock"
+      },
+      {
+        "subject": "Ananya Rao",
+        "predicate": "funded_cyber_attack",
+        "object": "market panic"
+      },
+      {
+        "subject": "Ananya Rao",
+        "predicate": "transferred_money_to",
+        "object": "Vikram Sethi"
+      },
+      {
+        "subject": "Ananya Rao",
+        "predicate": "worked_with",
+        "object": "Vikram Sethi"
+      },
+      {
+        "subject": "Ananya Rao",
+        "predicate": "located_at",
+        "object": "Lower Parel, Mumbai"
+      },
+      {
+        "subject": "Vikram Sethi",
+        "predicate": "executed_server_breach",
+        "object": "server"
+      },
+      {
+        "subject": "Ananya Rao",
+        "predicate": "netted_illicit_profits",
+        "object": "Rs. 5,00,00,000,000"
+      },
+      {
+        "subject": "Ananya Rao",
+        "predicate": "used_proxy_shell_accounts",
+        "object": "multiple proxy shell accounts"
+      },
+      {
+        "subject": "Inspector Sanjay Gupta",
+        "predicate": "investigated",
+        "object": "case"
+      }
+    ]
+  },
+  {
+    "evidence_id": "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788721720640-524b08",
+    "filename": "Gemini_Generated_Image_tkds5rtkds5rtkds.png",
+    "entities_count": 25,
+    "triples_count": 11,
+    "execution_time_ms": 30333.76,
+    "status": "SUCCESS",
+    "entities": [
+      {
+        "canonical_name": "9811223344",
+        "entity_type": "PHONE_NUMBER"
+      },
+      {
+        "canonical_name": "Rs. 2,00,00,000",
+        "entity_type": "MONEY_AMOUNT"
+      },
+      {
+        "canonical_name": "12:30 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "08:30 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "11:15 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "02:15 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "01:30 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "IT Act 43",
+        "entity_type": "LEGAL_SECTION"
+      },
+      {
+        "canonical_name": "IPC 384",
+        "entity_type": "LEGAL_SECTION"
+      },
+      {
+        "canonical_name": "IPC 120B",
+        "entity_type": "LEGAL_SECTION"
+      },
+      {
+        "canonical_name": "IPC 506",
+        "entity_type": "LEGAL_SECTION"
+      },
+      {
+        "canonical_name": "IT Act Section 66A",
+        "entity_type": "LEGAL_SECTION"
+      },
+      {
+        "canonical_name": "Dr. Arvind Patel",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "catastrophic ransomware infection",
+        "entity_type": "UNKNOWN"
+      },
+      {
+        "canonical_name": "encrypted email",
+        "entity_type": "EMAIL"
+      },
+      {
+        "canonical_name": "proprietary Phase 3 clinical trial data",
+        "entity_type": "UNKNOWN"
+      },
+      {
+        "canonical_name": "DarkByte",
+        "entity_type": "UNKNOWN"
+      },
+      {
+        "canonical_name": "Rs. 2,00,00,000 in cryptocurrency",
+        "entity_type": "MONEY_AMOUNT"
+      },
+      {
+        "canonical_name": "Vikram Sethi",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "malicious script",
+        "entity_type": "UNKNOWN"
+      },
+      {
+        "canonical_name": "Ananya Rao",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "Apex Pharma server farm perimeter",
+        "entity_type": "LOCATION"
+      },
+      {
+        "canonical_name": "notorious corporate espionage and cyber-extortion syndicate",
+        "entity_type": "ORGANIZATION"
+      },
+      {
+        "canonical_name": "Inspector Vikram Patil",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "Investigating Officer",
+        "entity_type": "UNKNOWN"
+      }
+    ],
+    "triples": [
+      {
+        "subject": "Dr. Arvind Patel",
+        "predicate": "reported",
+        "object": "catastrophic ransomware infection"
+      },
+      {
+        "subject": "Dr. Arvind Patel",
+        "predicate": "received",
+        "object": "encrypted email"
+      },
+      {
+        "subject": "Dr. Arvind Patel",
+        "predicate": "received",
+        "object": "encrypted email"
+      },
+      {
+        "subject": "Dr. Arvind Patel",
+        "predicate": "had",
+        "object": "proprietary Phase 3 clinical trial data"
+      },
+      {
+        "subject": "DarkByte",
+        "predicate": "sent",
+        "object": "encrypted email"
+      },
+      {
+        "subject": "DarkByte",
+        "predicate": "demanded",
+        "object": "Rs. 2,00,00,000 in cryptocurrency"
+      },
+      {
+        "subject": "Vikram Sethi",
+        "predicate": "deployed",
+        "object": "malicious script"
+      },
+      {
+        "subject": "Vikram Sethi",
+        "predicate": "was_seen_with",
+        "object": "Ananya Rao"
+      },
+      {
+        "subject": "Vikram Sethi",
+        "predicate": "was_near",
+        "object": "Apex Pharma server farm perimeter"
+      },
+      {
+        "subject": "Vikram Sethi",
+        "predicate": "was_associated_with",
+        "object": "notorious corporate espionage and cyber-extortion syndicate"
+      },
+      {
+        "subject": "Inspector Vikram Patil",
+        "predicate": "is",
+        "object": "Investigating Officer"
+      }
+    ]
+  }
+]

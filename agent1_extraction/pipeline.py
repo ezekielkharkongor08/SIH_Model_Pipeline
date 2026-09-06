@@ -1,5 +1,6 @@
 import hashlib
 import json
+import re
 import time
 from typing import Dict, List, Optional
 from loguru import logger
@@ -11,6 +12,7 @@ from agent1_extraction.models.schemas import (
     ExtractedEntity,
     ExtractedTriple,
     ExtractionPayload,
+    EntityType,
 )
 from agent1_extraction.normalization.normalizer import EntityNormalizer
 from agent1_extraction.storage.database import DatabaseRepository
@@ -97,21 +99,47 @@ class UniversalExtractionPipeline:
 
       # Subject Entity Verification
       sub_span = SpanVerifier.find_span(text_or_uri, clean_sub)
-      subject_entity = ExtractedEntity(
-          canonical_name=clean_sub,
-          entity_type=item.subject_type,
-          span=sub_span,
-      )
-      entity_registry[clean_sub] = subject_entity
+      if clean_sub in entity_registry:
+          existing_sub = entity_registry[clean_sub]
+          # Keep existing type if it's not UNKNOWN, otherwise use LLM type (even if UNKNOWN)
+          if existing_sub.entity_type != EntityType.UNKNOWN:
+              subject_entity = existing_sub
+          else:
+              subject_entity = ExtractedEntity(
+                  canonical_name=clean_sub,
+                  entity_type=item.subject_type,
+                  span=sub_span,
+              )
+              entity_registry[clean_sub] = subject_entity
+      else:
+          subject_entity = ExtractedEntity(
+              canonical_name=clean_sub,
+              entity_type=item.subject_type,
+              span=sub_span,
+          )
+          entity_registry[clean_sub] = subject_entity
 
       # Object Entity Verification
       obj_span = SpanVerifier.find_span(text_or_uri, clean_obj)
-      object_entity = ExtractedEntity(
-          canonical_name=clean_obj,
-          entity_type=item.object_type,
-          span=obj_span,
-      )
-      entity_registry[clean_obj] = object_entity
+      if clean_obj in entity_registry:
+          existing_obj = entity_registry[clean_obj]
+          # Keep existing type if it's not UNKNOWN, otherwise use LLM type (even if UNKNOWN)
+          if existing_obj.entity_type != EntityType.UNKNOWN:
+              object_entity = existing_obj
+          else:
+              object_entity = ExtractedEntity(
+                  canonical_name=clean_obj,
+                  entity_type=item.object_type,
+                  span=obj_span,
+              )
+              entity_registry[clean_obj] = object_entity
+      else:
+          object_entity = ExtractedEntity(
+              canonical_name=clean_obj,
+              entity_type=item.object_type,
+              span=obj_span,
+          )
+          entity_registry[clean_obj] = object_entity
 
       # Location Normalization
       norm_geo = None

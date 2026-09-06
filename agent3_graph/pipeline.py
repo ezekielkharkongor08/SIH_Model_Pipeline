@@ -118,7 +118,7 @@ class KnowledgeGraphPipeline:
     def export_as_json(self, graph: KnowledgeGraph) -> str:
         """Export knowledge graph as JSON string."""
         try:
-            json_str = graph.json(indent=2)
+            json_str = graph.model_dump_json(indent=2)
             logger.info(f"Exported graph {graph.graph_id} as JSON successfully")
             return json_str
         except Exception as e:

@@ -245,7 +245,7 @@ class GraphRAGRepository:
         # Add prediction filter if needed
         pred_filter = ""
         if not include_predictions:
-            pred_filter = "AND (NOT EXISTS((n)-[r:RELATION]->() WHERE r.is_predicted = true))"
+            pred_filter = "AND NOT EXISTS { (n)-[r:RELATION]->() WHERE r.is_predicted = true }"
 
         cypher = f"""
         MATCH (n:Entity)
@@ -362,7 +362,7 @@ class GraphRAGRepository:
 
         pred_filter = ""
         if not include_predictions:
-            pred_filter = "AND (NOT EXISTS((n)-[r:RELATION]->() WHERE r.is_predicted = true))"
+            pred_filter = "AND NOT (n)-[r:RELATION WHERE r.is_predicted = true]->()"
 
         cypher = f"""
         MATCH (n:Entity)

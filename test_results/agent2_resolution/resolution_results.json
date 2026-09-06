@@ -1,0 +1,549 @@
+{
+  "run_id": "RES-B081FCB3",
+  "total_mentions": 44,
+  "total_clusters": 41,
+  "total_triples": 13,
+  "pending_review_count": 21,
+  "execution_time_ms": 2482.18,
+  "status": "SUCCESS",
+  "clusters": [
+    {
+      "cluster_id": "CLU-00001",
+      "canonical_name": "9988776655",
+      "entity_type": "PHONE_NUMBER",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "9988776655"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00002",
+      "canonical_name": "9811223344",
+      "entity_type": "PHONE_NUMBER",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "9811223344"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00003",
+      "canonical_name": "Rs. 5,00,00,000,000",
+      "entity_type": "MONEY_AMOUNT",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Rs. 5,00,00,000,000"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00004",
+      "canonical_name": "Rs. 50,00,000",
+      "entity_type": "MONEY_AMOUNT",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Rs. 50,00,000"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00005",
+      "canonical_name": "Rs. 2,00,00,000",
+      "entity_type": "MONEY_AMOUNT",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Rs. 2,00,00,000"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00006",
+      "canonical_name": "Rs. 2,00,00,000 in cryptocurrency",
+      "entity_type": "MONEY_AMOUNT",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Rs. 2,00,00,000 in cryptocurrency"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00007",
+      "canonical_name": "10:15 hrs",
+      "entity_type": "DATE_TIME",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "10:15 hrs"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00008",
+      "canonical_name": "14:00 hrs",
+      "entity_type": "DATE_TIME",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "14:00 hrs"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00009",
+      "canonical_name": "12:30 hrs",
+      "entity_type": "DATE_TIME",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "12:30 hrs"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00010",
+      "canonical_name": "08:30 hrs",
+      "entity_type": "DATE_TIME",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "08:30 hrs"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00011",
+      "canonical_name": "11:15 hrs",
+      "entity_type": "DATE_TIME",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "11:15 hrs"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00012",
+      "canonical_name": "02:15 hrs",
+      "entity_type": "DATE_TIME",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "02:15 hrs"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00013",
+      "canonical_name": "01:30 hrs",
+      "entity_type": "DATE_TIME",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "01:30 hrs"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00014",
+      "canonical_name": "IPC 420",
+      "entity_type": "LEGAL_SECTION",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "IPC 420"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00015",
+      "canonical_name": "Section 15G",
+      "entity_type": "LEGAL_SECTION",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Section 15G"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00016",
+      "canonical_name": "IPC 120B",
+      "entity_type": "LEGAL_SECTION",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "IPC 120B"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00017",
+      "canonical_name": "Section 3",
+      "entity_type": "LEGAL_SECTION",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Section 3"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00018",
+      "canonical_name": "IT Act 43",
+      "entity_type": "LEGAL_SECTION",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "IT Act 43"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00019",
+      "canonical_name": "IPC 384",
+      "entity_type": "LEGAL_SECTION",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "IPC 384"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00020",
+      "canonical_name": "IPC 506",
+      "entity_type": "LEGAL_SECTION",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "IPC 506"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00021",
+      "canonical_name": "IT Act Section 66A",
+      "entity_type": "LEGAL_SECTION",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "IT Act Section 66A"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00022",
+      "canonical_name": "Rajesh Khurana",
+      "entity_type": "PERSON",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Rajesh Khurana"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00023",
+      "canonical_name": "Ananya Rao",
+      "entity_type": "PERSON",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Ananya Rao"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00024",
+      "canonical_name": "Vikram Sethi",
+      "entity_type": "PERSON",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Vikram Sethi"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00025",
+      "canonical_name": "Inspector Sanjay Gupta",
+      "entity_type": "PERSON",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Inspector Sanjay Gupta"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00026",
+      "canonical_name": "Dr. Arvind Patel",
+      "entity_type": "PERSON",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Dr. Arvind Patel"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00027",
+      "canonical_name": "Inspector Vikram Patil",
+      "entity_type": "PERSON",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Inspector Vikram Patil"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00028",
+      "canonical_name": "Apex Pharmaceuticals stock",
+      "entity_type": "ORGANIZATION",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Apex Pharmaceuticals stock"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00029",
+      "canonical_name": "notorious corporate espionage and cyber-extortion syndicate",
+      "entity_type": "ORGANIZATION",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "notorious corporate espionage and cyber-extortion syndicate"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00030",
+      "canonical_name": "market panic",
+      "entity_type": "UNKNOWN",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "market panic"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00031",
+      "canonical_name": "server",
+      "entity_type": "UNKNOWN",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "server"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00032",
+      "canonical_name": "multiple proxy shell accounts",
+      "entity_type": "UNKNOWN",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "multiple proxy shell accounts"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00033",
+      "canonical_name": "case",
+      "entity_type": "UNKNOWN",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "case"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00034",
+      "canonical_name": "catastrophic ransomware infection",
+      "entity_type": "UNKNOWN",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "catastrophic ransomware infection"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00035",
+      "canonical_name": "proprietary Phase 3 clinical trial data",
+      "entity_type": "UNKNOWN",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "proprietary Phase 3 clinical trial data"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00036",
+      "canonical_name": "DarkByte",
+      "entity_type": "UNKNOWN",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "DarkByte"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00037",
+      "canonical_name": "malicious script",
+      "entity_type": "UNKNOWN",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "malicious script"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00038",
+      "canonical_name": "Investigating Officer",
+      "entity_type": "UNKNOWN",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Investigating Officer"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00039",
+      "canonical_name": "Lower Parel, Mumbai",
+      "entity_type": "LOCATION",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Lower Parel, Mumbai"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00040",
+      "canonical_name": "Apex Pharma server farm perimeter",
+      "entity_type": "LOCATION",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Apex Pharma server farm perimeter"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00041",
+      "canonical_name": "encrypted email",
+      "entity_type": "EMAIL",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "encrypted email"
+      ]
+    }
+  ],
+  "pending_review": [
+    {
+      "mention_a": "Rs. 2,00,00,000",
+      "mention_b": "Rs. 2,00,00,000 in cryptocurrency",
+      "similarity": 0.8180424571037292,
+      "decision": "PENDING_REVIEW"
+    },
+    {
+      "mention_a": "10:15 hrs",
+      "mention_b": "14:00 hrs",
+      "similarity": 0.8152794241905212,
+      "decision": "PENDING_REVIEW"
+    },
+    {
+      "mention_a": "10:15 hrs",
+      "mention_b": "12:30 hrs",
+      "similarity": 0.841606616973877,
+      "decision": "PENDING_REVIEW"
+    },
+    {
+      "mention_a": "10:15 hrs",
+      "mention_b": "08:30 hrs",
+      "similarity": 0.8358936309814453,
+      "decision": "PENDING_REVIEW"
+    },
+    {
+      "mention_a": "10:15 hrs",
+      "mention_b": "11:15 hrs",
+      "similarity": 0.9280853271484375,
+      "decision": "PENDING_REVIEW"
+    },
+    {
+      "mention_a": "10:15 hrs",
+      "mention_b": "02:15 hrs",
+      "similarity": 0.9121072888374329,
+      "decision": "PENDING_REVIEW"
+    },
+    {
+      "mention_a": "10:15 hrs",
+      "mention_b": "01:30 hrs",
+      "similarity": 0.8305010199546814,
+      "decision": "PENDING_REVIEW"
+    },
+    {
+      "mention_a": "14:00 hrs",
+      "mention_b": "12:30 hrs",
+      "similarity": 0.8327699303627014,
+      "decision": "PENDING_REVIEW"
+    },
+    {
+      "mention_a": "14:00 hrs",
+      "mention_b": "08:30 hrs",
+      "similarity": 0.805396556854248,
+      "decision": "PENDING_REVIEW"
+    },
+    {
+      "mention_a": "14:00 hrs",
+      "mention_b": "11:15 hrs",
+      "similarity": 0.81355881690979,
+      "decision": "PENDING_REVIEW"
+    },
+    {
+      "mention_a": "14:00 hrs",
+      "mention_b": "01:30 hrs",
+      "similarity": 0.8035821914672852,
+      "decision": "PENDING_REVIEW"
+    },
+    {
+      "mention_a": "12:30 hrs",
+      "mention_b": "08:30 hrs",
+      "similarity": 0.8606020212173462,
+      "decision": "PENDING_REVIEW"
+    },
+    {
+      "mention_a": "12:30 hrs",
+      "mention_b": "11:15 hrs",
+      "similarity": 0.8439042568206787,
+      "decision": "PENDING_REVIEW"
+    },
+    {
+      "mention_a": "12:30 hrs",
+      "mention_b": "02:15 hrs",
+      "similarity": 0.8180573582649231,
+      "decision": "PENDING_REVIEW"
+    },
+    {
+      "mention_a": "12:30 hrs",
+      "mention_b": "01:30 hrs",
+      "similarity": 0.8657990097999573,
+      "decision": "PENDING_REVIEW"
+    },
+    {
+      "mention_a": "08:30 hrs",
+      "mention_b": "11:15 hrs",
+      "similarity": 0.8088911771774292,
+      "decision": "PENDING_REVIEW"
+    },
+    {
+      "mention_a": "08:30 hrs",
+      "mention_b": "02:15 hrs",
+      "similarity": 0.8099040389060974,
+      "decision": "PENDING_REVIEW"
+    },
+    {
+      "mention_a": "08:30 hrs",
+      "mention_b": "01:30 hrs",
+      "similarity": 0.9108587503433228,
+      "decision": "PENDING_REVIEW"
+    },
+    {
+      "mention_a": "11:15 hrs",
+      "mention_b": "02:15 hrs",
+      "similarity": 0.8919905424118042,
+      "decision": "PENDING_REVIEW"
+    },
+    {
+      "mention_a": "11:15 hrs",
+      "mention_b": "01:30 hrs",
+      "similarity": 0.8155273795127869,
+      "decision": "PENDING_REVIEW"
+    },
+    {
+      "mention_a": "02:15 hrs",
+      "mention_b": "01:30 hrs",
+      "similarity": 0.8418864011764526,
+      "decision": "PENDING_REVIEW"
+    }
+  ]
+}

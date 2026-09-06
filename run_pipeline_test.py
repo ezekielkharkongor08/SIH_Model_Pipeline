@@ -19,6 +19,7 @@ import glob
 from datetime import datetime
 from pathlib import Path
 from loguru import logger
+from agent1_extraction.models.schemas import CharacterSpan
 
 # Configure logging to file
 LOG_DIR = Path("test_results/logs")
@@ -84,12 +85,18 @@ def run_agent1_extraction(images):
                 "triples_count": len(payload.triples),
                 "execution_time_ms": payload.execution_time_ms,
                 "status": payload.status,
-                "entities": [e.canonical_name for e in payload.entities],
+                "entities": [
+                    {
+                        "canonical_name": e.canonical_name,
+                        "entity_type": e.entity_type.value if hasattr(e.entity_type, "value") else e.entity_type,
+                    }
+                    for e in payload.entities
+                ],
                 "triples": [
                     {
                         "subject": t.subject.canonical_name,
                         "predicate": t.predicate,
-                        "object": t.object.canonical_name
+                        "object": t.object.canonical_name,
                     }
                     for t in payload.triples
                 ]
@@ -152,11 +159,17 @@ def run_agent2_resolution(agent1_results):
             )
 
             entities = []
-            for name in r.get("entities", []):
+            for ent in r.get("entities", []):
+                canon_name = ent["canonical_name"]
+                try:
+                    etype = EntityType(ent["entity_type"])
+                except (ValueError, KeyError):
+                    etype = EntityType.UNKNOWN
+
                 entities.append(ExtractedEntity(
-                    canonical_name=name,
-                    entity_type=EntityType.UNKNOWN,
-                    span={"start": 0, "end": len(name)}
+                    canonical_name=canon_name,
+                    entity_type=etype,
+                    span=CharacterSpan(start_char=0, end_char=len(canon_name), exact_text=canon_name)
                 ))
 
             triples = []
@@ -164,12 +177,12 @@ def run_agent2_resolution(agent1_results):
                 sub_ent = ExtractedEntity(
                     canonical_name=t["subject"],
                     entity_type=EntityType.UNKNOWN,
-                    span={"start": 0, "end": len(t["subject"])}
+                    span=CharacterSpan(start_char=0, end_char=len(t["subject"]), exact_text=t["subject"])
                 )
                 obj_ent = ExtractedEntity(
                     canonical_name=t["object"],
                     entity_type=EntityType.UNKNOWN,
-                    span={"start": 0, "end": len(t["object"])}
+                    span=CharacterSpan(start_char=0, end_char=len(t["object"]), exact_text=t["object"])
                 )
                 triples.append(ExtractedTriple(
                     subject=sub_ent,
@@ -262,7 +275,7 @@ def run_agent3_graph(agent2_results):
     Agent 3: Knowledge Graph Builder
     Build Neo4j graph from resolved clusters.
     """
-    from agent3_graph.pipeline import GraphBuilderPipeline
+    from agent3_graph.pipeline import KnowledgeGraphPipeline
 
     logger.info("=" * 60)
     logger.info("AGENT 3: GRAPH BUILD")
@@ -272,27 +285,27 @@ def run_agent3_graph(agent2_results):
         logger.error("Skipping Agent 3 - Agent 2 failed")
         return {"error": "Skipped"}, {"error": "Skipped"}
 
-    pipeline = GraphBuilderPipeline()
+    pipeline = KnowledgeGraphPipeline()
 
     try:
         # Build graph using the run_id from Agent 2
         run_id = agent2_results.get("run_id", "TEST-RUN")
 
-        # Auto-build with link prediction disabled for initial run
-        result = pipeline.auto_build(
+        # Build and export with link prediction disabled for initial run
+        result = pipeline.build_and_export(
             run_id=run_id,
-            include_predictions=False,
-            export_to_neo4j=True
+            export_formats=["json", "neo4j"],
+            include_predictions=False
         )
 
         summary = {
             "agent": "Agent 3 - Graph Builder",
             "timestamp": datetime.now().isoformat(),
             "run_id": run_id,
-            "nodes_created": result.get("nodes_created", 0),
-            "edges_created": result.get("edges_created", 0),
-            "triples_mapped": result.get("triples_mapped", 0),
-            "predictions_made": result.get("predictions_made", 0),
+            "nodes_created": result.get("statistics", {}).get("node_count", 0),
+            "edges_created": result.get("statistics", {}).get("edge_count", 0),
+            "triples_mapped": result.get("statistics", {}).get("real_edges", 0),
+            "predictions_made": result.get("statistics", {}).get("predicted_edges", 0),
             "execution_time_ms": result.get("execution_time_ms", 0),
         }
 
@@ -302,7 +315,7 @@ def run_agent3_graph(agent2_results):
         with open(AGENT3_OUT / "graph_results.json", "w") as f:
             json.dump(result, f, indent=2)
 
-        logger.info(f"Agent 3 complete: {result.get('nodes_created', 0)} nodes, {result.get('edges_created', 0)} edges")
+        logger.info(f"Agent 3 complete: {summary['nodes_created']} nodes, {summary['edges_created']} edges")
 
         return result, summary
 
