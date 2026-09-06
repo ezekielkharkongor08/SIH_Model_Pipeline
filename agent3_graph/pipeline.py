@@ -1,6 +1,6 @@
 """
-pipeline.py — Main pipeline for Agent 3 Knowledge Graph Builder
-Responsibility: Build knowledge graph from Agent 1 & 2 data, export to various formats.
+pipeline.py — Main pipeline for Agent 3 Knowledge Graph Builder + Link Prediction
+Responsibility: Build knowledge graph from Agent 1 & 2 data, optionally predict missing links.
 """
 
 import time
@@ -8,6 +8,7 @@ import json
 from typing import Optional, Dict, Any
 from loguru import logger
 
+from agent3_graph.config import settings
 from agent3_graph.storage.database import GraphRepository
 from agent3_graph.models.schemas import KnowledgeGraph
 from agent3_graph.exporters.neo4j_exporter import Neo4jExporter
@@ -15,24 +16,67 @@ from agent3_graph.exporters.networkx_exporter import NetworkxExporter
 
 
 class KnowledgeGraphPipeline:
-    """Orchestrator for building and exporting knowledge graphs."""
+    """Orchestrator for building and exporting knowledge graphs with optional link prediction."""
 
     def __init__(self):
         self.repository = GraphRepository()
         self.neo4j_exporter = Neo4jExporter()
         self.networkx_exporter = NetworkxExporter()
 
-    def build_graph(self, run_id: str) -> KnowledgeGraph:
+    def build_graph(
+        self,
+        run_id: str,
+        include_predictions: bool = None
+    ) -> KnowledgeGraph:
         """
         Build a knowledge graph from Agent 1 & 2 data for a given resolution run.
+
+        Args:
+            run_id: Agent 2 resolution run ID
+            include_predictions: Override config setting for link prediction
+
+        Returns:
+            KnowledgeGraph with nodes, edges, and optionally predicted links
         """
         start_time = time.time()
 
-        logger.info(f"Building knowledge graph for resolution run: {run_id}")
+        # Use config default if not specified
+        if include_predictions is None:
+            include_predictions = settings.INCLUDE_PREDICTIONS
+
+        logger.info(
+            f"Building knowledge graph for resolution run: {run_id} "
+            f"(include_predictions={include_predictions})"
+        )
 
         try:
-            # Build the knowledge graph
+            # Build the base knowledge graph
             knowledge_graph = self.repository.build_knowledge_graph(run_id)
+
+            # Add predicted links if enabled
+            if include_predictions:
+                logger.info("Running link prediction...")
+                predicted_edges = self.repository.predict_links(
+                    run_id=run_id,
+                    existing_edges=knowledge_graph.edges,
+                    threshold=settings.LINK_PREDICTION_THRESHOLD
+                )
+
+                # Filter by minimum confidence
+                predicted_edges = [
+                    edge for edge in predicted_edges
+                    if edge.confidence >= settings.PREDICTION_MIN_CONFIDENCE
+                ]
+
+                if predicted_edges:
+                    original_edge_count = len(knowledge_graph.edges)
+                    knowledge_graph.edges.extend(predicted_edges)
+                    knowledge_graph.edge_count = len(knowledge_graph.edges)
+
+                    logger.info(
+                        f"Added {len(predicted_edges)} predicted links "
+                        f"(total edges: {original_edge_count} → {knowledge_graph.edge_count})"
+                    )
 
             execution_time = round((time.time() - start_time) * 1000, 2)
 
@@ -84,7 +128,8 @@ class KnowledgeGraphPipeline:
     def build_and_export(
         self,
         run_id: str,
-        export_formats: list[str] = ["json"]
+        export_formats: list[str] = ["json"],
+        include_predictions: bool = None
     ) -> Dict[str, Any]:
         """
         Build a knowledge graph and export to specified formats.
@@ -92,6 +137,7 @@ class KnowledgeGraphPipeline:
         Args:
             run_id: Agent 2 resolution run ID
             export_formats: List of formats to export to ["json", "neo4j", "networkx"]
+            include_predictions: Override config setting for link prediction
 
         Returns:
             Dict containing graph metadata and export results
@@ -104,12 +150,19 @@ class KnowledgeGraphPipeline:
         }
 
         try:
-            # Build the graph
-            graph = self.build_graph(run_id)
+            # Build the graph (with optional predictions)
+            graph = self.build_graph(run_id, include_predictions=include_predictions)
             result["graph_id"] = graph.graph_id
+
+            # Count predicted vs real edges
+            predicted_count = sum(1 for edge in graph.edges if edge.is_predicted)
+            real_count = graph.edge_count - predicted_count
+
             result["statistics"] = {
                 "node_count": graph.node_count,
                 "edge_count": graph.edge_count,
+                "real_edges": real_count,
+                "predicted_edges": predicted_count,
                 "timestamp": graph.created_at,
             }
 

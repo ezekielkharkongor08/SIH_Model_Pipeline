@@ -25,6 +25,10 @@ class BuildGraphRequest(BaseModel):
         default=["json"],
         description="Export formats: ['json', 'neo4j', 'networkx']"
     )
+    include_predictions: Optional[bool] = Field(
+        default=None,
+        description="Enable link prediction (overrides config)"
+    )
 
 
 class BuildGraphResponse(BaseModel):
@@ -61,7 +65,8 @@ async def build_graph(request: BuildGraphRequest):
 
         result = pipeline.build_and_export(
             run_id=request.run_id,
-            export_formats=request.export_formats
+            export_formats=request.export_formats,
+            include_predictions=request.include_predictions
         )
 
         return BuildGraphResponse(
@@ -93,7 +98,8 @@ async def auto_build_graph(request: BuildGraphRequest):
 
         result = pipeline.build_and_export(
             run_id=request.run_id,
-            export_formats=request.export_formats
+            export_formats=request.export_formats,
+            include_predictions=request.include_predictions
         )
 
         return BuildGraphResponse(
@@ -114,7 +120,8 @@ async def auto_build_graph(request: BuildGraphRequest):
 
 @router.get("/export/neo4j")
 async def export_to_neo4j(
-    run_id: str = Query(..., description="Agent 2 resolution run ID")
+    run_id: str = Query(..., description="Agent 2 resolution run ID"),
+    include_predictions: bool = Query(False, description="Include predicted links")
 ):
     """
     Build and export knowledge graph directly to Neo4j.
@@ -124,8 +131,8 @@ async def export_to_neo4j(
     try:
         logger.info(f"Exporting graph to Neo4j for run_id: {run_id}")
 
-        # Build graph
-        graph = pipeline.build_graph(run_id)
+        # Build graph with optional predictions
+        graph = pipeline.build_graph(run_id, include_predictions=include_predictions)
 
         # Export to Neo4j
         success = pipeline.export_to_neo4j(graph)
@@ -135,6 +142,7 @@ async def export_to_neo4j(
                 "success": True,
                 "graph_id": graph.graph_id,
                 "run_id": run_id,
+                "include_predictions": include_predictions,
                 "message": f"Graph exported to Neo4j successfully",
                 "neo4j_uri": "bolt://localhost:7687"
             }
@@ -151,7 +159,8 @@ async def export_to_neo4j(
 @router.get("/export/{format}")
 async def export_graph(
     format: str,
-    run_id: str = Query(..., description="Agent 2 resolution run ID")
+    run_id: str = Query(..., description="Agent 2 resolution run ID"),
+    include_predictions: bool = Query(False, description="Include predicted links")
 ):
     """
     Export knowledge graph to specified format.
@@ -161,8 +170,8 @@ async def export_graph(
     try:
         logger.info(f"Exporting graph to {format} for run_id: {run_id}")
 
-        # Build graph
-        graph = pipeline.build_graph(run_id)
+        # Build graph with optional predictions
+        graph = pipeline.build_graph(run_id, include_predictions=include_predictions)
 
         if format == "json":
             json_data = pipeline.export_as_json(graph)
@@ -177,6 +186,7 @@ async def export_graph(
                     "format": "networkx",
                     "nodes": nx_graph.number_of_nodes(),
                     "edges": nx_graph.number_of_edges(),
+                    "include_predictions": include_predictions,
                     "message": "Graph exported to NetworkX format (in-memory)"
                 }
             else:
@@ -195,6 +205,7 @@ async def export_graph(
                         "graph_id": graph.graph_id,
                         "format": "graphml",
                         "output_path": output_path,
+                        "include_predictions": include_predictions,
                         "message": f"Graph exported to GraphML: {output_path}"
                     }
             raise HTTPException(status_code=500, detail="GraphML export failed")
@@ -300,16 +311,23 @@ async def query_neighbors(
 
 @router.get("/status")
 async def get_status():
-    """Health check endpoint for Agent 3."""
+    """Health check endpoint for Agent 3 (Graph Builder Pro)."""
     return {
         "status": "active",
-        "agent": "Agent 3 - Knowledge Graph Builder",
+        "agent": "Agent 3 - Graph Builder Pro (Knowledge Graph + Link Prediction)",
         "capabilities": [
             "Build knowledge graphs from Agent 1 & 2 data",
+            "Predict missing links using BGE-m3 centroid embeddings (pgvector)",
+            "Toggle link predictions with include_predictions flag",
             "Export to Neo4j (primary)",
             "Export to NetworkX, JSON, GraphML",
             "Graph statistics and analysis",
             "Neighbor queries and path finding"
         ],
         "supported_formats": ["json", "neo4j", "networkx", "graphml"],
+        "link_prediction": {
+            "enabled_by_default": pipeline.repository.engine is not None,
+            "threshold": settings.LINK_PREDICTION_THRESHOLD,
+            "min_confidence": settings.PREDICTION_MIN_CONFIDENCE,
+        }
     }

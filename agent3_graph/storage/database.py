@@ -1,8 +1,11 @@
 """
 storage/database.py — Data access layer for Agent 3 Knowledge Graph Builder
 Responsibility: Query Agent 1 & 2 data, store knowledge graph metadata.
+Includes link prediction using Agent 2 centroid embeddings via pgvector.
 """
 
+import json
+import numpy as np
 from typing import List, Dict, Optional, Tuple
 from agent3_graph.config import settings
 from agent3_graph.models.schemas import GraphNode, GraphEdge, KnowledgeGraph
@@ -20,7 +23,7 @@ from sqlalchemy import (
     func,
     text,
 )
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.dialects.postgresql import JSONB, insert as pg_insert
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 Base = declarative_base()
@@ -245,5 +248,125 @@ class GraphRepository:
             session.rollback()
             logger.error(f"Failed to save knowledge graph metadata: {e}")
             return False
+        finally:
+            session.close()
+
+    def predict_links(
+        self,
+        run_id: str,
+        existing_edges: List[GraphEdge],
+        threshold: float = 0.85
+    ) -> List[GraphEdge]:
+        """
+        Predict missing links using centroid embedding similarity from pgvector.
+
+        Args:
+            run_id: Agent 2 resolution run ID
+            existing_edges: List of real edges (to avoid duplicates)
+            threshold: Min cosine similarity to create predicted link
+
+        Returns:
+            List of predicted GraphEdge objects
+        """
+        session = self.Session()
+        try:
+            # Build set of existing edges for quick lookup
+            existing_pairs = set()
+            for edge in existing_edges:
+                # Store both directions as graph may be directed or undirected
+                existing_pairs.add((edge.source_node, edge.target_node))
+                existing_pairs.add((edge.target_node, edge.source_node))
+
+            # Query all clusters with embeddings for this run
+            query = text("""
+                SELECT
+                    cluster_id,
+                    canonical_name,
+                    entity_type,
+                    centroid_embedding
+                FROM entity_clusters
+                WHERE run_id = :run_id
+                  AND centroid_embedding IS NOT NULL
+                ORDER BY cluster_id
+            """)
+
+            result = session.execute(query, {"run_id": run_id})
+            clusters = result.fetchall()
+
+            if len(clusters) < 2:
+                logger.info("Not enough clusters with embeddings for link prediction")
+                return []
+
+            # Parse embeddings
+            cluster_data = []
+            for row in clusters:
+                cluster_id = row[0]
+                canonical_name = row[1]
+                entity_type = row[2]
+                embedding_json = row[3]
+
+                # Parse JSON embedding
+                try:
+                    embedding = json.loads(embedding_json)
+                    cluster_data.append({
+                        "cluster_id": cluster_id,
+                        "canonical_name": canonical_name,
+                        "entity_type": entity_type,
+                        "embedding": np.array(embedding, dtype=np.float32)
+                    })
+                except Exception as e:
+                    logger.warning(f"Failed to parse embedding for {cluster_id}: {e}")
+                    continue
+
+            if len(cluster_data) < 2:
+                logger.info("Not enough valid embeddings for link prediction")
+                return []
+
+            # Compute pairwise cosine similarities
+            embeddings = np.array([c["embedding"] for c in cluster_data])
+            similarities = embeddings @ embeddings.T  # Cosine similarity (unit-norm vectors)
+
+            # Generate predicted edges
+            predicted_edges = []
+            edge_counter = 1
+
+            for i in range(len(cluster_data)):
+                for j in range(i + 1, len(cluster_data)):
+                    sim = float(similarities[i, j])
+
+                    if sim < threshold:
+                        continue
+
+                    cluster_a = cluster_data[i]["cluster_id"]
+                    cluster_b = cluster_data[j]["cluster_id"]
+
+                    # Skip if edge already exists
+                    if (cluster_a, cluster_b) in existing_pairs:
+                        continue
+
+                    # Create predicted edge
+                    edge = GraphEdge(
+                        edge_id=f"PRED-{run_id[:6]}-{edge_counter:04d}",
+                        source_node=cluster_a,
+                        target_node=cluster_b,
+                        predicate="predicted_link",
+                        original_triples=[],
+                        confidence=sim,
+                        temporal=None,
+                        spatial=None,
+                        is_predicted=True,
+                    )
+                    predicted_edges.append(edge)
+                    edge_counter += 1
+
+            logger.info(
+                f"Link prediction: found {len(predicted_edges)} predicted edges "
+                f"(threshold={threshold:.2f})"
+            )
+            return predicted_edges
+
+        except Exception as e:
+            logger.error(f"Link prediction failed: {e}")
+            return []
         finally:
             session.close()

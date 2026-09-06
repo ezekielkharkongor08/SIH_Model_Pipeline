@@ -141,6 +141,7 @@ class Neo4jExporter:
             r.predicate = $predicate,
             r.confidence = $confidence,
             r.graph_id = $graph_id,
+            r.is_predicted = $is_predicted,
             r.created_at = datetime(),
             r.original_triple_count = size($original_triples)
         """
@@ -160,6 +161,7 @@ class Neo4jExporter:
             "edge_id": edge.edge_id,
             "predicate": edge.predicate,
             "confidence": edge.confidence,
+            "is_predicted": edge.is_predicted,
             "original_triples": edge.original_triples,
         }
 

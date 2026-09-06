@@ -47,6 +47,10 @@ class GraphEdge(BaseModel):
         default=None,
         description="Spatial information (e.g., {'latitude': 40.7128, 'longitude': -74.0060})"
     )
+    is_predicted: bool = Field(
+        default=False,
+        description="True if this edge is a predicted link (not from original data)"
+    )
 
 
 class KnowledgeGraph(BaseModel):

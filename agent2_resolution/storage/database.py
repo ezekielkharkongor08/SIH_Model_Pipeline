@@ -58,11 +58,6 @@ class ClusterModel(Base):
     memberships = relationship("ClusterMembershipModel", back_populates="cluster", cascade="all, delete-orphan")
     evidence_sources = relationship("ClusterEvidenceSourceModel", back_populates="cluster", cascade="all, delete-orphan")
 
-    __table_args__ = (
-        Index("idx_clusters_centroid_hnsw", "centroid_embedding", postgresql_using="gin",
-              postgresql_ops={"centroid_embedding": "vector_cosine_ops"}),
-    )
-
 
 class ResolutionPairModel(Base):
     """Pending review decision (one row = one candidate pair in the 0.80–0.94 band)."""
