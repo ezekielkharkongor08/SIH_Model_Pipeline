@@ -53,7 +53,8 @@ class Neo4jExporter:
     def _clear_graph(self, session: Session, graph_id: str) -> None:
         """Clear existing graph data with the same graph_id."""
         query = """
-        MATCH (n:Entity {graph_id: $graph_id})
+        MATCH (n)
+        WHERE n.graph_id = $graph_id
         DETACH DELETE n
         """
         session.run(query, graph_id=graph_id)

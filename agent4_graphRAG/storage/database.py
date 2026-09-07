@@ -111,25 +111,49 @@ class GraphRAGRepository:
 
         try:
             with self.neo4j_driver.session() as session:
-                # Ponytail: Primary: Vector search, Fallback: Keyword search
+                # Ponytail: Primary: Vector search using full query, Fallback: Keyword search
+                # Embed the full query (better than extracting terms which misses lowercase entities)
                 query_embedding = self.embedder.embed(query.query).tolist()
                 similar_clusters = self.resolution_repo.find_similar_clusters(
                     embedding=query_embedding,
                     threshold=settings.SIMILARITY_THRESHOLD,
                     top_k=settings.TOP_K_RESULTS
                 )
+                logger.info(f"Vector search returned {len(similar_clusters)} clusters for query '{query.query}'")
 
                 if similar_clusters:
-                    matching_nodes = [{"node_id": c[0], "canonical_name": c[1]} for c in similar_clusters]
+                    # Deduplicate by node_id
+                    nodes_map = {c[0]: c[1] for c in similar_clusters}
+                    matching_nodes = [{"node_id": nid, "canonical_name": name} for nid, name in nodes_map.items()]
                 else:
-                    # Fallback to simple keyword extraction
+                    # Fallback to simple keyword extraction if vector search fails
                     query_terms = self._extract_query_terms(query.query)
+
+                    # Detect intent
+                    entity_type = None
+                    query_lower = query.query.lower()
+                    if any(w in query_lower for w in ["who", "person", "man", "woman"]):
+                        entity_type = "PERSON"
+                    elif any(w in query_lower for w in ["where", "location", "place"]):
+                        entity_type = "LOCATION"
+                    elif any(w in query_lower for w in ["organization", "org", "company"]):
+                        entity_type = "ORGANIZATION"
+                    elif any(w in query_lower for w in ["vehicle", "car", "truck"]):
+                        entity_type = "VEHICLE"
+
+                    # If intent detected, clear keyword terms to avoid restrictive matching if intent is broad
+                    if entity_type and len(query_terms) <= 1:
+                        query_terms = []
+
                     matching_nodes = self._find_matching_nodes(
                         session,
                         query_terms,
                         query.run_id,
-                        query.include_predictions
+                        query.include_predictions,
+                        entity_type=entity_type
                     )
+
+                logger.info(f"Retrieved {len(matching_nodes)} matching nodes for query: {query.query}")
 
                 # Get paths between matching nodes
                 paths = self._find_paths_between_nodes(
@@ -140,13 +164,17 @@ class GraphRAGRepository:
                     max_length=settings.MAX_PATH_LENGTH
                 )
 
+                logger.info(f"Found {len(paths)} paths between matching nodes")
+
                 # Get detailed node information
                 node_details = self._get_node_details(
                     session,
-                    matching_nodes,
+                    [n["node_id"] for n in matching_nodes],
                     query.run_id,
                     query.include_predictions
                 )
+
+                logger.info(f"Found {len(node_details)} node details")
 
                 # Generate natural language answer using LLM (simplified)
                 answer, confidence = self._generate_answer(
@@ -209,10 +237,12 @@ class GraphRAGRepository:
         import re
 
         # Remove common question words
+        # Remove common question words/filler
         stop_words = {
             'what', 'who', 'where', 'when', 'why', 'how', 'is', 'are', 'was', 'were',
             'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for',
-            'of', 'with', 'by', 'about', 'like', 'as', 'it', 'its', 'they', 'them'
+            'of', 'with', 'by', 'about', 'like', 'as', 'it', 'its', 'they', 'them',
+            'show', 'all', 'found', 'list', 'find', 'tell', 'give', 'exist', 'between'
         }
 
         # Extract words that look like they could be entity names
@@ -234,40 +264,38 @@ class GraphRAGRepository:
         session,
         query_terms: List[str],
         run_id: Optional[str],
-        include_predictions: bool
+        include_predictions: bool,
+        entity_type: Optional[str] = None
     ) -> List[Dict[str, Any]]:
         """Find nodes in the graph that match the query terms."""
-        if not query_terms:
-            return []
 
-        # Build the Cypher query
-        # Match nodes by canonical name containing any of the query terms
+        # Build components
         conditions = []
         params = {}
+        if query_terms:
+            term_conditions = []
+            for i, term in enumerate(query_terms):
+                param_name = f"term_{i}"
+                term_conditions.append(f"toLower(n.canonical_name) CONTAINS toLOWER(${param_name})")
+                params[param_name] = term
+            conditions.append(f"({' OR '.join(term_conditions)})")
 
-        for i, term in enumerate(query_terms):
-            param_name = f"term_{i}"
-            conditions.append(f"toLower(n.canonical_name) CONTAINS toLOWER(${param_name})")
-            params[param_name] = term
+        if entity_type:
+            conditions.append("n.entity_type = $entity_type")
+            params["entity_type"] = entity_type
 
-        where_clause = " OR ".join(conditions) if conditions else "1=1"
-
-        # Add run_id filter if specified
-        run_filter = ""
         if run_id:
-            run_filter = "AND n.graph_id = $run_id"
+            conditions.append("n.graph_id = $run_id")
             params["run_id"] = run_id
 
-        # Add prediction filter if needed
-        pred_filter = ""
         if not include_predictions:
-            pred_filter = "AND NOT EXISTS { (n)-[r:RELATION]->() WHERE r.is_predicted = true }"
+            conditions.append("NOT EXISTS { (n)-[r:RELATION]->() WHERE r.is_predicted = true }")
+
+        where_clause = " AND ".join(conditions) if conditions else "1=1"
 
         cypher = f"""
         MATCH (n:Entity)
         WHERE {where_clause}
-        {run_filter}
-        {pred_filter}
         RETURN DISTINCT n.node_id as node_id,
                        n.canonical_name as canonical_name,
                        n.entity_type as entity_type,
@@ -282,6 +310,7 @@ class GraphRAGRepository:
             nodes = []
             for record in result:
                 nodes.append(dict(record))
+            logger.info(f"Node matching found {len(nodes)} nodes for terms: {query_terms}")
             return nodes
         except Exception as e:
             logger.warning(f"Node matching failed: {e}")
@@ -300,7 +329,7 @@ class GraphRAGRepository:
             return []
 
         paths = []
-        node_ids = [node["node_id"] for node in nodes]
+        node_ids = list(dict.fromkeys(node["node_id"] for node in nodes))
 
         # For each pair of nodes, find paths between them
         for i in range(len(node_ids)):
@@ -308,29 +337,35 @@ class GraphRAGRepository:
                 source_id = node_ids[i]
                 target_id = node_ids[j]
 
-                # Build relationship filter
-                rel_filter = ""
-                if not include_predictions:
-                    rel_filter = "WHERE NOT r.is_predicted"
+                # Explicitly skip same-node paths
+                if source_id == target_id:
+                    continue
 
                 # Build run filter
                 run_filter = ""
                 if run_id:
                     run_filter = "AND n.graph_id = $run_id AND m.graph_id = $run_id"
 
+                # Filter predicted relationships for shortestPath
+                # Note: shortestPath does not support filtering inside []
+                pred_filter = ""
+                if not include_predictions:
+                    pred_filter = "AND ALL(r IN relationships(path) WHERE NOT r.is_predicted)"
+
                 cypher = f"""
                 MATCH (n:Entity {{node_id: $source_id}})
                 MATCH (m:Entity {{node_id: $target_id}})
-                MATCH path = shortestPath((n)-[r:RELATION*{rel_filter}]-(m))
+                MATCH path = shortestPath((n)-[:RELATION*..{max_length}]-(m))
                 WHERE length(path) <= $max_length
                 {run_filter}
+                {pred_filter}
                 RETURN [node IN nodes(path) | {{
                     node_id: node.node_id,
                     canonical_name: node.canonical_name,
                     entity_type: node.entity_type
                 }}] AS node_path,
                 [rel IN relationships(path) | {{
-                    predicate: type(rel),
+                    predicate: rel.predicate,
                     confidence: rel.confidence,
                     is_predicted: rel.is_predicted
                 }}] AS rel_path
@@ -378,27 +413,25 @@ class GraphRAGRepository:
 
         pred_filter = ""
         if not include_predictions:
-            pred_filter = "AND NOT (n)-[r:RELATION WHERE r.is_predicted = true]->()"
+            pred_filter = "AND NOT EXISTS { (n)-[r:RELATION]->() WHERE r.is_predicted = true }"
 
         cypher = f"""
         MATCH (n:Entity)
         WHERE n.node_id IN $node_ids
         {run_filter}
         {pred_filter}
+        OPTIONAL MATCH (n)-[:HAS_SOURCE_ENTITY]->(se:SourceEntity)
+        WITH n, collect(DISTINCT se.entity_id) as source_ids
+        OPTIONAL MATCH (n)-[:HAS_EVIDENCE]->(ev:Evidence)
+        WITH n, source_ids, collect(DISTINCT ev.evidence_id) as evidence_ids
         RETURN n.node_id as node_id,
                n.canonical_name as canonical_name,
                n.entity_type as entity_type,
                n.confidence as confidence,
                n.source_entity_count as source_count,
                n.evidence_count as evidence_count,
-               collect(DISTINCT {{
-                  type: 'source',
-                  id: se.entity_id
-               }}) as source_entities,
-               collect(DISTINCT {{
-                  type: 'evidence',
-                  id: e.evidence_id
-               }}) as evidence_sources
+               source_ids as source_entities,
+               evidence_ids as evidence_sources
         """
 
         try:
@@ -411,13 +444,8 @@ class GraphRAGRepository:
             nodes = []
             for record in result:
                 node_data = dict(record)
-                # Flatten the collections for easier consumption
-                sources = [item["id"] for item in node_data["source_entities"] if item["id"] is not None]
-                evidences = [item["id"] for item in node_data["evidence_sources"] if item["id"] is not None]
-
-                node_data["source_entities"] = list(set(sources))  # Remove duplicates
-                node_data["evidence_sources"] = list(set(evidences))  # Remove duplicates
-
+                node_data["source_entities"] = list(set([x for x in node_data["source_entities"] if x is not None]))
+                node_data["evidence_sources"] = list(set([x for x in node_data["evidence_sources"] if x is not None]))
                 nodes.append(node_data)
 
             return nodes

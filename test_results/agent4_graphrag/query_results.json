@@ -2,25 +2,25 @@
   {
     "query": "Who is mentioned in the FIR documents?",
     "success": true,
-    "answer": "I couldn't find any relevant information in the knowledge graph to answer your question.",
-    "confidence": 0.1,
-    "related_nodes_count": 0,
-    "query_time_ms": 2307.5597286224365
+    "answer": "I found 6 relevant entities: Ananya Rao, Dr. Arvind Patel, Inspector Sanjay Gupta and 3 more. There are 1 paths connecting these entities in the knowledge graph. \n\nKey connections found:\n1. Ananya Rao",
+    "confidence": 0.8,
+    "related_nodes_count": 6,
+    "query_time_ms": 2259.0126991271973
   },
   {
     "query": "What relationships exist between people?",
     "success": true,
-    "answer": "I couldn't find any relevant information in the knowledge graph to answer your question.",
-    "confidence": 0.1,
-    "related_nodes_count": 0,
-    "query_time_ms": 82.08584785461426
+    "answer": "I found 20 relevant entities: 01:30 hrs, 02:15 hrs, 08:30 hrs and 17 more. There are 1 paths connecting these entities in the knowledge graph. \n\nKey connections found:\n1. encrypted email -> [sent] -> ",
+    "confidence": 0.8,
+    "related_nodes_count": 20,
+    "query_time_ms": 505.1250457763672
   },
   {
     "query": "Show all organizations found",
     "success": true,
-    "answer": "I couldn't find any relevant information in the knowledge graph to answer your question.",
-    "confidence": 0.1,
-    "related_nodes_count": 0,
-    "query_time_ms": 74.9979019165039
+    "answer": "I found 2 relevant entities: Apex Pharmaceuticals stock, notorious corporate espionage and cyber-extortion syndicate. ",
+    "confidence": 0.6000000000000001,
+    "related_nodes_count": 2,
+    "query_time_ms": 155.53593635559082
   }
 ]

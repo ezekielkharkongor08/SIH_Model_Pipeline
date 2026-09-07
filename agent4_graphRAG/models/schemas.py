@@ -34,7 +34,7 @@ class GraphRAGResult(BaseModel):
         default_factory=list,
         description="Nodes related to the query"
     )
-    related_paths: List[List[Dict[str, Any]]] = Field(
+    related_paths: List[Dict[str, Any]] = Field(
         default_factory=list,
         description="Graph paths related to the query"
     )

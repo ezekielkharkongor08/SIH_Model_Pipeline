@@ -1,11 +1,11 @@
 {
   "agent": "Agent 2 - Resolution",
-  "timestamp": "2026-09-07T22:01:42.137167",
-  "run_id": "RES-5F652A30",
+  "timestamp": "2026-09-07T23:20:51.397108",
+  "run_id": "RES-85E7F6A1",
   "total_mentions_input": 44,
   "total_clusters_output": 41,
   "deduplication_ratio_percent": 6.82,
   "pending_review_pairs": 21,
   "resolved_triples": 13,
-  "execution_time_ms": 2780.32
+  "execution_time_ms": 3067.39
 }

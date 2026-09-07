@@ -1,10 +1,10 @@
 [
   {
-    "evidence_id": "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788798624065-188783",
+    "evidence_id": "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788803365392-188783",
     "filename": "Gemini_Generated_Image_396qrl396qrl396q.png",
     "entities_count": 19,
     "triples_count": 10,
-    "execution_time_ms": 27612.04,
+    "execution_time_ms": 33812.67,
     "status": "SUCCESS",
     "entities": [
       {
@@ -138,11 +138,11 @@
     ]
   },
   {
-    "evidence_id": "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788798651703-524b08",
+    "evidence_id": "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788803399235-524b08",
     "filename": "Gemini_Generated_Image_tkds5rtkds5rtkds.png",
     "entities_count": 25,
     "triples_count": 11,
-    "execution_time_ms": 30123.56,
+    "execution_time_ms": 30562.63,
     "status": "SUCCESS",
     "entities": [
       {

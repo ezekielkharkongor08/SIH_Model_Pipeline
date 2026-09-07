@@ -1,10 +1,10 @@
 {
-  "run_id": "RES-5F652A30",
+  "run_id": "RES-85E7F6A1",
   "total_mentions": 44,
   "total_clusters": 41,
   "total_triples": 13,
   "pending_review_count": 21,
-  "execution_time_ms": 2780.32,
+  "execution_time_ms": 3067.39,
   "status": "SUCCESS",
   "clusters": [
     {
