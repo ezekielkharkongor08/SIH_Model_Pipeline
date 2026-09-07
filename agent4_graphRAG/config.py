@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     # GraphRAG settings
     MAX_CONTEXT_LENGTH: int = 2000
     MAX_PATH_LENGTH: int = 3
-    SIMILARITY_THRESHOLD: float = 0.7
+    SIMILARITY_THRESHOLD: float = 0.6
     TOP_K_RESULTS: int = 5
 
     # Cache settings

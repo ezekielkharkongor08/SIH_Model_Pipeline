@@ -12,6 +12,10 @@ from neo4j import GraphDatabase
 from agent4_graphRAG.config import settings
 from agent4_graphRAG.models.schemas import GraphRAGQuery, GraphRAGResult, GraphRAGStats
 
+# Ponytail: Reuse Agent 2 resolution infra for vector search
+from agent2_resolution.embeddings.embedder import BGEEmbedder
+from agent2_resolution.storage.database import ResolutionRepository
+
 
 class GraphRAGRepository:
     """Repository for querying knowledge graph and generating context for LLMs."""
@@ -22,6 +26,10 @@ class GraphRAGRepository:
             settings.NEO4J_URI,
             auth=(settings.NEO4J_USER, settings.NEO4J_PASSWORD)
         )
+
+        # Ponytail: Reuse Agent 2 resolution infra
+        self.embedder = BGEEmbedder()
+        self.resolution_repo = ResolutionRepository()
 
         # Simple in-memory cache for query results
         self._query_cache: Dict[str, Tuple[GraphRAGResult, float]] = {}
@@ -103,17 +111,25 @@ class GraphRAGRepository:
 
         try:
             with self.neo4j_driver.session() as session:
-                # Extract potential entities from the query (simplified)
-                # In production, use NER or entity linking
-                query_terms = self._extract_query_terms(query.query)
-
-                # Find nodes matching the query terms
-                matching_nodes = self._find_matching_nodes(
-                    session,
-                    query_terms,
-                    query.run_id,
-                    query.include_predictions
+                # Ponytail: Primary: Vector search, Fallback: Keyword search
+                query_embedding = self.embedder.embed(query.query).tolist()
+                similar_clusters = self.resolution_repo.find_similar_clusters(
+                    embedding=query_embedding,
+                    threshold=settings.SIMILARITY_THRESHOLD,
+                    top_k=settings.TOP_K_RESULTS
                 )
+
+                if similar_clusters:
+                    matching_nodes = [{"node_id": c[0], "canonical_name": c[1]} for c in similar_clusters]
+                else:
+                    # Fallback to simple keyword extraction
+                    query_terms = self._extract_query_terms(query.query)
+                    matching_nodes = self._find_matching_nodes(
+                        session,
+                        query_terms,
+                        query.run_id,
+                        query.include_predictions
+                    )
 
                 # Get paths between matching nodes
                 paths = self._find_paths_between_nodes(

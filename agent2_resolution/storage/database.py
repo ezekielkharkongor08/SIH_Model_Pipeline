@@ -27,7 +27,12 @@ from sqlalchemy import (
     Text,
     create_engine,
     func,
+    select,
+    text,
+    event,
 )
+from pgvector.sqlalchemy import Vector
+from pgvector.psycopg2 import register_vector
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.orm import relationship, sessionmaker
 
@@ -51,7 +56,7 @@ class ClusterModel(Base):
     avg_similarity = Column(Float, nullable=False)
     member_count = Column(Integer, nullable=False)
     # pgvector column for centroid embedding (BGE-m3 = 1024 dimensions)
-    centroid_embedding = Column(Text, nullable=True)  # Stored as JSON string, parsed on read
+    centroid_embedding = Column(Vector(1024), nullable=True)  # Stored as vector
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     # Relationships for graph traversal
@@ -123,6 +128,24 @@ class ResolutionRepository:
 
     def __init__(self):
         self.engine = create_engine(settings.DATABASE_URL, pool_pre_ping=True)
+
+        # 1. Ensure pgvector extension is enabled BEFORE anything else
+        with self.engine.connect() as conn:
+            try:
+                conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
+                conn.commit()
+            except Exception as e:
+                logger.error(f"FAILURE: Could not create pgvector extension: {e}")
+                # We do NOT raise here to allow the engine to exist if the extension is already there,
+                # but if the DB is truly broken, this will be obvious later.
+                pass
+
+        # 2. Register pgvector handler for psycopg2 AFTER extension is ensured
+        @event.listens_for(self.engine, "connect")
+        def connect(dbapi_connection, connection_record):
+            register_vector(dbapi_connection)
+
+        # 3. Create tables
         self.Session = sessionmaker(bind=self.engine)
         Base.metadata.create_all(self.engine)
 
@@ -132,10 +155,8 @@ class ResolutionRepository:
         try:
             # 1. Bulk upsert for clusters
             for cluster in payload.clusters:
-                # Convert centroid embedding to JSON string if present
-                centroid_json = None
-                if cluster.centroid_embedding is not None:
-                    centroid_json = json.dumps(cluster.centroid_embedding)
+                # Store centroid embedding directly as list of floats (Vector type handles this)
+                centroid = cluster.centroid_embedding
 
                 stmt = pg_insert(ClusterModel).values(
                     run_id=payload.run_id,
@@ -144,7 +165,7 @@ class ResolutionRepository:
                     entity_type=cluster.entity_type,
                     avg_similarity=cluster.avg_similarity,
                     member_count=len(cluster.members),
-                    centroid_embedding=centroid_json,
+                    centroid_embedding=centroid,
                 )
                 stmt = stmt.on_conflict_do_update(
                     index_elements=["cluster_id"],
@@ -240,7 +261,7 @@ class ResolutionRepository:
         threshold: float = 0.80,
     ) -> list[tuple[str, str, float]]:
         """
-        Find existing clusters similar to the given embedding using pgvector cosine similarity.
+        Find existing clusters similar to the given embedding using pgvector cosine distance.
 
         Args:
             embedding: 1024-dim BGE-m3 embedding (unit-norm)
@@ -253,35 +274,34 @@ class ResolutionRepository:
         """
         session = self.Session()
         try:
-            from sqlalchemy import text
-            embedding_json = json.dumps(embedding)
-
-            # Build query with optional entity_type filter
+            # Format embedding as a Postgres-compatible string representation "[0.1, 0.2, ...]"
+            vector_str = "[" + ",".join(map(str, embedding)) + "]"
             type_filter = "AND entity_type = :entity_type" if entity_type else ""
 
-            query = text(f"""
-                SELECT cluster_id, canonical_name, entity_type,
-                       1 - (centroid_embedding <-> :embedding::vector) AS similarity
+            # Use native pgvector cosine distance operator <=>
+            # Cosine Similarity = 1 - Cosine Distance
+            stmt = text(f"""
+                SELECT cluster_id, canonical_name, 1 - (centroid_embedding <=> CAST(:embedding AS vector)) AS similarity
                 FROM entity_clusters
                 WHERE centroid_embedding IS NOT NULL
                 {type_filter}
-                AND (1 - (centroid_embedding <-> :embedding::vector)) >= :threshold
-                ORDER BY centroid_embedding <-> :embedding::vector
+                AND (1 - (centroid_embedding <=> CAST(:embedding AS vector))) >= :threshold
+                ORDER BY centroid_embedding <=> CAST(:embedding AS vector) ASC
                 LIMIT :top_k
             """)
 
             params = {
-                "embedding": embedding_json,
+                "embedding": vector_str,
                 "threshold": threshold,
-                "top_k": top_k,
+                "top_k": top_k
             }
             if entity_type:
                 params["entity_type"] = entity_type
 
-            result = session.execute(query, params)
+            result = session.execute(stmt, params)
             rows = result.fetchall()
 
-            return [(row[0], row[1], float(row[3])) for row in rows]
+            return [(row[0], row[1], float(row[2])) for row in rows]
 
         except Exception as e:
             logger.error(f"Vector similarity search failed: {e}")

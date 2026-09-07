@@ -417,7 +417,7 @@ def generate_final_report(agent_summaries):
     report = {
         "test_name": "FIR Dataset Pipeline Test",
         "timestamp": datetime.now().isoformat(),
-        "documents_processed": 20,
+        "documents_processed": agent_summaries.get("agent1", {}).get("total_documents", 0),
         "agents": agent_summaries,
         "overall_status": "COMPLETED"
     }

@@ -1,11 +1,11 @@
 {
   "test_name": "FIR Dataset Pipeline Test",
-  "timestamp": "2026-09-07T00:39:45.714029",
-  "documents_processed": 20,
+  "timestamp": "2026-09-07T22:01:58.045084",
+  "documents_processed": 2,
   "agents": {
     "agent1": {
       "agent": "Agent 1 - Extraction",
-      "timestamp": "2026-09-07T00:39:10.956786",
+      "timestamp": "2026-09-07T22:01:21.860970",
       "total_documents": 2,
       "total_entities_extracted": 44,
       "total_triples_extracted": 21,
@@ -14,19 +14,19 @@
     },
     "agent2": {
       "agent": "Agent 2 - Resolution",
-      "timestamp": "2026-09-07T00:39:32.658916",
-      "run_id": "RES-B081FCB3",
+      "timestamp": "2026-09-07T22:01:42.137167",
+      "run_id": "RES-5F652A30",
       "total_mentions_input": 44,
       "total_clusters_output": 41,
       "deduplication_ratio_percent": 6.82,
       "pending_review_pairs": 21,
       "resolved_triples": 13,
-      "execution_time_ms": 2482.18
+      "execution_time_ms": 2780.32
     },
     "agent3": {
       "agent": "Agent 3 - Graph Builder",
-      "timestamp": "2026-09-07T00:39:43.642246",
-      "run_id": "RES-B081FCB3",
+      "timestamp": "2026-09-07T22:01:45.375636",
+      "run_id": "RES-5F652A30",
       "nodes_created": 41,
       "edges_created": 13,
       "triples_mapped": 13,
@@ -35,10 +35,10 @@
     },
     "agent4": {
       "agent": "Agent 4 - GraphRAG",
-      "timestamp": "2026-09-07T00:39:45.713046",
+      "timestamp": "2026-09-07T22:01:58.042084",
       "total_queries": 3,
       "successful_queries": 3,
-      "total_query_time_ms": 2058.870792388916,
+      "total_query_time_ms": 2464.6434783935547,
       "cache_hits": 0,
       "cache_misses": 3
     }

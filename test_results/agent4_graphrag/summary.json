@@ -1,9 +1,9 @@
 {
   "agent": "Agent 4 - GraphRAG",
-  "timestamp": "2026-09-07T00:39:45.713046",
+  "timestamp": "2026-09-07T22:01:58.042084",
   "total_queries": 3,
   "successful_queries": 3,
-  "total_query_time_ms": 2058.870792388916,
+  "total_query_time_ms": 2464.6434783935547,
   "cache_hits": 0,
   "cache_misses": 3
 }
