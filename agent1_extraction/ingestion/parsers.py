@@ -21,12 +21,13 @@ class UniversalInputParser:
   """Parses JSON, Plain Text, and Document Images into standardized text or explicit structural triples."""
 
   def _reconstruct_ocr_text(self, raw_ocr_text: str) -> str:
-    prompt = f"""You are a document restoration expert. 
-Clean up the following raw OCR text extracted from a scanned document.
+    prompt = f"""You are a document forensic expert.
+Clean raw OCR text from a scanned document.
 Rules:
-1. Fix broken words, OCR typos, and awkward line wraps.
-2. Maintain all original facts, names, dates, numbers, and statements exactly.
-3. Output ONLY the restored plain text narrative without introductory remarks or conversational responses.
+1. Fix broken words/OCR typos.
+2. Maintain ALL original facts (names, dates, amounts, etc.).
+3. Structural Cueing: Enclose unambiguous entities in tags: [PERSON]Name[/PERSON], [LOCATION]Place[/LOCATION], [DATE]Date[/DATE].
+4. Output ONLY the restored text with embedded entity tags.
 
 Raw OCR Text:
 {raw_ocr_text}

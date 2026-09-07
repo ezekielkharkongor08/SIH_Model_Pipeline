@@ -1,10 +1,10 @@
 [
   {
-    "evidence_id": "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788803365392-188783",
+    "evidence_id": "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788805756022-188783",
     "filename": "Gemini_Generated_Image_396qrl396qrl396q.png",
-    "entities_count": 19,
-    "triples_count": 10,
-    "execution_time_ms": 33812.67,
+    "entities_count": 12,
+    "triples_count": 5,
+    "execution_time_ms": 25903.65,
     "status": "SUCCESS",
     "entities": [
       {
@@ -28,15 +28,7 @@
         "entity_type": "DATE_TIME"
       },
       {
-        "canonical_name": "IPC 420",
-        "entity_type": "LEGAL_SECTION"
-      },
-      {
         "canonical_name": "Section 15G",
-        "entity_type": "LEGAL_SECTION"
-      },
-      {
-        "canonical_name": "IPC 120B",
         "entity_type": "LEGAL_SECTION"
       },
       {
@@ -62,26 +54,6 @@
       {
         "canonical_name": "Vikram Sethi",
         "entity_type": "PERSON"
-      },
-      {
-        "canonical_name": "Lower Parel, Mumbai",
-        "entity_type": "LOCATION"
-      },
-      {
-        "canonical_name": "server",
-        "entity_type": "UNKNOWN"
-      },
-      {
-        "canonical_name": "multiple proxy shell accounts",
-        "entity_type": "UNKNOWN"
-      },
-      {
-        "canonical_name": "Inspector Sanjay Gupta",
-        "entity_type": "PERSON"
-      },
-      {
-        "canonical_name": "case",
-        "entity_type": "UNKNOWN"
       }
     ],
     "triples": [
@@ -107,42 +79,17 @@
       },
       {
         "subject": "Ananya Rao",
-        "predicate": "worked_with",
+        "predicate": "works_with",
         "object": "Vikram Sethi"
-      },
-      {
-        "subject": "Ananya Rao",
-        "predicate": "located_at",
-        "object": "Lower Parel, Mumbai"
-      },
-      {
-        "subject": "Vikram Sethi",
-        "predicate": "executed_server_breach",
-        "object": "server"
-      },
-      {
-        "subject": "Ananya Rao",
-        "predicate": "netted_illicit_profits",
-        "object": "Rs. 5,00,00,000,000"
-      },
-      {
-        "subject": "Ananya Rao",
-        "predicate": "used_proxy_shell_accounts",
-        "object": "multiple proxy shell accounts"
-      },
-      {
-        "subject": "Inspector Sanjay Gupta",
-        "predicate": "investigated",
-        "object": "case"
       }
     ]
   },
   {
-    "evidence_id": "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788803399235-524b08",
+    "evidence_id": "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08",
     "filename": "Gemini_Generated_Image_tkds5rtkds5rtkds.png",
-    "entities_count": 25,
-    "triples_count": 11,
-    "execution_time_ms": 30562.63,
+    "entities_count": 20,
+    "triples_count": 8,
+    "execution_time_ms": 30510.03,
     "status": "SUCCESS",
     "entities": [
       {
@@ -203,19 +150,11 @@
       },
       {
         "canonical_name": "encrypted email",
-        "entity_type": "EMAIL"
-      },
-      {
-        "canonical_name": "proprietary Phase 3 clinical trial data",
         "entity_type": "UNKNOWN"
       },
       {
         "canonical_name": "DarkByte",
-        "entity_type": "UNKNOWN"
-      },
-      {
-        "canonical_name": "Rs. 2,00,00,000 in cryptocurrency",
-        "entity_type": "MONEY_AMOUNT"
+        "entity_type": "PERSON"
       },
       {
         "canonical_name": "Vikram Sethi",
@@ -230,20 +169,8 @@
         "entity_type": "PERSON"
       },
       {
-        "canonical_name": "Apex Pharma server farm perimeter",
-        "entity_type": "LOCATION"
-      },
-      {
         "canonical_name": "notorious corporate espionage and cyber-extortion syndicate",
         "entity_type": "ORGANIZATION"
-      },
-      {
-        "canonical_name": "Inspector Vikram Patil",
-        "entity_type": "PERSON"
-      },
-      {
-        "canonical_name": "Investigating Officer",
-        "entity_type": "UNKNOWN"
       }
     ],
     "triples": [
@@ -264,18 +191,13 @@
       },
       {
         "subject": "Dr. Arvind Patel",
-        "predicate": "had",
-        "object": "proprietary Phase 3 clinical trial data"
-      },
-      {
-        "subject": "DarkByte",
-        "predicate": "sent",
-        "object": "encrypted email"
+        "predicate": "contacted",
+        "object": "DarkByte"
       },
       {
         "subject": "DarkByte",
         "predicate": "demanded",
-        "object": "Rs. 2,00,00,000 in cryptocurrency"
+        "object": "Rs. 2,00,00,000"
       },
       {
         "subject": "Vikram Sethi",
@@ -289,18 +211,8 @@
       },
       {
         "subject": "Vikram Sethi",
-        "predicate": "was_near",
-        "object": "Apex Pharma server farm perimeter"
-      },
-      {
-        "subject": "Vikram Sethi",
-        "predicate": "was_associated_with",
+        "predicate": "associated_with",
         "object": "notorious corporate espionage and cyber-extortion syndicate"
-      },
-      {
-        "subject": "Inspector Vikram Patil",
-        "predicate": "is",
-        "object": "Investigating Officer"
       }
     ]
   }

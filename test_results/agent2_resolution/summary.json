@@ -1,11 +1,11 @@
 {
   "agent": "Agent 2 - Resolution",
-  "timestamp": "2026-09-07T23:20:51.397108",
-  "run_id": "RES-85E7F6A1",
-  "total_mentions_input": 44,
-  "total_clusters_output": 41,
-  "deduplication_ratio_percent": 6.82,
-  "pending_review_pairs": 21,
-  "resolved_triples": 13,
-  "execution_time_ms": 3067.39
+  "timestamp": "2026-09-08T00:00:34.143406",
+  "run_id": "RES-DE6CF1A3",
+  "total_mentions_input": 32,
+  "total_clusters_output": 30,
+  "deduplication_ratio_percent": 6.25,
+  "pending_review_pairs": 20,
+  "resolved_triples": 9,
+  "execution_time_ms": 3222.1
 }

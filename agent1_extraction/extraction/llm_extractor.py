@@ -80,15 +80,15 @@ class UniversalLLMExtractor:
                     json_match = re.search(r"\{.*\}", content, re.DOTALL)
                     if json_match:
                         clean_json = json_match.group(0)
-                        # Pre-process JSON to replace None values with valid defaults before validation
-                        # Replace null object values with empty string (handle various spacing)
-                        clean_json = re.sub(r'"object"\s*:\s*null', '"object": ""', clean_json)
-                        # Replace null subject values with empty string (handle various spacing)
-                        clean_json = re.sub(r'"subject"\s*:\s*null', '"subject": ""', clean_json)
-                        # Replace null object_type values with UNKNOWN (handle various spacing)
-                        clean_json = re.sub(r'"object_type"\s*:\s*null', '"object_type": "UNKNOWN"', clean_json)
-                        # Replace null subject_type values with UNKNOWN (handle various spacing)
-                        clean_json = re.sub(r'"subject_type"\s*:\s*null', '"subject_type": "UNKNOWN"', clean_json)
+                        # Pre-process JSON to replace None/string-"null" values with valid defaults
+                        # Replace null object values with empty string
+                        clean_json = re.sub(r'"object"\s*:\s*("null"|null)', '"object": ""', clean_json)
+                        # Replace null subject values with empty string
+                        clean_json = re.sub(r'"subject"\s*:\s*("null"|null)', '"subject": ""', clean_json)
+                        # Replace null/string-"null" object_type values with UNKNOWN
+                        clean_json = re.sub(r'"object_type"\s*:\s*("null"|null)', '"object_type": "UNKNOWN"', clean_json)
+                        # Replace null/string-"null" subject_type values with UNKNOWN
+                        clean_json = re.sub(r'"subject_type"\s*:\s*("null"|null)', '"subject_type": "UNKNOWN"', clean_json)
 
                         parsed = RawLLMExtractionResponse.model_validate_json(clean_json)
                         return parsed.triples

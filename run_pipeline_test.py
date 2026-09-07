@@ -358,6 +358,11 @@ def run_agent4_graphrag():
             "Who is mentioned in the FIR documents?",
             "What relationships exist between people?",
             "Show all organizations found",
+            "Where did the incident occur?",
+            "List all vehicles involved in the incident",
+            "Summarize the activities of DarkByte",
+            "What money was involved in the extortion?",
+            "Who is Ananya Rao and what are they linked to?"
         ]
 
         results = []
@@ -369,9 +374,11 @@ def run_agent4_graphrag():
                 results.append({
                     "query": q,
                     "success": True,
-                    "answer": result.answer[:200] if result.answer else "",
+                    "answer": result.answer if result.answer else "",
                     "confidence": result.confidence,
                     "related_nodes_count": len(result.related_nodes),
+                    "related_nodes": result.related_nodes,
+                    "related_paths": result.related_paths,
                     "query_time_ms": result.query_time_ms
                 })
             except Exception as e:

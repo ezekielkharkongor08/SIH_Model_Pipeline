@@ -69,6 +69,7 @@ class Neo4jExporter:
             n.canonical_name = $canonical_name,
             n.entity_type = $entity_type,
             n.confidence = $confidence,
+            n.raw_confidence = $confidence,
             n.created_at = datetime(),
             n.labels = $entity_type,
             n.source_entity_count = size($source_entities),

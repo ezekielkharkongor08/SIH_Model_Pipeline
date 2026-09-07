@@ -499,16 +499,27 @@ class GraphRAGRepository:
 
         # Add path information if available
         if paths and len(paths) > 0:
-            answer += "\n\nKey connections found:"
+            answer += "\n\nKey connections (Rich Path Data):"
             for i, path in enumerate(paths[:3]):  # Show top 3 paths
                 node_names = [n["canonical_name"] for n in path["nodes"]]
                 rel_types = [r["predicate"] for r in path["relationships"]]
 
                 path_str = " -> ".join([
-                    f"{node_names[0]}",
-                    *[f"[{rel_types[j]}] -> {node_names[j+1]}" for j in range(len(rel_types))]
+                    f"{node_names[0]} (Type: {path['nodes'][0]['entity_type']}, ID: {path['nodes'][0]['node_id']})",
+                    *[f"[{rel_types[j]}] -> {node_names[j+1]} (Type: {path['nodes'][j+1]['entity_type']}, ID: {path['nodes'][j+1]['node_id']})" for j in range(len(rel_types))]
                 ])
                 answer += f"\n{i+1}. {path_str}"
+
+            # Append structured details
+            answer += "\n\nDetailed Connections (Triple Evidence):"
+            for path in paths[:3]:
+                # Collect connected triples
+                connections = []
+                for j in range(len(path['relationships'])):
+                    conn_str = f"{path['nodes'][j]['canonical_name']} -> {path['relationships'][j]['predicate']} -> {path['nodes'][j+1]['canonical_name']}"
+                    connections.append(conn_str)
+
+                answer += f"\n- {path['source']}->{path['target']}: " + "; ".join(connections)
 
         return answer, min(confidence, 0.95)
 

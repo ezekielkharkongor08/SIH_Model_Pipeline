@@ -129,16 +129,10 @@ class ResolutionRepository:
     def __init__(self):
         self.engine = create_engine(settings.DATABASE_URL, pool_pre_ping=True)
 
-        # 1. Ensure pgvector extension is enabled BEFORE anything else
+        # 1. Ensure pgvector extension is enabled
         with self.engine.connect() as conn:
-            try:
-                conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
-                conn.commit()
-            except Exception as e:
-                logger.error(f"FAILURE: Could not create pgvector extension: {e}")
-                # We do NOT raise here to allow the engine to exist if the extension is already there,
-                # but if the DB is truly broken, this will be obvious later.
-                pass
+            conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
+            conn.commit()
 
         # 2. Register pgvector handler for psycopg2 AFTER extension is ensured
         @event.listens_for(self.engine, "connect")
