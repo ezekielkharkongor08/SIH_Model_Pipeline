@@ -2,903 +2,890 @@
   {
     "query": "Who is mentioned in the FIR documents?",
     "success": true,
-    "answer": "I found 5 relevant entities: Ananya Rao, DarkByte, Dr. Arvind Patel and 2 more. There are 2 paths connecting these entities in the knowledge graph. \n\nKey connections (Rich Path Data):\n1. Ananya Rao (Type: PERSON, ID: CLU-00021) -> [was_seen_with] -> Vikram Sethi (Type: PERSON, ID: CLU-00022)\n2. DarkByte (Type: PERSON, ID: CLU-00024) -> [contacted] -> Dr. Arvind Patel (Type: PERSON, ID: CLU-00023)\n\nDetailed Connections (Triple Evidence):\n- CLU-00021->CLU-00022: Ananya Rao -> was_seen_with -> Vikram Sethi\n- CLU-00024->CLU-00023: DarkByte -> contacted -> Dr. Arvind Patel",
-    "confidence": 0.8,
-    "related_nodes_count": 5,
-    "related_nodes": [
-      {
-        "node_id": "CLU-00021",
-        "canonical_name": "Ananya Rao",
-        "entity_type": "PERSON",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          38
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00024",
-        "canonical_name": "DarkByte",
-        "entity_type": "PERSON",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          35
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00023",
-        "canonical_name": "Dr. Arvind Patel",
-        "entity_type": "PERSON",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          32
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00020",
-        "canonical_name": "Rajesh Khurana",
-        "entity_type": "PERSON",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          15
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788805756022-188783"
-        ]
-      },
-      {
-        "node_id": "CLU-00022",
-        "canonical_name": "Vikram Sethi",
-        "entity_type": "PERSON",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          36
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      }
-    ],
-    "related_paths": [
-      {
-        "nodes": [
-          {
-            "canonical_name": "Ananya Rao",
-            "entity_type": "PERSON",
-            "node_id": "CLU-00021"
-          },
-          {
-            "canonical_name": "Vikram Sethi",
-            "entity_type": "PERSON",
-            "node_id": "CLU-00022"
-          }
-        ],
-        "relationships": [
-          {
-            "confidence": 0.95,
-            "is_predicted": false,
-            "predicate": "was_seen_with"
-          }
-        ],
-        "source": "CLU-00021",
-        "target": "CLU-00022"
-      },
-      {
-        "nodes": [
-          {
-            "canonical_name": "DarkByte",
-            "entity_type": "PERSON",
-            "node_id": "CLU-00024"
-          },
-          {
-            "canonical_name": "Dr. Arvind Patel",
-            "entity_type": "PERSON",
-            "node_id": "CLU-00023"
-          }
-        ],
-        "relationships": [
-          {
-            "confidence": 0.95,
-            "is_predicted": false,
-            "predicate": "contacted"
-          }
-        ],
-        "source": "CLU-00024",
-        "target": "CLU-00023"
-      }
-    ],
-    "query_time_ms": 2750.9467601776123
+    "answer": "Based on the FIR documents, the individuals mentioned are Ananya Rao, DarkByte, Dr. Arvind Patel, Vikram Sethi, Inspector Vikram Patil, and Rajesh Khurana.",
+    "raw_graph_data": {
+      "answer": "I found 6 relevant entities: Ananya Rao, DarkByte, Dr. Arvind Patel and 3 more. There are 2 paths connecting these entities in the knowledge graph. \n\nKey connections (Rich Path Data):\n1. Ananya Rao (Type: PERSON, ID: CLU-00023) -> [was_seen_with] -> Vikram Sethi (Type: PERSON, ID: CLU-00024)\n2. DarkByte (Type: PERSON, ID: CLU-00026) -> [received_encrypted_email_from] -> Dr. Arvind Patel (Type: PERSON, ID: CLU-00025)\n\nDetailed Connections (Triple Evidence):\n- CLU-00023->CLU-00024: Ananya Rao -> was_seen_with -> Vikram Sethi\n- CLU-00026->CLU-00025: DarkByte -> received_encrypted_email_from -> Dr. Arvind Patel",
+      "confidence": 0.8,
+      "supporting_evidence": [
+        "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08",
+        "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788808658328-188783"
+      ],
+      "related_nodes": [
+        {
+          "node_id": "CLU-00023",
+          "canonical_name": "Ananya Rao",
+          "entity_type": "PERSON",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            36
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00026",
+          "canonical_name": "DarkByte",
+          "entity_type": "PERSON",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            31
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00025",
+          "canonical_name": "Dr. Arvind Patel",
+          "entity_type": "PERSON",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            29
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00027",
+          "canonical_name": "Inspector Vikram Patil",
+          "entity_type": "PERSON",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            38
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00022",
+          "canonical_name": "Rajesh Khurana",
+          "entity_type": "PERSON",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            8
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788808658328-188783"
+          ]
+        },
+        {
+          "node_id": "CLU-00024",
+          "canonical_name": "Vikram Sethi",
+          "entity_type": "PERSON",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            34
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        }
+      ],
+      "related_paths": [
+        {
+          "nodes": [
+            {
+              "canonical_name": "Ananya Rao",
+              "entity_type": "PERSON",
+              "node_id": "CLU-00023"
+            },
+            {
+              "canonical_name": "Vikram Sethi",
+              "entity_type": "PERSON",
+              "node_id": "CLU-00024"
+            }
+          ],
+          "relationships": [
+            {
+              "confidence": 0.95,
+              "is_predicted": false,
+              "predicate": "was_seen_with"
+            }
+          ],
+          "source": "CLU-00023",
+          "target": "CLU-00024"
+        },
+        {
+          "nodes": [
+            {
+              "canonical_name": "DarkByte",
+              "entity_type": "PERSON",
+              "node_id": "CLU-00026"
+            },
+            {
+              "canonical_name": "Dr. Arvind Patel",
+              "entity_type": "PERSON",
+              "node_id": "CLU-00025"
+            }
+          ],
+          "relationships": [
+            {
+              "confidence": 0.95,
+              "is_predicted": false,
+              "predicate": "received_encrypted_email_from"
+            }
+          ],
+          "source": "CLU-00026",
+          "target": "CLU-00025"
+        }
+      ],
+      "query_time_ms": 2426.4976978302
+    }
   },
   {
     "query": "What relationships exist between people?",
     "success": true,
-    "answer": "I found 20 relevant entities: 01:30 hrs, 02:15 hrs, 08:30 hrs and 17 more. There are 1 paths connecting these entities in the knowledge graph. \n\nKey connections (Rich Path Data):\n1. notorious corporate espionage and cyber-extortion syndicate (Type: ORGANIZATION, ID: CLU-00026) -> [associated_with] -> Vikram Sethi (Type: PERSON, ID: CLU-00022) -> [was_seen_with] -> Ananya Rao (Type: PERSON, ID: CLU-00021)\n\nDetailed Connections (Triple Evidence):\n- CLU-00026->CLU-00021: notorious corporate espionage and cyber-extortion syndicate -> associated_with -> Vikram Sethi; Vikram Sethi -> was_seen_with -> Ananya Rao",
-    "confidence": 0.8,
-    "related_nodes_count": 20,
-    "related_nodes": [
-      {
-        "node_id": "CLU-00012",
-        "canonical_name": "01:30 hrs",
-        "entity_type": "DATE_TIME",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          26
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00011",
-        "canonical_name": "02:15 hrs",
-        "entity_type": "DATE_TIME",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          25
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00009",
-        "canonical_name": "08:30 hrs",
-        "entity_type": "DATE_TIME",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          23
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00006",
-        "canonical_name": "10:15 hrs",
-        "entity_type": "DATE_TIME",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          11
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788805756022-188783"
-        ]
-      },
-      {
-        "node_id": "CLU-00010",
-        "canonical_name": "11:15 hrs",
-        "entity_type": "DATE_TIME",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          24
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00008",
-        "canonical_name": "12:30 hrs",
-        "entity_type": "DATE_TIME",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          22
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00007",
-        "canonical_name": "14:00 hrs",
-        "entity_type": "DATE_TIME",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          12
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788805756022-188783"
-        ]
-      },
-      {
-        "node_id": "CLU-00017",
-        "canonical_name": "IPC 120B",
-        "entity_type": "LEGAL_SECTION",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          29
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00016",
-        "canonical_name": "IPC 384",
-        "entity_type": "LEGAL_SECTION",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          28
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00018",
-        "canonical_name": "IPC 506",
-        "entity_type": "LEGAL_SECTION",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          30
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00015",
-        "canonical_name": "IT Act 43",
-        "entity_type": "LEGAL_SECTION",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          27
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00019",
-        "canonical_name": "IT Act Section 66A",
-        "entity_type": "LEGAL_SECTION",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          31
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00013",
-        "canonical_name": "Section 15G",
-        "entity_type": "LEGAL_SECTION",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          13
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788805756022-188783"
-        ]
-      },
-      {
-        "node_id": "CLU-00014",
-        "canonical_name": "Section 3",
-        "entity_type": "LEGAL_SECTION",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          14
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788805756022-188783"
-        ]
-      },
-      {
-        "node_id": "CLU-00005",
-        "canonical_name": "Rs. 2,00,00,000",
-        "entity_type": "MONEY_AMOUNT",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          21
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00003",
-        "canonical_name": "Rs. 5,00,00,000,000",
-        "entity_type": "MONEY_AMOUNT",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          9
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788805756022-188783"
-        ]
-      },
-      {
-        "node_id": "CLU-00004",
-        "canonical_name": "Rs. 50,00,000",
-        "entity_type": "MONEY_AMOUNT",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          10
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788805756022-188783"
-        ]
-      },
-      {
-        "node_id": "CLU-00025",
-        "canonical_name": "Apex Pharmaceuticals stock",
-        "entity_type": "ORGANIZATION",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          16
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788805756022-188783"
-        ]
-      },
-      {
-        "node_id": "CLU-00026",
-        "canonical_name": "notorious corporate espionage and cyber-extortion syndicate",
-        "entity_type": "ORGANIZATION",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          39
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00021",
-        "canonical_name": "Ananya Rao",
-        "entity_type": "PERSON",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          38
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      }
-    ],
-    "related_paths": [
-      {
-        "nodes": [
-          {
-            "canonical_name": "notorious corporate espionage and cyber-extortion syndicate",
-            "entity_type": "ORGANIZATION",
-            "node_id": "CLU-00026"
-          },
-          {
-            "canonical_name": "Vikram Sethi",
-            "entity_type": "PERSON",
-            "node_id": "CLU-00022"
-          },
-          {
-            "canonical_name": "Ananya Rao",
-            "entity_type": "PERSON",
-            "node_id": "CLU-00021"
-          }
-        ],
-        "relationships": [
-          {
-            "confidence": 0.95,
-            "is_predicted": false,
-            "predicate": "associated_with"
-          },
-          {
-            "confidence": 0.95,
-            "is_predicted": false,
-            "predicate": "was_seen_with"
-          }
-        ],
-        "source": "CLU-00026",
-        "target": "CLU-00021"
-      }
-    ],
-    "query_time_ms": 578.253984451294
+    "answer": "Based on the provided data, there are no relationships between people mentioned. The data consists of various entities such as date and time, legal sections, locations, and money amounts, but no connections between individuals are present.",
+    "raw_graph_data": {
+      "answer": "I found 20 relevant entities: 01:30 hrs, 02:15 hrs, 08:30 hrs and 17 more. ",
+      "confidence": 0.8,
+      "supporting_evidence": [
+        "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08",
+        "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788808658328-188783"
+      ],
+      "related_nodes": [
+        {
+          "node_id": "CLU-00014",
+          "canonical_name": "01:30 hrs",
+          "entity_type": "DATE_TIME",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            23
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00013",
+          "canonical_name": "02:15 hrs",
+          "entity_type": "DATE_TIME",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            22
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00011",
+          "canonical_name": "08:30 hrs",
+          "entity_type": "DATE_TIME",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            20
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00008",
+          "canonical_name": "10:15 hrs",
+          "entity_type": "DATE_TIME",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            4
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788808658328-188783"
+          ]
+        },
+        {
+          "node_id": "CLU-00012",
+          "canonical_name": "11:15 hrs",
+          "entity_type": "DATE_TIME",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            21
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00010",
+          "canonical_name": "12:30 hrs",
+          "entity_type": "DATE_TIME",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            19
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00009",
+          "canonical_name": "14:00 hrs",
+          "entity_type": "DATE_TIME",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            5
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788808658328-188783"
+          ]
+        },
+        {
+          "node_id": "CLU-00019",
+          "canonical_name": "IPC 120B",
+          "entity_type": "LEGAL_SECTION",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            26
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00018",
+          "canonical_name": "IPC 384",
+          "entity_type": "LEGAL_SECTION",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            25
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00020",
+          "canonical_name": "IPC 506",
+          "entity_type": "LEGAL_SECTION",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            27
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00017",
+          "canonical_name": "IT Act 43",
+          "entity_type": "LEGAL_SECTION",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            24
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00021",
+          "canonical_name": "IT Act Section 66A",
+          "entity_type": "LEGAL_SECTION",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            28
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00015",
+          "canonical_name": "Section 15G",
+          "entity_type": "LEGAL_SECTION",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            6
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788808658328-188783"
+          ]
+        },
+        {
+          "node_id": "CLU-00016",
+          "canonical_name": "Section 3",
+          "entity_type": "LEGAL_SECTION",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            7
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788808658328-188783"
+          ]
+        },
+        {
+          "node_id": "CLU-00035",
+          "canonical_name": "Lower Parel, Mumbai",
+          "entity_type": "LOCATION",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            16
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788808658328-188783"
+          ]
+        },
+        {
+          "node_id": "CLU-00006",
+          "canonical_name": "Rs. 2,00,00,000",
+          "entity_type": "MONEY_AMOUNT",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            18
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00007",
+          "canonical_name": "Rs. 2,00,00,000 in cryptocurrency",
+          "entity_type": "MONEY_AMOUNT",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            33
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00003",
+          "canonical_name": "Rs. 5,00,00,000,000",
+          "entity_type": "MONEY_AMOUNT",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            2
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788808658328-188783"
+          ]
+        },
+        {
+          "node_id": "CLU-00004",
+          "canonical_name": "Rs. 50,00,000",
+          "entity_type": "MONEY_AMOUNT",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            3
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788808658328-188783"
+          ]
+        },
+        {
+          "node_id": "CLU-00005",
+          "canonical_name": "Rs. 50,00,000 via a decentralized exchange transaction ref. DEX-2026101588",
+          "entity_type": "MONEY_AMOUNT",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            13
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788808658328-188783"
+          ]
+        }
+      ],
+      "related_paths": [],
+      "query_time_ms": 488.74807357788086
+    }
   },
   {
     "query": "Show all organizations found",
     "success": true,
-    "answer": "I found 2 relevant entities: Apex Pharmaceuticals stock, notorious corporate espionage and cyber-extortion syndicate. ",
-    "confidence": 0.6000000000000001,
-    "related_nodes_count": 2,
-    "related_nodes": [
-      {
-        "node_id": "CLU-00025",
-        "canonical_name": "Apex Pharmaceuticals stock",
-        "entity_type": "ORGANIZATION",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          16
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788805756022-188783"
-        ]
-      },
-      {
-        "node_id": "CLU-00026",
-        "canonical_name": "notorious corporate espionage and cyber-extortion syndicate",
-        "entity_type": "ORGANIZATION",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          39
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      }
-    ],
-    "related_paths": [],
-    "query_time_ms": 88.03606033325195
+    "answer": "Based on the evidence, there are two organizations found: notorious corporate espionage and cyber-extortion syndicate and R&D.",
+    "raw_graph_data": {
+      "answer": "I found 2 relevant entities: notorious corporate espionage and cyber-extortion syndicate, R&D. ",
+      "confidence": 0.6000000000000001,
+      "supporting_evidence": [
+        "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+      ],
+      "related_nodes": [
+        {
+          "node_id": "CLU-00037",
+          "canonical_name": "notorious corporate espionage and cyber-extortion syndicate",
+          "entity_type": "ORGANIZATION",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            37
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00036",
+          "canonical_name": "R&D",
+          "entity_type": "ORGANIZATION",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            32
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        }
+      ],
+      "related_paths": [],
+      "query_time_ms": 87.02921867370605
+    }
   },
   {
     "query": "Where did the incident occur?",
     "success": true,
-    "answer": "The entity '11:15 hrs' is a DATE_TIME with a confidence score of 1.00. It is associated with 1 source entities. It appears in 1 evidence sources.",
-    "confidence": 0.6,
-    "related_nodes_count": 1,
-    "related_nodes": [
-      {
-        "node_id": "CLU-00010",
-        "canonical_name": "11:15 hrs",
-        "entity_type": "DATE_TIME",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          24
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      }
-    ],
-    "related_paths": [],
-    "query_time_ms": 86.53473854064941
+    "answer": "The incident occurred at 11:15 hours.",
+    "raw_graph_data": {
+      "answer": "The entity '11:15 hrs' is a DATE_TIME with a confidence score of 1.00. It is associated with 1 source entities. It appears in 1 evidence sources.",
+      "confidence": 0.6,
+      "supporting_evidence": [
+        "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+      ],
+      "related_nodes": [
+        {
+          "node_id": "CLU-00012",
+          "canonical_name": "11:15 hrs",
+          "entity_type": "DATE_TIME",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            21
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        }
+      ],
+      "related_paths": [],
+      "query_time_ms": 97.39446640014648
+    }
   },
   {
     "query": "List all vehicles involved in the incident",
     "success": true,
-    "answer": "I couldn't find any relevant information in the knowledge graph to answer your question.",
-    "confidence": 0.1,
-    "related_nodes_count": 0,
-    "related_nodes": [],
-    "related_paths": [],
-    "query_time_ms": 121.06156349182129
+    "answer": "Unfortunately, I couldn't find any information about vehicles involved in the incident. The knowledge graph doesn't contain any relevant data to answer your question.",
+    "raw_graph_data": {
+      "answer": "I couldn't find any relevant information in the knowledge graph to answer your question.",
+      "confidence": 0.1,
+      "supporting_evidence": [],
+      "related_nodes": [],
+      "related_paths": [],
+      "query_time_ms": 86.44366264343262
+    }
   },
   {
     "query": "Summarize the activities of DarkByte",
     "success": true,
-    "answer": "The entity 'DarkByte' is a PERSON with a confidence score of 1.00. It is associated with 1 source entities. It appears in 1 evidence sources.",
-    "confidence": 0.6,
-    "related_nodes_count": 1,
-    "related_nodes": [
-      {
-        "node_id": "CLU-00024",
-        "canonical_name": "DarkByte",
-        "entity_type": "PERSON",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          35
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      }
-    ],
-    "related_paths": [],
-    "query_time_ms": 86.17568016052246
+    "answer": "DarkByte is a person who has been identified in one source entity and appears in one evidence source.",
+    "raw_graph_data": {
+      "answer": "The entity 'DarkByte' is a PERSON with a confidence score of 1.00. It is associated with 1 source entities. It appears in 1 evidence sources.",
+      "confidence": 0.6,
+      "supporting_evidence": [
+        "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+      ],
+      "related_nodes": [
+        {
+          "node_id": "CLU-00026",
+          "canonical_name": "DarkByte",
+          "entity_type": "PERSON",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            31
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        }
+      ],
+      "related_paths": [],
+      "query_time_ms": 132.22718238830566
+    }
   },
   {
     "query": "What money was involved in the extortion?",
     "success": true,
-    "answer": "I found 20 relevant entities: 01:30 hrs, 02:15 hrs, 08:30 hrs and 17 more. There are 1 paths connecting these entities in the knowledge graph. \n\nKey connections (Rich Path Data):\n1. notorious corporate espionage and cyber-extortion syndicate (Type: ORGANIZATION, ID: CLU-00026) -> [associated_with] -> Vikram Sethi (Type: PERSON, ID: CLU-00022) -> [was_seen_with] -> Ananya Rao (Type: PERSON, ID: CLU-00021)\n\nDetailed Connections (Triple Evidence):\n- CLU-00026->CLU-00021: notorious corporate espionage and cyber-extortion syndicate -> associated_with -> Vikram Sethi; Vikram Sethi -> was_seen_with -> Ananya Rao",
-    "confidence": 0.8,
-    "related_nodes_count": 20,
-    "related_nodes": [
-      {
-        "node_id": "CLU-00012",
-        "canonical_name": "01:30 hrs",
-        "entity_type": "DATE_TIME",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          26
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00011",
-        "canonical_name": "02:15 hrs",
-        "entity_type": "DATE_TIME",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          25
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00009",
-        "canonical_name": "08:30 hrs",
-        "entity_type": "DATE_TIME",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          23
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00006",
-        "canonical_name": "10:15 hrs",
-        "entity_type": "DATE_TIME",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          11
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788805756022-188783"
-        ]
-      },
-      {
-        "node_id": "CLU-00010",
-        "canonical_name": "11:15 hrs",
-        "entity_type": "DATE_TIME",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          24
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00008",
-        "canonical_name": "12:30 hrs",
-        "entity_type": "DATE_TIME",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          22
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00007",
-        "canonical_name": "14:00 hrs",
-        "entity_type": "DATE_TIME",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          12
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788805756022-188783"
-        ]
-      },
-      {
-        "node_id": "CLU-00017",
-        "canonical_name": "IPC 120B",
-        "entity_type": "LEGAL_SECTION",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          29
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00016",
-        "canonical_name": "IPC 384",
-        "entity_type": "LEGAL_SECTION",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          28
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00018",
-        "canonical_name": "IPC 506",
-        "entity_type": "LEGAL_SECTION",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          30
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00015",
-        "canonical_name": "IT Act 43",
-        "entity_type": "LEGAL_SECTION",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          27
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00019",
-        "canonical_name": "IT Act Section 66A",
-        "entity_type": "LEGAL_SECTION",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          31
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00013",
-        "canonical_name": "Section 15G",
-        "entity_type": "LEGAL_SECTION",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          13
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788805756022-188783"
-        ]
-      },
-      {
-        "node_id": "CLU-00014",
-        "canonical_name": "Section 3",
-        "entity_type": "LEGAL_SECTION",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          14
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788805756022-188783"
-        ]
-      },
-      {
-        "node_id": "CLU-00005",
-        "canonical_name": "Rs. 2,00,00,000",
-        "entity_type": "MONEY_AMOUNT",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          21
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00003",
-        "canonical_name": "Rs. 5,00,00,000,000",
-        "entity_type": "MONEY_AMOUNT",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          9
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788805756022-188783"
-        ]
-      },
-      {
-        "node_id": "CLU-00004",
-        "canonical_name": "Rs. 50,00,000",
-        "entity_type": "MONEY_AMOUNT",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          10
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788805756022-188783"
-        ]
-      },
-      {
-        "node_id": "CLU-00025",
-        "canonical_name": "Apex Pharmaceuticals stock",
-        "entity_type": "ORGANIZATION",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          16
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788805756022-188783"
-        ]
-      },
-      {
-        "node_id": "CLU-00026",
-        "canonical_name": "notorious corporate espionage and cyber-extortion syndicate",
-        "entity_type": "ORGANIZATION",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          39
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      },
-      {
-        "node_id": "CLU-00021",
-        "canonical_name": "Ananya Rao",
-        "entity_type": "PERSON",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          38
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      }
-    ],
-    "related_paths": [
-      {
-        "nodes": [
-          {
-            "canonical_name": "notorious corporate espionage and cyber-extortion syndicate",
-            "entity_type": "ORGANIZATION",
-            "node_id": "CLU-00026"
-          },
-          {
-            "canonical_name": "Vikram Sethi",
-            "entity_type": "PERSON",
-            "node_id": "CLU-00022"
-          },
-          {
-            "canonical_name": "Ananya Rao",
-            "entity_type": "PERSON",
-            "node_id": "CLU-00021"
-          }
-        ],
-        "relationships": [
-          {
-            "confidence": 0.95,
-            "is_predicted": false,
-            "predicate": "associated_with"
-          },
-          {
-            "confidence": 0.95,
-            "is_predicted": false,
-            "predicate": "was_seen_with"
-          }
-        ],
-        "source": "CLU-00026",
-        "target": "CLU-00021"
-      }
-    ],
-    "query_time_ms": 470.58939933776855
+    "answer": "Based on the evidence, it appears that a significant amount of money was involved in the extortion. Specifically, there were mentions of Rs. 2,00,00,000 (approximately $2.7 million USD) in cryptocurrency, as well as Rs. 5,00,00,000,000 (approximately $67.5 billion USD) and Rs. 50,00,000 (approximately $670,000 USD) in traditional currency. Additionally, there was a mention of a decentralized exchange transaction worth Rs. 50,00,000. These amounts suggest that the extortion involved a substantial amount of money, potentially in the millions or even billions of dollars.",
+    "raw_graph_data": {
+      "answer": "I found 20 relevant entities: 01:30 hrs, 02:15 hrs, 08:30 hrs and 17 more. ",
+      "confidence": 0.8,
+      "supporting_evidence": [
+        "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08",
+        "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788808658328-188783"
+      ],
+      "related_nodes": [
+        {
+          "node_id": "CLU-00014",
+          "canonical_name": "01:30 hrs",
+          "entity_type": "DATE_TIME",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            23
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00013",
+          "canonical_name": "02:15 hrs",
+          "entity_type": "DATE_TIME",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            22
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00011",
+          "canonical_name": "08:30 hrs",
+          "entity_type": "DATE_TIME",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            20
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00008",
+          "canonical_name": "10:15 hrs",
+          "entity_type": "DATE_TIME",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            4
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788808658328-188783"
+          ]
+        },
+        {
+          "node_id": "CLU-00012",
+          "canonical_name": "11:15 hrs",
+          "entity_type": "DATE_TIME",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            21
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00010",
+          "canonical_name": "12:30 hrs",
+          "entity_type": "DATE_TIME",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            19
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00009",
+          "canonical_name": "14:00 hrs",
+          "entity_type": "DATE_TIME",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            5
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788808658328-188783"
+          ]
+        },
+        {
+          "node_id": "CLU-00019",
+          "canonical_name": "IPC 120B",
+          "entity_type": "LEGAL_SECTION",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            26
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00018",
+          "canonical_name": "IPC 384",
+          "entity_type": "LEGAL_SECTION",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            25
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00020",
+          "canonical_name": "IPC 506",
+          "entity_type": "LEGAL_SECTION",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            27
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00017",
+          "canonical_name": "IT Act 43",
+          "entity_type": "LEGAL_SECTION",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            24
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00021",
+          "canonical_name": "IT Act Section 66A",
+          "entity_type": "LEGAL_SECTION",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            28
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00015",
+          "canonical_name": "Section 15G",
+          "entity_type": "LEGAL_SECTION",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            6
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788808658328-188783"
+          ]
+        },
+        {
+          "node_id": "CLU-00016",
+          "canonical_name": "Section 3",
+          "entity_type": "LEGAL_SECTION",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            7
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788808658328-188783"
+          ]
+        },
+        {
+          "node_id": "CLU-00035",
+          "canonical_name": "Lower Parel, Mumbai",
+          "entity_type": "LOCATION",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            16
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788808658328-188783"
+          ]
+        },
+        {
+          "node_id": "CLU-00006",
+          "canonical_name": "Rs. 2,00,00,000",
+          "entity_type": "MONEY_AMOUNT",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            18
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00007",
+          "canonical_name": "Rs. 2,00,00,000 in cryptocurrency",
+          "entity_type": "MONEY_AMOUNT",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            33
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        },
+        {
+          "node_id": "CLU-00003",
+          "canonical_name": "Rs. 5,00,00,000,000",
+          "entity_type": "MONEY_AMOUNT",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            2
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788808658328-188783"
+          ]
+        },
+        {
+          "node_id": "CLU-00004",
+          "canonical_name": "Rs. 50,00,000",
+          "entity_type": "MONEY_AMOUNT",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            3
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788808658328-188783"
+          ]
+        },
+        {
+          "node_id": "CLU-00005",
+          "canonical_name": "Rs. 50,00,000 via a decentralized exchange transaction ref. DEX-2026101588",
+          "entity_type": "MONEY_AMOUNT",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            13
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788808658328-188783"
+          ]
+        }
+      ],
+      "related_paths": [],
+      "query_time_ms": 484.8332405090332
+    }
   },
   {
     "query": "Who is Ananya Rao and what are they linked to?",
     "success": true,
-    "answer": "The entity 'Ananya Rao' is a PERSON with a confidence score of 1.00. It is associated with 1 source entities. It appears in 1 evidence sources.",
-    "confidence": 0.6,
-    "related_nodes_count": 1,
-    "related_nodes": [
-      {
-        "node_id": "CLU-00021",
-        "canonical_name": "Ananya Rao",
-        "entity_type": "PERSON",
-        "confidence": 1.0,
-        "source_count": 1,
-        "evidence_count": 1,
-        "source_entities": [
-          38
-        ],
-        "evidence_sources": [
-          "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08"
-        ]
-      }
-    ],
-    "related_paths": [],
-    "query_time_ms": 110.19253730773926
+    "answer": "Ananya Rao is a person with a high level of confidence. There is limited information available about them, but they are linked to a single source entity and appear in one evidence source, which is a generated image.",
+    "raw_graph_data": {
+      "answer": "The entity 'Ananya Rao' is a PERSON with a confidence score of 1.00. It is associated with 1 source entities. It appears in 1 evidence sources.",
+      "confidence": 0.6,
+      "supporting_evidence": [
+        "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+      ],
+      "related_nodes": [
+        {
+          "node_id": "CLU-00023",
+          "canonical_name": "Ananya Rao",
+          "entity_type": "PERSON",
+          "confidence": 1.0,
+          "source_count": 1,
+          "evidence_count": 1,
+          "source_entities": [
+            36
+          ],
+          "evidence_sources": [
+            "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08"
+          ]
+        }
+      ],
+      "related_paths": [],
+      "query_time_ms": 155.38287162780762
+    }
   }
 ]

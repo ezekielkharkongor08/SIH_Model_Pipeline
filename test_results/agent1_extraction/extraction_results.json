@@ -1,10 +1,10 @@
 [
   {
-    "evidence_id": "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788805756022-188783",
+    "evidence_id": "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788808658328-188783",
     "filename": "Gemini_Generated_Image_396qrl396qrl396q.png",
-    "entities_count": 12,
-    "triples_count": 5,
-    "execution_time_ms": 25903.65,
+    "entities_count": 16,
+    "triples_count": 9,
+    "execution_time_ms": 42784.22,
     "status": "SUCCESS",
     "entities": [
       {
@@ -40,56 +40,92 @@
         "entity_type": "PERSON"
       },
       {
-        "canonical_name": "Apex Pharmaceuticals stock",
-        "entity_type": "ORGANIZATION"
+        "canonical_name": "anomalous and highly aggressive short-selling of Apex Pharmaceuticals stock",
+        "entity_type": "UNKNOWN"
       },
       {
         "canonical_name": "Ananya Rao",
         "entity_type": "PERSON"
       },
       {
-        "canonical_name": "market panic",
+        "canonical_name": "short-selling using advanced algorithmic trades distributed across multiple proxy shell accounts",
         "entity_type": "UNKNOWN"
+      },
+      {
+        "canonical_name": "cyber attack to create the market panic necessary for her trades to succeed",
+        "entity_type": "UNKNOWN"
+      },
+      {
+        "canonical_name": "Rs. 50,00,000 via a decentralized exchange transaction ref. DEX-2026101588",
+        "entity_type": "MONEY_AMOUNT"
       },
       {
         "canonical_name": "Vikram Sethi",
         "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "server breach",
+        "entity_type": "UNKNOWN"
+      },
+      {
+        "canonical_name": "Lower Parel, Mumbai",
+        "entity_type": "LOCATION"
       }
     ],
     "triples": [
       {
         "subject": "Rajesh Khurana",
-        "predicate": "reported_anomalous_short_selling",
-        "object": "Apex Pharmaceuticals stock"
+        "predicate": "reported",
+        "object": "anomalous and highly aggressive short-selling of Apex Pharmaceuticals stock"
       },
       {
         "subject": "Ananya Rao",
-        "predicate": "orchestrated_short_selling",
-        "object": "Apex Pharmaceuticals stock"
+        "predicate": "orchestrated",
+        "object": "short-selling using advanced algorithmic trades distributed across multiple proxy shell accounts"
       },
       {
         "subject": "Ananya Rao",
-        "predicate": "funded_cyber_attack",
-        "object": "market panic"
+        "predicate": "funded",
+        "object": "cyber attack to create the market panic necessary for her trades to succeed"
       },
       {
         "subject": "Ananya Rao",
-        "predicate": "transferred_money_to",
-        "object": "Vikram Sethi"
+        "predicate": "transferred",
+        "object": "Rs. 50,00,000"
+      },
+      {
+        "subject": "Ananya Rao",
+        "predicate": "transferred",
+        "object": "Rs. 50,00,000 via a decentralized exchange transaction ref. DEX-2026101588"
       },
       {
         "subject": "Ananya Rao",
         "predicate": "works_with",
         "object": "Vikram Sethi"
+      },
+      {
+        "subject": "Vikram Sethi",
+        "predicate": "executed",
+        "object": "server breach"
+      },
+      {
+        "subject": "Ananya Rao",
+        "predicate": "located_at",
+        "object": "Lower Parel, Mumbai"
+      },
+      {
+        "subject": "Vikram Sethi",
+        "predicate": "located_at",
+        "object": "Lower Parel, Mumbai"
       }
     ]
   },
   {
-    "evidence_id": "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788805781946-524b08",
+    "evidence_id": "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08",
     "filename": "Gemini_Generated_Image_tkds5rtkds5rtkds.png",
-    "entities_count": 20,
-    "triples_count": 8,
-    "execution_time_ms": 30510.03,
+    "entities_count": 23,
+    "triples_count": 9,
+    "execution_time_ms": 38986.44,
     "status": "SUCCESS",
     "entities": [
       {
@@ -149,12 +185,16 @@
         "entity_type": "UNKNOWN"
       },
       {
-        "canonical_name": "encrypted email",
-        "entity_type": "UNKNOWN"
-      },
-      {
         "canonical_name": "DarkByte",
         "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "R&D",
+        "entity_type": "ORGANIZATION"
+      },
+      {
+        "canonical_name": "Rs. 2,00,00,000 in cryptocurrency",
+        "entity_type": "MONEY_AMOUNT"
       },
       {
         "canonical_name": "Vikram Sethi",
@@ -171,6 +211,14 @@
       {
         "canonical_name": "notorious corporate espionage and cyber-extortion syndicate",
         "entity_type": "ORGANIZATION"
+      },
+      {
+        "canonical_name": "Inspector Vikram Patil",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "case",
+        "entity_type": "UNKNOWN"
       }
     ],
     "triples": [
@@ -181,23 +229,23 @@
       },
       {
         "subject": "Dr. Arvind Patel",
-        "predicate": "received",
-        "object": "encrypted email"
-      },
-      {
-        "subject": "Dr. Arvind Patel",
-        "predicate": "received",
-        "object": "encrypted email"
-      },
-      {
-        "subject": "Dr. Arvind Patel",
-        "predicate": "contacted",
+        "predicate": "received_encrypted_email_from",
         "object": "DarkByte"
+      },
+      {
+        "subject": "Dr. Arvind Patel",
+        "predicate": "received_encrypted_email_from",
+        "object": "DarkByte"
+      },
+      {
+        "subject": "Dr. Arvind Patel",
+        "predicate": "directed",
+        "object": "R&D"
       },
       {
         "subject": "DarkByte",
         "predicate": "demanded",
-        "object": "Rs. 2,00,00,000"
+        "object": "Rs. 2,00,00,000 in cryptocurrency"
       },
       {
         "subject": "Vikram Sethi",
@@ -213,6 +261,11 @@
         "subject": "Vikram Sethi",
         "predicate": "associated_with",
         "object": "notorious corporate espionage and cyber-extortion syndicate"
+      },
+      {
+        "subject": "Inspector Vikram Patil",
+        "predicate": "investigating",
+        "object": "case"
       }
     ]
   }

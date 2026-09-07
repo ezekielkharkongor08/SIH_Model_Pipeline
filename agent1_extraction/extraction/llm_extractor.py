@@ -25,6 +25,7 @@ CRITICAL STRUCTURAL CONSTRAINTS:
 3. METADATA SEPARATION:
    - Move temporal markers (dates, times) to the "timestamp" field.
    - Move spatial markers (addresses, cities, coordinates) to the "location" field.
+   - Tag every triple with the 'source_document_id'.
    - DO NOT append metadata into entity names or predicates.
 
 4. ENTITY TYPING:
@@ -40,7 +41,8 @@ Output STRICTLY a JSON object matching this schema without preamble or conversat
       "object": "Clean Object Entity",
       "object_type": "ORGANIZATION",
       "timestamp": "Extracted Time String or null",
-      "location": "Extracted Location String or null"
+      "location": "Extracted Location String or null",
+      "source_document_id": "CURRENT_PROVIDED_ID"
     }
   ]
 }

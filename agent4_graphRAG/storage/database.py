@@ -6,6 +6,7 @@ Responsibility: Query knowledge graph from Neo4j and PostgreSQL for context retr
 import hashlib
 import json
 import time
+import httpx
 from typing import List, Dict, Optional, Tuple, Any
 from loguru import logger
 from neo4j import GraphDatabase
@@ -535,10 +536,65 @@ class GraphRAGRepository:
                     evidence.append(str(ev_id))
         return evidence[:10]  # Limit evidence list
 
-    def query_graph(self, query: GraphRAGQuery) -> GraphRAGResult:
+    def _classify_intent(self, query_text: str) -> Optional[str]:
+        q = query_text.lower()
+        if "where" in q: return "LOCATION"
+        if any(x in q for x in ["when", "what time"]): return "DATE_TIME"
+        if "who" in q: return "PERSON"
+        if any(x in q for x in ["money", "cost"]): return "MONEY_AMOUNT"
+        return None
+
+    def query_forensically(self, query_text: str, document_id: str) -> Dict[str, Any]:
+        # 1. Pre-query classification
+        intent_constraint = self._classify_intent(query_text)
+
+        # 2. Forensic search
+        # Note: get_graph_context takes GraphRAGQuery object
+        from agent4_graphRAG.models.schemas import GraphRAGQuery
+        query = GraphRAGQuery(
+            query=query_text,
+            max_results=10,
+            include_predictions=False
+        )
+        # Note: Document filtering needs full implementation in get_graph_context,
+        # but for now we retrieve data.
+        context_data = self.get_graph_context(query)
+        context_model = context_data["context"]
+
+        # 3. Synthesis Layer (Actual LLM Call)
+        synthesis = self._synthesize_natural_answer(query_text, context_model.dict())
+
+        # Return composite
+        return {
+            "answer": synthesis,
+            "raw_graph": context_model.dict()
+        }
+
+    def _synthesize_natural_answer(self, query: str, context: Dict) -> str:
+        # Final pass: The LLM is commanded to act as forensic analyst and hide JSON structure
+        prompt = f"""You are a forensic analyst. Answer the user prompt based on the provided Knowledge Graph data.
+
+        CRITICAL RULES:
+        1. NO JSON/METADATA: Do not mention nodes, edges, Confidence Scores, or IDs.
+        2. NATURAL LANGUAGE: Provide a plain, synthesized summary of facts based on the following KG data.
+
+        User Question: {query}
+        KG Data: {json.dumps(context)}
         """
-        Main interface for GraphRAG queries.
-        Returns a GraphRAGResult object.
-        """
-        result_dict = self.get_graph_context(query)
-        return result_dict["context"]
+
+        # Perform real LLM call
+        try:
+            with httpx.Client(timeout=60.0) as client:
+                response = client.post(
+                    f"{settings.NL_LLM_BASE_URL}/chat/completions",
+                    json={
+                        "model": settings.NL_LLM_MODEL_NAME,
+                        "messages": [{"role": "user", "content": prompt}],
+                        "temperature": 0.0,
+                    },
+                )
+                if response.status_code == 200:
+                    return response.json()["choices"][0]["message"]["content"].strip()
+                return f"Error from synthesis layer: {response.text}"
+        except Exception as e:
+            return f"Error during forensic synthesis: {str(e)}"

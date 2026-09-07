@@ -368,19 +368,20 @@ def run_agent4_graphrag():
         results = []
         for q in test_queries:
             try:
-                query = GraphRAGQuery(query=q, max_results=5, include_predictions=False)
-                result = repo.query_graph(query)
+                # Use new forensic query method if applicable, or keep query_graph
+                # query = GraphRAGQuery(query=q, max_results=5, include_predictions=False)
+                # result = repo.query_graph(query)
+                # For now using forensic approach as requested
+                forensic_result = repo.query_forensically(q, document_id="FIR-DOC-001")
 
                 results.append({
                     "query": q,
                     "success": True,
-                    "answer": result.answer if result.answer else "",
-                    "confidence": result.confidence,
-                    "related_nodes_count": len(result.related_nodes),
-                    "related_nodes": result.related_nodes,
-                    "related_paths": result.related_paths,
-                    "query_time_ms": result.query_time_ms
+                    "answer": forensic_result["answer"],
+                    "raw_graph_data": forensic_result["raw_graph"]
                 })
+
+
             except Exception as e:
                 results.append({
                     "query": q,

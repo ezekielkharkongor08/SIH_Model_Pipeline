@@ -78,6 +78,7 @@ class RawTripleItem(BaseModel):
   object_type: EntityType
   timestamp: Optional[str] = None
   location: Optional[str] = None
+  source_document_id: Optional[str] = None
 
 
 class RawLLMExtractionResponse(BaseModel):

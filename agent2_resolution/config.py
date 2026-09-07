@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     EMBED_DEVICE: str = "cpu"
 
     # Threshold matrix
-    MERGE_THRESHOLD: float = 0.95
+    MERGE_THRESHOLD: float = 0.80
     REVIEW_THRESHOLD: float = 0.70
     HAC_LINKAGE: str = "average"
 
