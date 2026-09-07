@@ -250,7 +250,7 @@ class ResolutionRepository:
     def find_similar_clusters(
         self,
         embedding: list[float],
-        entity_type: str = None,
+        entity_type: str | list[str] | None = None,
         top_k: int = 5,
         threshold: float = 0.80,
     ) -> list[tuple[str, str, float]]:
@@ -259,7 +259,7 @@ class ResolutionRepository:
 
         Args:
             embedding: 1024-dim BGE-m3 embedding (unit-norm)
-            entity_type: Optional filter by entity_type
+            entity_type: Optional filter by entity_type (single string or list of types)
             top_k: Max number of results
             threshold: Min similarity score (cosine similarity, 0-1)
 
@@ -270,7 +270,20 @@ class ResolutionRepository:
         try:
             # Format embedding as a Postgres-compatible string representation "[0.1, 0.2, ...]"
             vector_str = "[" + ",".join(map(str, embedding)) + "]"
-            type_filter = "AND entity_type = :entity_type" if entity_type else ""
+            params = {
+                "embedding": vector_str,
+                "threshold": threshold,
+                "top_k": top_k
+            }
+
+            type_filter = ""
+            if entity_type:
+                if isinstance(entity_type, list):
+                    type_filter = "AND entity_type = ANY(:entity_types)"
+                    params["entity_types"] = entity_type
+                else:
+                    type_filter = "AND entity_type = :entity_type"
+                    params["entity_type"] = entity_type
 
             # Use native pgvector cosine distance operator <=>
             # Cosine Similarity = 1 - Cosine Distance
@@ -283,14 +296,6 @@ class ResolutionRepository:
                 ORDER BY centroid_embedding <=> CAST(:embedding AS vector) ASC
                 LIMIT :top_k
             """)
-
-            params = {
-                "embedding": vector_str,
-                "threshold": threshold,
-                "top_k": top_k
-            }
-            if entity_type:
-                params["entity_type"] = entity_type
 
             result = session.execute(stmt, params)
             rows = result.fetchall()

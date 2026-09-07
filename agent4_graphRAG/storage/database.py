@@ -7,7 +7,7 @@ import hashlib
 import json
 import time
 import httpx
-from typing import List, Dict, Optional, Tuple, Any
+from typing import List, Dict, Optional, Tuple, Any, Union
 from loguru import logger
 from neo4j import GraphDatabase
 from agent4_graphRAG.config import settings
@@ -88,14 +88,6 @@ class GraphRAGRepository:
     ) -> Dict[str, Any]:
         """
         Retrieve relevant context from the knowledge graph based on the natural language query.
-
-        This is a simplified implementation that:
-        1. Extracts entities from the query using basic NLP
-        2. Finds related nodes in the graph
-        3. Retrieves paths between related nodes
-        4. Returns structured context for LLM processing
-
-        In a production system, you would use more sophisticated NLP and embedding-based retrieval.
         """
         start_time = time.time()
 
@@ -112,51 +104,71 @@ class GraphRAGRepository:
 
         try:
             with self.neo4j_driver.session() as session:
-                # Ponytail: Primary: Vector search using full query, Fallback: Keyword search
-                # Embed the full query (better than extracting terms which misses lowercase entities)
+                # 1. Intent & term extraction
+                intent_type = self._classify_intent(query.query)
+                query_terms = self._extract_query_terms(query.query)
+
+                # 2. Vector search using BGE-m3 and pgvector
                 query_embedding = self.embedder.embed(query.query).tolist()
                 similar_clusters = self.resolution_repo.find_similar_clusters(
                     embedding=query_embedding,
+                    entity_type=intent_type,
                     threshold=settings.SIMILARITY_THRESHOLD,
                     top_k=settings.TOP_K_RESULTS
                 )
+
+                if not similar_clusters and intent_type:
+                    similar_clusters = self.resolution_repo.find_similar_clusters(
+                        embedding=query_embedding,
+                        threshold=settings.SIMILARITY_THRESHOLD,
+                        top_k=settings.TOP_K_RESULTS
+                    )
+
                 logger.info(f"Vector search returned {len(similar_clusters)} clusters for query '{query.query}'")
 
+                matching_nodes = []
                 if similar_clusters:
-                    # Deduplicate by node_id
                     nodes_map = {c[0]: c[1] for c in similar_clusters}
                     matching_nodes = [{"node_id": nid, "canonical_name": name} for nid, name in nodes_map.items()]
-                else:
-                    # Fallback to simple keyword extraction if vector search fails
-                    query_terms = self._extract_query_terms(query.query)
 
-                    # Detect intent
-                    entity_type = None
-                    query_lower = query.query.lower()
-                    if any(w in query_lower for w in ["who", "person", "man", "woman"]):
-                        entity_type = "PERSON"
-                    elif any(w in query_lower for w in ["where", "location", "place"]):
-                        entity_type = "LOCATION"
-                    elif any(w in query_lower for w in ["organization", "org", "company"]):
-                        entity_type = "ORGANIZATION"
-                    elif any(w in query_lower for w in ["vehicle", "car", "truck"]):
-                        entity_type = "VEHICLE"
-
-                    # If intent detected, clear keyword terms to avoid restrictive matching if intent is broad
-                    if entity_type and len(query_terms) <= 1:
-                        query_terms = []
-
-                    matching_nodes = self._find_matching_nodes(
+                # 3. Keyword / Intent search fallback & complement
+                if len(matching_nodes) < 3:
+                    keyword_nodes = self._find_matching_nodes(
                         session,
                         query_terms,
                         query.run_id,
                         query.include_predictions,
-                        entity_type=entity_type
+                        entity_type=intent_type
+                    )
+                    existing_ids = {n["node_id"] for n in matching_nodes}
+                    for kn in keyword_nodes:
+                        if kn["node_id"] not in existing_ids:
+                            matching_nodes.append(kn)
+                            existing_ids.add(kn["node_id"])
+
+                # If still empty and intent exists, fetch nodes of that entity_type
+                if not matching_nodes and intent_type:
+                    matching_nodes = self._find_matching_nodes(
+                        session,
+                        [],
+                        query.run_id,
+                        query.include_predictions,
+                        entity_type=intent_type
+                    )
+
+                # If still empty for broad query, fetch top entities
+                if not matching_nodes:
+                    matching_nodes = self._find_matching_nodes(
+                        session,
+                        [],
+                        query.run_id,
+                        query.include_predictions,
+                        entity_type=None
                     )
 
                 logger.info(f"Retrieved {len(matching_nodes)} matching nodes for query: {query.query}")
 
-                # Get paths between matching nodes
+                # 4. Get paths and direct neighborhood relationships
                 paths = self._find_paths_between_nodes(
                     session,
                     matching_nodes,
@@ -165,19 +177,26 @@ class GraphRAGRepository:
                     max_length=settings.MAX_PATH_LENGTH
                 )
 
-                logger.info(f"Found {len(paths)} paths between matching nodes")
+                logger.info(f"Found {len(paths)} paths/triples between matching nodes")
 
-                # Get detailed node information
+                # Collect all node IDs involved in matches and paths
+                all_node_ids = set(n["node_id"] for n in matching_nodes)
+                for p in paths:
+                    for n in p.get("nodes", []):
+                        if n.get("node_id"):
+                            all_node_ids.add(n["node_id"])
+
+                # 5. Get detailed node information with cluster IDs and metadata
                 node_details = self._get_node_details(
                     session,
-                    [n["node_id"] for n in matching_nodes],
+                    list(all_node_ids),
                     query.run_id,
                     query.include_predictions
                 )
 
                 logger.info(f"Found {len(node_details)} node details")
 
-                # Generate natural language answer using LLM (simplified)
+                # 6. Generate answer
                 answer, confidence = self._generate_answer(
                     query.query,
                     node_details,
@@ -214,7 +233,6 @@ class GraphRAGRepository:
 
         except Exception as e:
             logger.error(f"GraphRAG query failed: {e}")
-            # Return a fallback result
             return {
                 "query": query,
                 "context": GraphRAGResult(
@@ -266,7 +284,7 @@ class GraphRAGRepository:
         query_terms: List[str],
         run_id: Optional[str],
         include_predictions: bool,
-        entity_type: Optional[str] = None
+        entity_type: Optional[Union[str, List[str]]] = None
     ) -> List[Dict[str, Any]]:
         """Find nodes in the graph that match the query terms."""
 
@@ -277,20 +295,24 @@ class GraphRAGRepository:
             term_conditions = []
             for i, term in enumerate(query_terms):
                 param_name = f"term_{i}"
-                term_conditions.append(f"toLower(n.canonical_name) CONTAINS toLOWER(${param_name})")
+                term_conditions.append(f"toLower(n.canonical_name) CONTAINS toLower(${param_name})")
                 params[param_name] = term
             conditions.append(f"({' OR '.join(term_conditions)})")
 
         if entity_type:
-            conditions.append("n.entity_type = $entity_type")
-            params["entity_type"] = entity_type
+            if isinstance(entity_type, list):
+                conditions.append("n.entity_type IN $entity_types")
+                params["entity_types"] = entity_type
+            else:
+                conditions.append("n.entity_type = $entity_type")
+                params["entity_type"] = entity_type
 
         if run_id:
             conditions.append("n.graph_id = $run_id")
             params["run_id"] = run_id
 
         if not include_predictions:
-            conditions.append("NOT EXISTS { (n)-[r:RELATION]->() WHERE r.is_predicted = true }")
+            conditions.append("NOT EXISTS { (n)-[r]->() WHERE r.is_predicted = true }")
 
         where_clause = " AND ".join(conditions) if conditions else "1=1"
 
@@ -301,8 +323,8 @@ class GraphRAGRepository:
                        n.canonical_name as canonical_name,
                        n.entity_type as entity_type,
                        n.confidence as confidence,
-                       n.source_entity_count as source_count,
-                       n.evidence_count as evidence_count
+                       coalesce(n.source_doc_ids, []) as source_entities,
+                       coalesce(n.evidence_ids, []) as evidence_sources
         LIMIT 20
         """
 
@@ -316,6 +338,8 @@ class GraphRAGRepository:
         except Exception as e:
             logger.warning(f"Node matching failed: {e}")
             return []
+            logger.warning(f"Node matching failed: {e}")
+            return []
 
     def _find_paths_between_nodes(
         self,
@@ -324,75 +348,117 @@ class GraphRAGRepository:
         run_id: Optional[str],
         include_predictions: bool,
         max_length: int = 3
-    ) -> List[List[Dict[str, Any]]]:
-        """Find paths between matching nodes in the graph."""
-        if len(nodes) < 2:
+    ) -> List[Dict[str, Any]]:
+        """Find paths and direct relationships between matching nodes in the graph."""
+        if not nodes:
             return []
 
         paths = []
         node_ids = list(dict.fromkeys(node["node_id"] for node in nodes))
 
-        # For each pair of nodes, find paths between them
-        for i in range(len(node_ids)):
-            for j in range(i + 1, len(node_ids)):
-                source_id = node_ids[i]
-                target_id = node_ids[j]
+        # 1. Multi-node shortest paths
+        if len(node_ids) >= 2:
+            for i in range(len(node_ids)):
+                for j in range(i + 1, len(node_ids)):
+                    source_id = node_ids[i]
+                    target_id = node_ids[j]
 
-                # Explicitly skip same-node paths
-                if source_id == target_id:
-                    continue
+                    if source_id == target_id:
+                        continue
 
-                # Build run filter
-                run_filter = ""
-                if run_id:
-                    run_filter = "AND n.graph_id = $run_id AND m.graph_id = $run_id"
+                    run_filter = ""
+                    if run_id:
+                        run_filter = "AND n.graph_id = $run_id AND m.graph_id = $run_id"
 
-                # Filter predicted relationships for shortestPath
-                # Note: shortestPath does not support filtering inside []
-                pred_filter = ""
-                if not include_predictions:
-                    pred_filter = "AND ALL(r IN relationships(path) WHERE NOT r.is_predicted)"
+                    pred_filter = ""
+                    if not include_predictions:
+                        pred_filter = "AND ALL(r IN relationships(path) WHERE NOT r.is_predicted)"
 
-                cypher = f"""
-                MATCH (n:Entity {{node_id: $source_id}})
-                MATCH (m:Entity {{node_id: $target_id}})
-                MATCH path = shortestPath((n)-[:RELATION*..{max_length}]-(m))
-                WHERE length(path) <= $max_length
-                {run_filter}
-                {pred_filter}
-                RETURN [node IN nodes(path) | {{
-                    node_id: node.node_id,
-                    canonical_name: node.canonical_name,
-                    entity_type: node.entity_type
-                }}] AS node_path,
-                [rel IN relationships(path) | {{
-                    predicate: rel.predicate,
-                    confidence: rel.confidence,
-                    is_predicted: rel.is_predicted
-                }}] AS rel_path
-                LIMIT 5
-                """
+                    cypher = f"""
+                    MATCH (n:Entity {{node_id: $source_id}})
+                    MATCH (m:Entity {{node_id: $target_id}})
+                    MATCH path = shortestPath((n)-[*..{max_length}]-(m))
+                    WHERE length(path) <= $max_length
+                    {run_filter}
+                    {pred_filter}
+                    RETURN [node IN nodes(path) | {{
+                        node_id: node.node_id,
+                        canonical_name: node.canonical_name,
+                        entity_type: node.entity_type
+                    }}] AS node_path,
+                    [rel IN relationships(path) | {{
+                        predicate: type(rel),
+                        confidence: rel.confidence,
+                        is_predicted: rel.is_predicted
+                    }}] AS rel_path
+                    LIMIT 5
+                    """
 
-                try:
-                    result = session.run(
-                        cypher,
-                        source_id=source_id,
-                        target_id=target_id,
-                        max_length=max_length,
-                        run_id=run_id
-                    )
+                    try:
+                        result = session.run(
+                            cypher,
+                            source_id=source_id,
+                            target_id=target_id,
+                            max_length=max_length,
+                            run_id=run_id
+                        )
 
-                    for record in result:
-                        path_data = {
-                            "nodes": record["node_path"],
-                            "relationships": record["rel_path"],
-                            "source": node_ids[i],
-                            "target": node_ids[j]
-                        }
-                        paths.append(path_data)
+                        for record in result:
+                            path_data = {
+                                "nodes": record["node_path"],
+                                "relationships": record["rel_path"],
+                                "source": node_ids[i],
+                                "target": node_ids[j]
+                            }
+                            paths.append(path_data)
 
-                except Exception as e:
-                    logger.warning(f"Path finding failed between {source_id} and {target_id}: {e}")
+                    except Exception as e:
+                        logger.warning(f"Path finding failed between {source_id} and {target_id}: {e}")
+
+        # 2. Neighborhood 1-hop expansion (vital for single entity queries or disconnected nodes)
+        if len(paths) < 3 and node_ids:
+            run_filter = "AND n.graph_id = $run_id AND m.graph_id = $run_id" if run_id else ""
+            pred_filter = "AND (r.is_predicted IS NULL OR r.is_predicted = false)" if not include_predictions else ""
+
+            cypher_1hop = f"""
+            MATCH (n:Entity)-[r]-(m:Entity)
+            WHERE n.node_id IN $node_ids
+            {run_filter}
+            {pred_filter}
+            RETURN n.node_id AS s_id, n.canonical_name AS s_name, n.entity_type AS s_type,
+                   type(r) AS predicate, r.confidence AS confidence, r.is_predicted AS is_predicted,
+                   m.node_id AS t_id, m.canonical_name AS t_name, m.entity_type AS t_type,
+                   startNode(r) = n AS is_outgoing
+            LIMIT 25
+            """
+            try:
+                result_1hop = session.run(cypher_1hop, node_ids=node_ids, run_id=run_id)
+                seen_edges = set()
+                for rec in result_1hop:
+                    s_id = rec["s_id"] if rec["is_outgoing"] else rec["t_id"]
+                    t_id = rec["t_id"] if rec["is_outgoing"] else rec["s_id"]
+                    s_name = rec["s_name"] if rec["is_outgoing"] else rec["t_name"]
+                    t_name = rec["t_name"] if rec["is_outgoing"] else rec["s_name"]
+                    s_type = rec["s_type"] if rec["is_outgoing"] else rec["t_type"]
+                    t_type = rec["t_type"] if rec["is_outgoing"] else rec["s_type"]
+                    predicate = rec["predicate"]
+
+                    edge_sig = (s_id, predicate, t_id)
+                    if edge_sig not in seen_edges:
+                        seen_edges.add(edge_sig)
+                        paths.append({
+                            "source": s_id,
+                            "target": t_id,
+                            "nodes": [
+                                {"node_id": s_id, "canonical_name": s_name, "entity_type": s_type},
+                                {"node_id": t_id, "canonical_name": t_name, "entity_type": t_type}
+                            ],
+                            "relationships": [
+                                {"predicate": predicate, "confidence": rec["confidence"], "is_predicted": rec["is_predicted"]}
+                            ]
+                        })
+            except Exception as e:
+                logger.warning(f"1-hop neighborhood retrieval failed: {e}")
 
         return paths
 
@@ -412,27 +478,16 @@ class GraphRAGRepository:
         if run_id:
             run_filter = "AND n.graph_id = $run_id"
 
-        pred_filter = ""
-        if not include_predictions:
-            pred_filter = "AND NOT EXISTS { (n)-[r:RELATION]->() WHERE r.is_predicted = true }"
-
         cypher = f"""
         MATCH (n:Entity)
         WHERE n.node_id IN $node_ids
         {run_filter}
-        {pred_filter}
-        OPTIONAL MATCH (n)-[:HAS_SOURCE_ENTITY]->(se:SourceEntity)
-        WITH n, collect(DISTINCT se.entity_id) as source_ids
-        OPTIONAL MATCH (n)-[:HAS_EVIDENCE]->(ev:Evidence)
-        WITH n, source_ids, collect(DISTINCT ev.evidence_id) as evidence_ids
         RETURN n.node_id as node_id,
                n.canonical_name as canonical_name,
                n.entity_type as entity_type,
                n.confidence as confidence,
-               n.source_entity_count as source_count,
-               n.evidence_count as evidence_count,
-               source_ids as source_entities,
-               evidence_ids as evidence_sources
+               coalesce(n.source_doc_ids, []) as source_entities,
+               coalesce(n.evidence_ids, []) as evidence_sources
         """
 
         try:
@@ -445,8 +500,8 @@ class GraphRAGRepository:
             nodes = []
             for record in result:
                 node_data = dict(record)
-                node_data["source_entities"] = list(set([x for x in node_data["source_entities"] if x is not None]))
-                node_data["evidence_sources"] = list(set([x for x in node_data["evidence_sources"] if x is not None]))
+                node_data["source_entities"] = list(set([x for x in node_data.get("source_entities", []) if x is not None]))
+                node_data["evidence_sources"] = list(set([x for x in node_data.get("evidence_sources", []) if x is not None]))
                 nodes.append(node_data)
 
             return nodes
@@ -461,9 +516,8 @@ class GraphRAGRepository:
         paths: List[Dict[str, Any]]
     ) -> Tuple[str, float]:
         """
-        Generate a natural language answer based on the retrieved context.
-        This is a simplified template-based approach.
-        In production, you would use an LLM to generate the answer.
+        Generate a detailed natural language summary and connection report
+        including cluster IDs, node IDs, and all connected triples.
         """
         if not node_details:
             return (
@@ -471,58 +525,39 @@ class GraphRAGRepository:
                 0.1
             )
 
-        # Simple template-based answer generation
-        if len(node_details) == 1:
-            node = node_details[0]
-            answer = f"The entity '{node['canonical_name']}' is a {node['entity_type']} "
-            answer += f"with a confidence score of {node['confidence']:.2f}. "
+        lines = []
 
-            if node["source_entities"]:
-                answer += f"It is associated with {len(node['source_entities'])} source entities. "
+        # 1. Entity summary with Cluster / Node IDs
+        lines.append(f"Found {len(node_details)} relevant entities in the Knowledge Graph:")
+        for node in node_details:
+            cid = node.get("node_id", "N/A")
+            etype = node.get("entity_type", "UNKNOWN")
+            cname = node.get("canonical_name", "UNKNOWN")
+            conf = node.get("confidence", 1.0)
+            lines.append(f"  • {cname} (Type: {etype}, Node/Cluster ID: {cid}, Confidence: {conf:.2f})")
 
-            if node["evidence_sources"]:
-                answer += f"It appears in {len(node['evidence_sources'])} evidence sources."
+        # 2. Connection and Triple Evidence
+        if paths:
+            lines.append("\nConnected Graph Triples & Relationships:")
+            seen_triples = set()
+            for path in paths:
+                p_nodes = path.get("nodes", [])
+                p_rels = path.get("relationships", [])
+                for idx, rel in enumerate(p_rels):
+                    if idx < len(p_nodes) - 1:
+                        src = p_nodes[idx]
+                        tgt = p_nodes[idx + 1]
+                        pred = rel.get("predicate", "CONNECTED_TO")
+                        triple_key = (src.get("node_id"), pred, tgt.get("node_id"))
+                        if triple_key not in seen_triples:
+                            seen_triples.add(triple_key)
+                            lines.append(
+                                f"  • [{src.get('canonical_name')} (ID: {src.get('node_id')})] "
+                                f"--[{pred}]--> [{tgt.get('canonical_name')} (ID: {tgt.get('node_id')})]"
+                            )
 
-            confidence = min(0.9, 0.5 + len(node["evidence_sources"]) * 0.1)
-
-        else:
-            answer = f"I found {len(node_details)} relevant entities: "
-            entity_names = [node["canonical_name"] for node in node_details[:3]]
-            answer += ", ".join(entity_names)
-            if len(node_details) > 3:
-                answer += f" and {len(node_details) - 3} more"
-            answer += ". "
-
-            if paths:
-                answer += f"There are {len(paths)} paths connecting these entities in the knowledge graph. "
-
-            confidence = min(0.8, 0.4 + len(node_details) * 0.1 + len(paths) * 0.05)
-
-        # Add path information if available
-        if paths and len(paths) > 0:
-            answer += "\n\nKey connections (Rich Path Data):"
-            for i, path in enumerate(paths[:3]):  # Show top 3 paths
-                node_names = [n["canonical_name"] for n in path["nodes"]]
-                rel_types = [r["predicate"] for r in path["relationships"]]
-
-                path_str = " -> ".join([
-                    f"{node_names[0]} (Type: {path['nodes'][0]['entity_type']}, ID: {path['nodes'][0]['node_id']})",
-                    *[f"[{rel_types[j]}] -> {node_names[j+1]} (Type: {path['nodes'][j+1]['entity_type']}, ID: {path['nodes'][j+1]['node_id']})" for j in range(len(rel_types))]
-                ])
-                answer += f"\n{i+1}. {path_str}"
-
-            # Append structured details
-            answer += "\n\nDetailed Connections (Triple Evidence):"
-            for path in paths[:3]:
-                # Collect connected triples
-                connections = []
-                for j in range(len(path['relationships'])):
-                    conn_str = f"{path['nodes'][j]['canonical_name']} -> {path['relationships'][j]['predicate']} -> {path['nodes'][j+1]['canonical_name']}"
-                    connections.append(conn_str)
-
-                answer += f"\n- {path['source']}->{path['target']}: " + "; ".join(connections)
-
-        return answer, min(confidence, 0.95)
+        confidence = min(0.95, 0.4 + len(node_details) * 0.05 + len(paths) * 0.05)
+        return "\n".join(lines), confidence
 
     def _extract_supporting_evidence(
         self,
@@ -536,12 +571,22 @@ class GraphRAGRepository:
                     evidence.append(str(ev_id))
         return evidence[:10]  # Limit evidence list
 
-    def _classify_intent(self, query_text: str) -> Optional[str]:
+    def _classify_intent(self, query_text: str) -> Optional[Union[str, List[str]]]:
         q = query_text.lower()
-        if "where" in q: return "LOCATION"
-        if any(x in q for x in ["when", "what time"]): return "DATE_TIME"
-        if "who" in q: return "PERSON"
-        if any(x in q for x in ["money", "cost"]): return "MONEY_AMOUNT"
+        if "where" in q or "location" in q or "place" in q:
+            return "LOCATION"
+        if any(x in q for x in ["when", "what time", "date", "time", "hour"]):
+            return "DATE_TIME"
+        if "who" in q or "person" in q or "people" in q or "suspect" in q:
+            return ["PERSON", "ORGANIZATION"]
+        if any(x in q for x in ["organization", "company", "bank", "exchange", "syndicate"]):
+            return "ORGANIZATION"
+        if any(x in q for x in ["money", "cost", "amount", "extort", "profit", "transfer", "financial", "rupees", "rs."]):
+            return ["MONEY_AMOUNT", "TRANSACTION_ID"]
+        if any(x in q for x in ["vehicle", "car", "bike", "truck"]):
+            return "IDENTIFIER"
+        if any(x in q for x in ["section", "act", "ipc", "law", "charge"]):
+            return "LEGAL_SECTION"
         return None
 
     def query_forensically(self, query_text: str, document_id: str) -> Dict[str, Any]:
@@ -549,40 +594,47 @@ class GraphRAGRepository:
         intent_constraint = self._classify_intent(query_text)
 
         # 2. Forensic search
-        # Note: get_graph_context takes GraphRAGQuery object
         from agent4_graphRAG.models.schemas import GraphRAGQuery
         query = GraphRAGQuery(
             query=query_text,
-            max_results=10,
+            max_results=15,
             include_predictions=False
         )
-        # Note: Document filtering needs full implementation in get_graph_context,
-        # but for now we retrieve data.
         context_data = self.get_graph_context(query)
         context_model = context_data["context"]
 
-        # 3. Synthesis Layer (Actual LLM Call)
-        synthesis = self._synthesize_natural_answer(query_text, context_model.dict())
+        # 3. Generate structured connections
+        structured_summary = context_model.answer
+
+        # 4. Synthesis Layer (Forensic LLM Analysis)
+        synthesis = self._synthesize_natural_answer(query_text, context_model.dict(), structured_summary)
 
         # Return composite
         return {
             "answer": synthesis,
+            "structured_connections": structured_summary,
             "raw_graph": context_model.dict()
         }
 
-    def _synthesize_natural_answer(self, query: str, context: Dict) -> str:
-        # Final pass: The LLM is commanded to act as forensic analyst and hide JSON structure
-        prompt = f"""You are a forensic analyst. Answer the user prompt based on the provided Knowledge Graph data.
+    def _synthesize_natural_answer(self, query: str, context: Dict, structured_summary: str = "") -> str:
+        prompt = f"""You are a senior forensic data extraction and intelligence analyst investigating First Information Reports (FIRs).
+Analyze the provided Knowledge Graph data to provide a comprehensive, rigorous forensic investigative report answering the user's query.
 
-        CRITICAL RULES:
-        1. NO JSON/METADATA: Do not mention nodes, edges, Confidence Scores, or IDs.
-        2. NATURAL LANGUAGE: Provide a plain, synthesized summary of facts based on the following KG data.
+CRITICAL INSTRUCTIONS:
+1. EXECUTIVE SUMMARY: Direct, clear narrative explaining the facts answering the question.
+2. DETAILED ENTITY CONNECTIONS: Detail all mentioned entities, their roles, and explicitly explain how they are connected to each other (e.g. fund transfers, cyber intrusions, orchestrations, employment, conspiracies).
+3. TRIPLE & PROVENANCE CITATIONS: Include the specific Knowledge Graph triples [Subject] -> [Predicate] -> [Object] and mention the relevant Database Node/Cluster IDs (e.g., CLU-..., FIR_1102_2026) for auditability.
+4. ZERO HALLUCINATION: Only use facts, dates, amounts, locations, and relationships present in the provided KG context.
 
-        User Question: {query}
-        KG Data: {json.dumps(context)}
-        """
+User Query: {query}
 
-        # Perform real LLM call
+Knowledge Graph Triples & Structured Context:
+{structured_summary}
+
+Raw Graph Context:
+{json.dumps(context, indent=2)}
+"""
+
         try:
             with httpx.Client(timeout=60.0) as client:
                 response = client.post(
@@ -595,6 +647,6 @@ class GraphRAGRepository:
                 )
                 if response.status_code == 200:
                     return response.json()["choices"][0]["message"]["content"].strip()
-                return f"Error from synthesis layer: {response.text}"
+                return f"{structured_summary}\n\n(Synthesis status: {response.status_code})"
         except Exception as e:
-            return f"Error during forensic synthesis: {str(e)}"
+            return f"{structured_summary}\n\n(Forensic synthesis note: {str(e)})"

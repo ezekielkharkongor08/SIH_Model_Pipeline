@@ -1,0 +1,218 @@
+[
+  {
+    "subject": "FIR_1102_2026",
+    "subject_type": "IDENTIFIER",
+    "predicate": "filed_at",
+    "object": "Economic Offences Wing",
+    "object_type": "ORGANIZATION",
+    "doc_id": "FIR_1102_2026",
+    "source_document_id": "FIR_1102_2026"
+  },
+  {
+    "subject": "FIR_1102_2026",
+    "subject_type": "IDENTIFIER",
+    "predicate": "date_of_filing",
+    "object": "17 October 2026",
+    "object_type": "DATE_TIME",
+    "doc_id": "FIR_1102_2026",
+    "source_document_id": "FIR_1102_2026"
+  },
+  {
+    "subject": "FIR_1102_2026",
+    "subject_type": "IDENTIFIER",
+    "predicate": "time_of_filing",
+    "object": "10:15 hrs",
+    "object_type": "DATE_TIME",
+    "doc_id": "FIR_1102_2026",
+    "source_document_id": "FIR_1102_2026"
+  },
+  {
+    "subject": "FIR_1102_2026",
+    "subject_type": "IDENTIFIER",
+    "predicate": "investigated_by",
+    "object": "Inspector Sanjay Gupta",
+    "object_type": "PERSON",
+    "doc_id": "FIR_1102_2026",
+    "source_document_id": "FIR_1102_2026"
+  },
+  {
+    "subject": "Rajesh Khurana",
+    "subject_type": "PERSON",
+    "predicate": "has_role",
+    "object": "Complainant",
+    "object_type": "IDENTIFIER",
+    "doc_id": "FIR_1102_2026",
+    "source_document_id": "FIR_1102_2026"
+  },
+  {
+    "subject": "Rajesh Khurana",
+    "subject_type": "PERSON",
+    "predicate": "child_of",
+    "object": "V. Khurana",
+    "object_type": "PERSON",
+    "doc_id": "FIR_1102_2026",
+    "source_document_id": "FIR_1102_2026"
+  },
+  {
+    "subject": "Rajesh Khurana",
+    "subject_type": "PERSON",
+    "predicate": "employed_as",
+    "object": "Senior Compliance Officer",
+    "object_type": "IDENTIFIER",
+    "doc_id": "FIR_1102_2026",
+    "source_document_id": "FIR_1102_2026"
+  },
+  {
+    "subject": "Rajesh Khurana",
+    "subject_type": "PERSON",
+    "predicate": "works_at",
+    "object": "Bombay Stock Exchange",
+    "object_type": "ORGANIZATION",
+    "doc_id": "FIR_1102_2026",
+    "source_document_id": "FIR_1102_2026"
+  },
+  {
+    "subject": "Rajesh Khurana",
+    "subject_type": "PERSON",
+    "predicate": "contact_number",
+    "object": "9988776655",
+    "object_type": "PHONE_NUMBER",
+    "doc_id": "FIR_1102_2026",
+    "source_document_id": "FIR_1102_2026"
+  },
+  {
+    "subject": "Ananya Rao",
+    "subject_type": "PERSON",
+    "predicate": "has_role",
+    "object": "Suspect",
+    "object_type": "IDENTIFIER",
+    "doc_id": "FIR_1102_2026",
+    "source_document_id": "FIR_1102_2026"
+  },
+  {
+    "subject": "Ananya Rao",
+    "subject_type": "PERSON",
+    "predicate": "profession",
+    "object": "Independent Financial Analyst",
+    "object_type": "IDENTIFIER",
+    "doc_id": "FIR_1102_2026",
+    "source_document_id": "FIR_1102_2026"
+  },
+  {
+    "subject": "Ananya Rao",
+    "subject_type": "PERSON",
+    "predicate": "located_in",
+    "object": "Lower Parel, Mumbai",
+    "object_type": "LOCATION",
+    "doc_id": "FIR_1102_2026",
+    "source_document_id": "FIR_1102_2026"
+  },
+  {
+    "subject": "Ananya Rao",
+    "subject_type": "PERSON",
+    "predicate": "orchestrated",
+    "object": "Short-selling of Apex Pharmaceuticals stock",
+    "object_type": "EVENT",
+    "doc_id": "FIR_1102_2026",
+    "source_document_id": "FIR_1102_2026"
+  },
+  {
+    "subject": "Ananya Rao",
+    "subject_type": "PERSON",
+    "predicate": "used_tool",
+    "object": "Advanced algorithmic trades",
+    "object_type": "IDENTIFIER",
+    "doc_id": "FIR_1102_2026",
+    "source_document_id": "FIR_1102_2026"
+  },
+  {
+    "subject": "Ananya Rao",
+    "subject_type": "PERSON",
+    "predicate": "utilized",
+    "object": "Multiple proxy shell accounts",
+    "object_type": "IDENTIFIER",
+    "doc_id": "FIR_1102_2026",
+    "source_document_id": "FIR_1102_2026"
+  },
+  {
+    "subject": "Ananya Rao",
+    "subject_type": "PERSON",
+    "predicate": "gained_profit",
+    "object": "Rs. 5,00,00,000",
+    "object_type": "MONEY_AMOUNT",
+    "doc_id": "FIR_1102_2026",
+    "source_document_id": "FIR_1102_2026"
+  },
+  {
+    "subject": "Ananya Rao",
+    "subject_type": "PERSON",
+    "predicate": "funded",
+    "object": "Ransomware attack on Apex Pharmaceuticals",
+    "object_type": "EVENT",
+    "doc_id": "FIR_1102_2026",
+    "source_document_id": "FIR_1102_2026"
+  },
+  {
+    "subject": "Vikram Sethi",
+    "subject_type": "PERSON",
+    "predicate": "has_role",
+    "object": "Suspect",
+    "object_type": "IDENTIFIER",
+    "doc_id": "FIR_1102_2026",
+    "source_document_id": "FIR_1102_2026"
+  },
+  {
+    "subject": "Vikram Sethi",
+    "subject_type": "PERSON",
+    "predicate": "located_in",
+    "object": "Lower Parel, Mumbai",
+    "object_type": "LOCATION",
+    "doc_id": "FIR_1102_2026",
+    "source_document_id": "FIR_1102_2026"
+  },
+  {
+    "subject": "Vikram Sethi",
+    "subject_type": "PERSON",
+    "predicate": "executed",
+    "object": "Server breach",
+    "object_type": "EVENT",
+    "doc_id": "FIR_1102_2026",
+    "source_document_id": "FIR_1102_2026"
+  },
+  {
+    "subject": "Ananya Rao",
+    "subject_type": "PERSON",
+    "predicate": "transferred_money_to",
+    "object": "Vikram Sethi",
+    "object_type": "PERSON",
+    "doc_id": "FIR_1102_2026",
+    "source_document_id": "FIR_1102_2026"
+  },
+  {
+    "subject": "Money Transfer",
+    "subject_type": "TRANSACTION_ID",
+    "predicate": "amount",
+    "object": "Rs. 50,00,000",
+    "object_type": "MONEY_AMOUNT",
+    "doc_id": "FIR_1102_2026",
+    "source_document_id": "FIR_1102_2026"
+  },
+  {
+    "subject": "Money Transfer",
+    "subject_type": "TRANSACTION_ID",
+    "predicate": "transaction_reference",
+    "object": "DEX-2026101588",
+    "object_type": "TRANSACTION_ID",
+    "doc_id": "FIR_1102_2026",
+    "source_document_id": "FIR_1102_2026"
+  },
+  {
+    "subject": "Money Transfer",
+    "subject_type": "TRANSACTION_ID",
+    "predicate": "date",
+    "object": "15 October 2026",
+    "object_type": "DATE_TIME",
+    "doc_id": "FIR_1102_2026",
+    "source_document_id": "FIR_1102_2026"
+  }
+]

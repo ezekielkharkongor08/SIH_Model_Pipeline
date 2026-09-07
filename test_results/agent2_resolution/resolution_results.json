@@ -1,10 +1,10 @@
 {
-  "run_id": "RES-3D171777",
-  "total_mentions": 39,
-  "total_clusters": 37,
-  "total_triples": 10,
-  "pending_review_count": 21,
-  "execution_time_ms": 3202.37,
+  "run_id": "RES-8C4DA8A0",
+  "total_mentions": 64,
+  "total_clusters": 54,
+  "total_triples": 29,
+  "pending_review_count": 25,
+  "execution_time_ms": 4477.53,
   "status": "SUCCESS",
   "clusters": [
     {
@@ -69,12 +69,12 @@
     },
     {
       "cluster_id": "CLU-00007",
-      "canonical_name": "Rs. 2,00,00,000 in cryptocurrency",
+      "canonical_name": "Rs. 5,00,00,000",
       "entity_type": "MONEY_AMOUNT",
       "member_count": 1,
       "avg_similarity": 1.0,
       "members": [
-        "Rs. 2,00,00,000 in cryptocurrency"
+        "Rs. 5,00,00,000"
       ]
     },
     {
@@ -149,6 +149,26 @@
     },
     {
       "cluster_id": "CLU-00015",
+      "canonical_name": "17 October 2026",
+      "entity_type": "DATE_TIME",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "17 October 2026"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00016",
+      "canonical_name": "15 October 2026",
+      "entity_type": "DATE_TIME",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "15 October 2026"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00017",
       "canonical_name": "Section 15G",
       "entity_type": "LEGAL_SECTION",
       "member_count": 1,
@@ -158,7 +178,7 @@
       ]
     },
     {
-      "cluster_id": "CLU-00016",
+      "cluster_id": "CLU-00018",
       "canonical_name": "Section 3",
       "entity_type": "LEGAL_SECTION",
       "member_count": 1,
@@ -168,7 +188,7 @@
       ]
     },
     {
-      "cluster_id": "CLU-00017",
+      "cluster_id": "CLU-00019",
       "canonical_name": "IT Act 43",
       "entity_type": "LEGAL_SECTION",
       "member_count": 1,
@@ -178,7 +198,7 @@
       ]
     },
     {
-      "cluster_id": "CLU-00018",
+      "cluster_id": "CLU-00020",
       "canonical_name": "IPC 384",
       "entity_type": "LEGAL_SECTION",
       "member_count": 1,
@@ -188,7 +208,7 @@
       ]
     },
     {
-      "cluster_id": "CLU-00019",
+      "cluster_id": "CLU-00021",
       "canonical_name": "IPC 120B",
       "entity_type": "LEGAL_SECTION",
       "member_count": 1,
@@ -198,7 +218,7 @@
       ]
     },
     {
-      "cluster_id": "CLU-00020",
+      "cluster_id": "CLU-00022",
       "canonical_name": "IPC 506",
       "entity_type": "LEGAL_SECTION",
       "member_count": 1,
@@ -208,7 +228,7 @@
       ]
     },
     {
-      "cluster_id": "CLU-00021",
+      "cluster_id": "CLU-00023",
       "canonical_name": "IT Act Section 66A",
       "entity_type": "LEGAL_SECTION",
       "member_count": 1,
@@ -218,7 +238,7 @@
       ]
     },
     {
-      "cluster_id": "CLU-00022",
+      "cluster_id": "CLU-00024",
       "canonical_name": "Rajesh Khurana",
       "entity_type": "PERSON",
       "member_count": 1,
@@ -228,7 +248,7 @@
       ]
     },
     {
-      "cluster_id": "CLU-00023",
+      "cluster_id": "CLU-00025",
       "canonical_name": "Ananya Rao",
       "entity_type": "PERSON",
       "member_count": 1,
@@ -238,7 +258,7 @@
       ]
     },
     {
-      "cluster_id": "CLU-00024",
+      "cluster_id": "CLU-00026",
       "canonical_name": "Vikram Sethi",
       "entity_type": "PERSON",
       "member_count": 1,
@@ -248,7 +268,7 @@
       ]
     },
     {
-      "cluster_id": "CLU-00025",
+      "cluster_id": "CLU-00027",
       "canonical_name": "Dr. Arvind Patel",
       "entity_type": "PERSON",
       "member_count": 1,
@@ -258,7 +278,7 @@
       ]
     },
     {
-      "cluster_id": "CLU-00026",
+      "cluster_id": "CLU-00028",
       "canonical_name": "DarkByte",
       "entity_type": "PERSON",
       "member_count": 1,
@@ -268,7 +288,7 @@
       ]
     },
     {
-      "cluster_id": "CLU-00027",
+      "cluster_id": "CLU-00029",
       "canonical_name": "Inspector Vikram Patil",
       "entity_type": "PERSON",
       "member_count": 1,
@@ -278,7 +298,27 @@
       ]
     },
     {
-      "cluster_id": "CLU-00028",
+      "cluster_id": "CLU-00030",
+      "canonical_name": "Inspector Sanjay Gupta",
+      "entity_type": "PERSON",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Inspector Sanjay Gupta"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00031",
+      "canonical_name": "V. Khurana",
+      "entity_type": "PERSON",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "V. Khurana"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00032",
       "canonical_name": "anomalous and highly aggressive short-selling of Apex Pharmaceuticals stock",
       "entity_type": "UNKNOWN",
       "member_count": 1,
@@ -288,7 +328,7 @@
       ]
     },
     {
-      "cluster_id": "CLU-00029",
+      "cluster_id": "CLU-00033",
       "canonical_name": "short-selling using advanced algorithmic trades distributed across multiple proxy shell accounts",
       "entity_type": "UNKNOWN",
       "member_count": 1,
@@ -298,7 +338,7 @@
       ]
     },
     {
-      "cluster_id": "CLU-00030",
+      "cluster_id": "CLU-00034",
       "canonical_name": "cyber attack to create the market panic necessary for her trades to succeed",
       "entity_type": "UNKNOWN",
       "member_count": 1,
@@ -308,17 +348,18 @@
       ]
     },
     {
-      "cluster_id": "CLU-00031",
+      "cluster_id": "CLU-00035",
       "canonical_name": "server breach",
       "entity_type": "UNKNOWN",
-      "member_count": 1,
-      "avg_similarity": 1.0,
+      "member_count": 2,
+      "avg_similarity": 0.9860878586769104,
       "members": [
-        "server breach"
+        "server breach",
+        "Server breach"
       ]
     },
     {
-      "cluster_id": "CLU-00032",
+      "cluster_id": "CLU-00036",
       "canonical_name": "catastrophic ransomware infection",
       "entity_type": "UNKNOWN",
       "member_count": 1,
@@ -328,7 +369,17 @@
       ]
     },
     {
-      "cluster_id": "CLU-00033",
+      "cluster_id": "CLU-00037",
+      "canonical_name": "encrypted email",
+      "entity_type": "UNKNOWN",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "encrypted email"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00038",
       "canonical_name": "malicious script",
       "entity_type": "UNKNOWN",
       "member_count": 1,
@@ -338,7 +389,7 @@
       ]
     },
     {
-      "cluster_id": "CLU-00034",
+      "cluster_id": "CLU-00039",
       "canonical_name": "case",
       "entity_type": "UNKNOWN",
       "member_count": 1,
@@ -348,7 +399,27 @@
       ]
     },
     {
-      "cluster_id": "CLU-00035",
+      "cluster_id": "CLU-00040",
+      "canonical_name": "Short-selling of Apex Pharmaceuticals stock",
+      "entity_type": "UNKNOWN",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Short-selling of Apex Pharmaceuticals stock"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00041",
+      "canonical_name": "Ransomware attack on Apex Pharmaceuticals",
+      "entity_type": "UNKNOWN",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Ransomware attack on Apex Pharmaceuticals"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00042",
       "canonical_name": "Lower Parel, Mumbai",
       "entity_type": "LOCATION",
       "member_count": 1,
@@ -358,17 +429,7 @@
       ]
     },
     {
-      "cluster_id": "CLU-00036",
-      "canonical_name": "R&D",
-      "entity_type": "ORGANIZATION",
-      "member_count": 1,
-      "avg_similarity": 1.0,
-      "members": [
-        "R&D"
-      ]
-    },
-    {
-      "cluster_id": "CLU-00037",
+      "cluster_id": "CLU-00043",
       "canonical_name": "notorious corporate espionage and cyber-extortion syndicate",
       "entity_type": "ORGANIZATION",
       "member_count": 1,
@@ -376,13 +437,135 @@
       "members": [
         "notorious corporate espionage and cyber-extortion syndicate"
       ]
+    },
+    {
+      "cluster_id": "CLU-00044",
+      "canonical_name": "Economic Offences Wing",
+      "entity_type": "ORGANIZATION",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Economic Offences Wing"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00045",
+      "canonical_name": "Bombay Stock Exchange",
+      "entity_type": "ORGANIZATION",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Bombay Stock Exchange"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00046",
+      "canonical_name": "FIR_1102_2026",
+      "entity_type": "IDENTIFIER",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "FIR_1102_2026"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00047",
+      "canonical_name": "Complainant",
+      "entity_type": "IDENTIFIER",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Complainant"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00048",
+      "canonical_name": "Senior Compliance Officer",
+      "entity_type": "IDENTIFIER",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Senior Compliance Officer"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00049",
+      "canonical_name": "Suspect",
+      "entity_type": "IDENTIFIER",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Suspect"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00050",
+      "canonical_name": "Independent Financial Analyst",
+      "entity_type": "IDENTIFIER",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Independent Financial Analyst"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00051",
+      "canonical_name": "Advanced algorithmic trades",
+      "entity_type": "IDENTIFIER",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Advanced algorithmic trades"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00052",
+      "canonical_name": "Multiple proxy shell accounts",
+      "entity_type": "IDENTIFIER",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Multiple proxy shell accounts"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00053",
+      "canonical_name": "Money Transfer",
+      "entity_type": "TRANSACTION_ID",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "Money Transfer"
+      ]
+    },
+    {
+      "cluster_id": "CLU-00054",
+      "canonical_name": "DEX-2026101588",
+      "entity_type": "TRANSACTION_ID",
+      "member_count": 1,
+      "avg_similarity": 1.0,
+      "members": [
+        "DEX-2026101588"
+      ]
     }
   ],
   "pending_review": [
     {
+      "mention_a": "Rs. 5,00,00,000,000",
+      "mention_b": "Rs. 5,00,00,000",
+      "similarity": 0.9242775440216064,
+      "decision": "PENDING_REVIEW"
+    },
+    {
+      "mention_a": "Rs. 50,00,000",
+      "mention_b": "Rs. 5,00,00,000",
+      "similarity": 0.888533353805542,
+      "decision": "PENDING_REVIEW"
+    },
+    {
       "mention_a": "Rs. 2,00,00,000",
-      "mention_b": "Rs. 2,00,00,000 in cryptocurrency",
-      "similarity": 0.8180425763130188,
+      "mention_b": "Rs. 5,00,00,000",
+      "similarity": 0.8680823445320129,
       "decision": "PENDING_REVIEW"
     },
     {
@@ -400,7 +583,7 @@
     {
       "mention_a": "10:15 hrs",
       "mention_b": "08:30 hrs",
-      "similarity": 0.8358936309814453,
+      "similarity": 0.8358935117721558,
       "decision": "PENDING_REVIEW"
     },
     {
@@ -418,7 +601,7 @@
     {
       "mention_a": "10:15 hrs",
       "mention_b": "01:30 hrs",
-      "similarity": 0.8305010199546814,
+      "similarity": 0.8305011987686157,
       "decision": "PENDING_REVIEW"
     },
     {
@@ -430,7 +613,7 @@
     {
       "mention_a": "14:00 hrs",
       "mention_b": "08:30 hrs",
-      "similarity": 0.805396556854248,
+      "similarity": 0.8053964376449585,
       "decision": "PENDING_REVIEW"
     },
     {
@@ -442,13 +625,13 @@
     {
       "mention_a": "14:00 hrs",
       "mention_b": "01:30 hrs",
-      "similarity": 0.8035821914672852,
+      "similarity": 0.8035822510719299,
       "decision": "PENDING_REVIEW"
     },
     {
       "mention_a": "12:30 hrs",
       "mention_b": "08:30 hrs",
-      "similarity": 0.8606020212173462,
+      "similarity": 0.8606019616127014,
       "decision": "PENDING_REVIEW"
     },
     {
@@ -466,19 +649,19 @@
     {
       "mention_a": "12:30 hrs",
       "mention_b": "01:30 hrs",
-      "similarity": 0.8657990097999573,
+      "similarity": 0.865799069404602,
       "decision": "PENDING_REVIEW"
     },
     {
       "mention_a": "08:30 hrs",
       "mention_b": "11:15 hrs",
-      "similarity": 0.8088911771774292,
+      "similarity": 0.8088910579681396,
       "decision": "PENDING_REVIEW"
     },
     {
       "mention_a": "08:30 hrs",
       "mention_b": "02:15 hrs",
-      "similarity": 0.8099040389060974,
+      "similarity": 0.8099039793014526,
       "decision": "PENDING_REVIEW"
     },
     {
@@ -496,13 +679,25 @@
     {
       "mention_a": "11:15 hrs",
       "mention_b": "01:30 hrs",
-      "similarity": 0.8155273795127869,
+      "similarity": 0.8155273199081421,
       "decision": "PENDING_REVIEW"
     },
     {
       "mention_a": "02:15 hrs",
       "mention_b": "01:30 hrs",
-      "similarity": 0.8418864011764526,
+      "similarity": 0.841886579990387,
+      "decision": "PENDING_REVIEW"
+    },
+    {
+      "mention_a": "17 October 2026",
+      "mention_b": "15 October 2026",
+      "similarity": 0.8778493404388428,
+      "decision": "PENDING_REVIEW"
+    },
+    {
+      "mention_a": "anomalous and highly aggressive short-selling of Apex Pharmaceuticals stock",
+      "mention_b": "Short-selling of Apex Pharmaceuticals stock",
+      "similarity": 0.8497615456581116,
       "decision": "PENDING_REVIEW"
     }
   ]

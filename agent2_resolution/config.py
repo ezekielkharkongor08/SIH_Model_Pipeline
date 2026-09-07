@@ -7,8 +7,8 @@ class Settings(BaseSettings):
     EMBED_DEVICE: str = "cpu"
 
     # Threshold matrix
-    MERGE_THRESHOLD: float = 0.80
-    REVIEW_THRESHOLD: float = 0.70
+    MERGE_THRESHOLD: float = 0.70
+    REVIEW_THRESHOLD: float = 0.60
     HAC_LINKAGE: str = "average"
 
     # Agent 1 base URL

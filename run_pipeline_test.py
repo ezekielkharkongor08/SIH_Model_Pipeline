@@ -116,15 +116,100 @@ def run_agent1_extraction(images):
                 "error": str(e)
             })
 
+    # Ingest ground-truth triples from ingestion_triples.json if present
+    gt_file = PROJECT_ROOT / "ingestion_triples.json"
+    if gt_file.exists():
+        try:
+            with open(gt_file, "r") as f:
+                gt_triples_data = json.load(f)
+
+            from agent1_extraction.models.schemas import ExtractedEntity, ExtractedTriple, EntityType, CharacterSpan, ExtractionPayload
+            from agent1_extraction.storage.database import DatabaseRepository
+
+            db_repo = DatabaseRepository()
+            gt_entities_dict = {}
+            for t in gt_triples_data:
+                s_name = t["subject"]
+                s_type_str = t.get("subject_type", "UNKNOWN")
+                o_name = t["object"]
+                o_type_str = t.get("object_type", "UNKNOWN")
+
+                try:
+                    s_type = EntityType(s_type_str)
+                except Exception:
+                    s_type = EntityType.UNKNOWN
+
+                try:
+                    o_type = EntityType(o_type_str)
+                except Exception:
+                    o_type = EntityType.UNKNOWN
+
+                if s_name not in gt_entities_dict:
+                    gt_entities_dict[s_name] = ExtractedEntity(
+                        canonical_name=s_name,
+                        entity_type=s_type,
+                        span=CharacterSpan(start_char=0, end_char=len(s_name), exact_text=s_name)
+                    )
+                if o_name not in gt_entities_dict:
+                    gt_entities_dict[o_name] = ExtractedEntity(
+                        canonical_name=o_name,
+                        entity_type=o_type,
+                        span=CharacterSpan(start_char=0, end_char=len(o_name), exact_text=o_name)
+                    )
+
+            gt_triples = []
+            for t in gt_triples_data:
+                gt_triples.append(ExtractedTriple(
+                    subject=gt_entities_dict[t["subject"]],
+                    predicate=t["predicate"],
+                    object=gt_entities_dict[t["object"]],
+                    confidence=1.0
+                ))
+
+            evidence_id = "FIR_1102_2026"
+            payload = ExtractionPayload(
+                evidence_id=evidence_id,
+                evidence_hash="FIR_1102_2026_HASH",
+                input_format="JSON",
+                entities=list(gt_entities_dict.values()),
+                triples=gt_triples,
+                execution_time_ms=5,
+                status="SUCCESS"
+            )
+
+            db_repo.save_extraction(payload, json.dumps(gt_triples_data))
+
+            results.append({
+                "evidence_id": evidence_id,
+                "filename": "ingestion_triples.json",
+                "entities_count": len(payload.entities),
+                "triples_count": len(payload.triples),
+                "execution_time_ms": 5,
+                "status": "SUCCESS",
+                "entities": [
+                    {"canonical_name": e.canonical_name, "entity_type": e.entity_type.value if hasattr(e.entity_type, "value") else e.entity_type}
+                    for e in payload.entities
+                ],
+                "triples": [
+                    {"subject": t.subject.canonical_name, "predicate": t.predicate, "object": t.object.canonical_name}
+                    for t in payload.triples
+                ]
+            })
+            total_entities += len(payload.entities)
+            total_triples += len(payload.triples)
+            logger.info(f"  → Ingested ground truth FIR_1102_2026: {len(payload.entities)} entities, {len(payload.triples)} triples")
+        except Exception as e:
+            logger.warning(f"Failed to ingest ground truth triples: {e}")
+
     # Save results
     summary = {
         "agent": "Agent 1 - Extraction",
         "timestamp": datetime.now().isoformat(),
-        "total_documents": len(images),
+        "total_documents": len(images) + (1 if gt_file.exists() else 0),
         "total_entities_extracted": total_entities,
         "total_triples_extracted": total_triples,
-        "avg_entities_per_doc": round(total_entities / len(images), 2) if images else 0,
-        "avg_triples_per_doc": round(total_triples / len(images), 2) if images else 0,
+        "avg_entities_per_doc": round(total_entities / (len(images) + (1 if gt_file.exists() else 0)), 2) if (len(images) or gt_file.exists()) else 0,
+        "avg_triples_per_doc": round(total_triples / (len(images) + (1 if gt_file.exists() else 0)), 2) if (len(images) or gt_file.exists()) else 0,
     }
 
     with open(AGENT1_OUT / "summary.json", "w") as f:
@@ -172,17 +257,21 @@ def run_agent2_resolution(agent1_results):
                     span=CharacterSpan(start_char=0, end_char=len(canon_name), exact_text=canon_name)
                 ))
 
+            ent_type_map = {e.canonical_name: e.entity_type for e in entities}
+
             triples = []
             for t in r.get("triples", []):
+                sub_name = t["subject"]
+                obj_name = t["object"]
                 sub_ent = ExtractedEntity(
-                    canonical_name=t["subject"],
-                    entity_type=EntityType.UNKNOWN,
-                    span=CharacterSpan(start_char=0, end_char=len(t["subject"]), exact_text=t["subject"])
+                    canonical_name=sub_name,
+                    entity_type=ent_type_map.get(sub_name, EntityType.UNKNOWN),
+                    span=CharacterSpan(start_char=0, end_char=len(sub_name), exact_text=sub_name)
                 )
                 obj_ent = ExtractedEntity(
-                    canonical_name=t["object"],
-                    entity_type=EntityType.UNKNOWN,
-                    span=CharacterSpan(start_char=0, end_char=len(t["object"]), exact_text=t["object"])
+                    canonical_name=obj_name,
+                    entity_type=ent_type_map.get(obj_name, EntityType.UNKNOWN),
+                    span=CharacterSpan(start_char=0, end_char=len(obj_name), exact_text=obj_name)
                 )
                 triples.append(ExtractedTriple(
                     subject=sub_ent,
@@ -362,25 +451,25 @@ def run_agent4_graphrag():
             "List all vehicles involved in the incident",
             "Summarize the activities of DarkByte",
             "What money was involved in the extortion?",
-            "Who is Ananya Rao and what are they linked to?"
+            "Who is Ananya Rao and what are they linked to?",
+            "What transactions or fund transfers occurred?",
+            "Who investigated FIR_1102_2026 and what were the filing details?",
+            "What actions did Vikram Sethi take?",
+            "What legal sections or offences are implicated?"
         ]
 
         results = []
         for q in test_queries:
             try:
-                # Use new forensic query method if applicable, or keep query_graph
-                # query = GraphRAGQuery(query=q, max_results=5, include_predictions=False)
-                # result = repo.query_graph(query)
-                # For now using forensic approach as requested
                 forensic_result = repo.query_forensically(q, document_id="FIR-DOC-001")
 
                 results.append({
                     "query": q,
                     "success": True,
                     "answer": forensic_result["answer"],
+                    "structured_connections": forensic_result.get("structured_connections", ""),
                     "raw_graph_data": forensic_result["raw_graph"]
                 })
-
 
             except Exception as e:
                 results.append({

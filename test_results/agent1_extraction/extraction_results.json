@@ -1,10 +1,10 @@
 [
   {
-    "evidence_id": "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788808658328-188783",
+    "evidence_id": "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788811406679-188783",
     "filename": "Gemini_Generated_Image_396qrl396qrl396q.png",
     "entities_count": 16,
     "triples_count": 9,
-    "execution_time_ms": 42784.22,
+    "execution_time_ms": 35895.49,
     "status": "SUCCESS",
     "entities": [
       {
@@ -121,11 +121,11 @@
     ]
   },
   {
-    "evidence_id": "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788808701144-524b08",
+    "evidence_id": "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788811442575-524b08",
     "filename": "Gemini_Generated_Image_tkds5rtkds5rtkds.png",
-    "entities_count": 23,
-    "triples_count": 9,
-    "execution_time_ms": 38986.44,
+    "entities_count": 22,
+    "triples_count": 8,
+    "execution_time_ms": 34569.61,
     "status": "SUCCESS",
     "entities": [
       {
@@ -185,16 +185,12 @@
         "entity_type": "UNKNOWN"
       },
       {
+        "canonical_name": "encrypted email",
+        "entity_type": "UNKNOWN"
+      },
+      {
         "canonical_name": "DarkByte",
         "entity_type": "PERSON"
-      },
-      {
-        "canonical_name": "R&D",
-        "entity_type": "ORGANIZATION"
-      },
-      {
-        "canonical_name": "Rs. 2,00,00,000 in cryptocurrency",
-        "entity_type": "MONEY_AMOUNT"
       },
       {
         "canonical_name": "Vikram Sethi",
@@ -229,23 +225,18 @@
       },
       {
         "subject": "Dr. Arvind Patel",
-        "predicate": "received_encrypted_email_from",
-        "object": "DarkByte"
+        "predicate": "received",
+        "object": "encrypted email"
       },
       {
         "subject": "Dr. Arvind Patel",
-        "predicate": "received_encrypted_email_from",
-        "object": "DarkByte"
-      },
-      {
-        "subject": "Dr. Arvind Patel",
-        "predicate": "directed",
-        "object": "R&D"
+        "predicate": "received",
+        "object": "encrypted email"
       },
       {
         "subject": "DarkByte",
-        "predicate": "demanded",
-        "object": "Rs. 2,00,00,000 in cryptocurrency"
+        "predicate": "contacted",
+        "object": "Dr. Arvind Patel"
       },
       {
         "subject": "Vikram Sethi",
@@ -266,6 +257,242 @@
         "subject": "Inspector Vikram Patil",
         "predicate": "investigating",
         "object": "case"
+      }
+    ]
+  },
+  {
+    "evidence_id": "FIR_1102_2026",
+    "filename": "ingestion_triples.json",
+    "entities_count": 26,
+    "triples_count": 24,
+    "execution_time_ms": 5,
+    "status": "SUCCESS",
+    "entities": [
+      {
+        "canonical_name": "FIR_1102_2026",
+        "entity_type": "IDENTIFIER"
+      },
+      {
+        "canonical_name": "Economic Offences Wing",
+        "entity_type": "ORGANIZATION"
+      },
+      {
+        "canonical_name": "17 October 2026",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "10:15 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "Inspector Sanjay Gupta",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "Rajesh Khurana",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "Complainant",
+        "entity_type": "IDENTIFIER"
+      },
+      {
+        "canonical_name": "V. Khurana",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "Senior Compliance Officer",
+        "entity_type": "IDENTIFIER"
+      },
+      {
+        "canonical_name": "Bombay Stock Exchange",
+        "entity_type": "ORGANIZATION"
+      },
+      {
+        "canonical_name": "9988776655",
+        "entity_type": "PHONE_NUMBER"
+      },
+      {
+        "canonical_name": "Ananya Rao",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "Suspect",
+        "entity_type": "IDENTIFIER"
+      },
+      {
+        "canonical_name": "Independent Financial Analyst",
+        "entity_type": "IDENTIFIER"
+      },
+      {
+        "canonical_name": "Lower Parel, Mumbai",
+        "entity_type": "LOCATION"
+      },
+      {
+        "canonical_name": "Short-selling of Apex Pharmaceuticals stock",
+        "entity_type": "UNKNOWN"
+      },
+      {
+        "canonical_name": "Advanced algorithmic trades",
+        "entity_type": "IDENTIFIER"
+      },
+      {
+        "canonical_name": "Multiple proxy shell accounts",
+        "entity_type": "IDENTIFIER"
+      },
+      {
+        "canonical_name": "Rs. 5,00,00,000",
+        "entity_type": "MONEY_AMOUNT"
+      },
+      {
+        "canonical_name": "Ransomware attack on Apex Pharmaceuticals",
+        "entity_type": "UNKNOWN"
+      },
+      {
+        "canonical_name": "Vikram Sethi",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "Server breach",
+        "entity_type": "UNKNOWN"
+      },
+      {
+        "canonical_name": "Money Transfer",
+        "entity_type": "TRANSACTION_ID"
+      },
+      {
+        "canonical_name": "Rs. 50,00,000",
+        "entity_type": "MONEY_AMOUNT"
+      },
+      {
+        "canonical_name": "DEX-2026101588",
+        "entity_type": "TRANSACTION_ID"
+      },
+      {
+        "canonical_name": "15 October 2026",
+        "entity_type": "DATE_TIME"
+      }
+    ],
+    "triples": [
+      {
+        "subject": "FIR_1102_2026",
+        "predicate": "filed_at",
+        "object": "Economic Offences Wing"
+      },
+      {
+        "subject": "FIR_1102_2026",
+        "predicate": "date_of_filing",
+        "object": "17 October 2026"
+      },
+      {
+        "subject": "FIR_1102_2026",
+        "predicate": "time_of_filing",
+        "object": "10:15 hrs"
+      },
+      {
+        "subject": "FIR_1102_2026",
+        "predicate": "investigated_by",
+        "object": "Inspector Sanjay Gupta"
+      },
+      {
+        "subject": "Rajesh Khurana",
+        "predicate": "has_role",
+        "object": "Complainant"
+      },
+      {
+        "subject": "Rajesh Khurana",
+        "predicate": "child_of",
+        "object": "V. Khurana"
+      },
+      {
+        "subject": "Rajesh Khurana",
+        "predicate": "employed_as",
+        "object": "Senior Compliance Officer"
+      },
+      {
+        "subject": "Rajesh Khurana",
+        "predicate": "works_at",
+        "object": "Bombay Stock Exchange"
+      },
+      {
+        "subject": "Rajesh Khurana",
+        "predicate": "contact_number",
+        "object": "9988776655"
+      },
+      {
+        "subject": "Ananya Rao",
+        "predicate": "has_role",
+        "object": "Suspect"
+      },
+      {
+        "subject": "Ananya Rao",
+        "predicate": "profession",
+        "object": "Independent Financial Analyst"
+      },
+      {
+        "subject": "Ananya Rao",
+        "predicate": "located_in",
+        "object": "Lower Parel, Mumbai"
+      },
+      {
+        "subject": "Ananya Rao",
+        "predicate": "orchestrated",
+        "object": "Short-selling of Apex Pharmaceuticals stock"
+      },
+      {
+        "subject": "Ananya Rao",
+        "predicate": "used_tool",
+        "object": "Advanced algorithmic trades"
+      },
+      {
+        "subject": "Ananya Rao",
+        "predicate": "utilized",
+        "object": "Multiple proxy shell accounts"
+      },
+      {
+        "subject": "Ananya Rao",
+        "predicate": "gained_profit",
+        "object": "Rs. 5,00,00,000"
+      },
+      {
+        "subject": "Ananya Rao",
+        "predicate": "funded",
+        "object": "Ransomware attack on Apex Pharmaceuticals"
+      },
+      {
+        "subject": "Vikram Sethi",
+        "predicate": "has_role",
+        "object": "Suspect"
+      },
+      {
+        "subject": "Vikram Sethi",
+        "predicate": "located_in",
+        "object": "Lower Parel, Mumbai"
+      },
+      {
+        "subject": "Vikram Sethi",
+        "predicate": "executed",
+        "object": "Server breach"
+      },
+      {
+        "subject": "Ananya Rao",
+        "predicate": "transferred_money_to",
+        "object": "Vikram Sethi"
+      },
+      {
+        "subject": "Money Transfer",
+        "predicate": "amount",
+        "object": "Rs. 50,00,000"
+      },
+      {
+        "subject": "Money Transfer",
+        "predicate": "transaction_reference",
+        "object": "DEX-2026101588"
+      },
+      {
+        "subject": "Money Transfer",
+        "predicate": "date",
+        "object": "15 October 2026"
       }
     ]
   }
