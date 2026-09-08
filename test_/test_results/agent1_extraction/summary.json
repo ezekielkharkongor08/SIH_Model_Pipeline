@@ -1,0 +1,9 @@
+{
+  "agent": "Agent 1 - Extraction",
+  "timestamp": "2026-09-08T01:34:37.179678",
+  "total_documents": 3,
+  "total_entities_extracted": 64,
+  "total_triples_extracted": 41,
+  "avg_entities_per_doc": 21.33,
+  "avg_triples_per_doc": 13.67
+}

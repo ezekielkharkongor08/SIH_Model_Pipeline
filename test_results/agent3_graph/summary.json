@@ -1,10 +1,10 @@
 {
   "agent": "Agent 3 - Graph Builder",
-  "timestamp": "2026-09-08T01:35:03.708638",
-  "run_id": "RES-8C4DA8A0",
-  "nodes_created": 54,
-  "edges_created": 29,
-  "triples_mapped": 29,
+  "timestamp": "2026-09-08T21:07:20.689254",
+  "run_id": "RES-7E0DD06B",
+  "nodes_created": 53,
+  "edges_created": 33,
+  "triples_mapped": 33,
   "predictions_made": 0,
   "execution_time_ms": 0
 }

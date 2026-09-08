@@ -444,19 +444,19 @@ def run_agent4_graphrag():
 
         # Test queries
         test_queries = [
-            "Who is mentioned in the FIR documents?",
-            "What relationships exist between people?",
-            "Show all organizations found",
-            "Where did the incident occur?",
-            "List all vehicles involved in the incident",
-            "Summarize the activities of DarkByte",
-            "What money was involved in the extortion?",
-            "Who is Ananya Rao and what are they linked to?",
-            "What transactions or fund transfers occurred?",
-            "Who investigated FIR_1102_2026 and what were the filing details?",
-            "What actions did Vikram Sethi take?",
-            "What legal sections or offences are implicated?"
-        ]
+        "Who is Ananya Rao, what role did she play in the short-selling of Apex Pharmaceuticals, and who was the complainant Rajesh Khurana?",
+        "What threats and extortion demands did Mohit Chawla make against journalist Rahul Saraf?",
+        "What relationship and financial transaction reference (DEX) exists between Ananya Rao and Vikram Sethi?",
+        "How much money did Karan Desai transfer to Mohit Chawla via RTGS, and for what purpose?",
+        "Which FIR documents were investigated by Inspector Sanjay Gupta and Inspector Ravi Shinde respectively?",
+        "Where are Ananya Rao and Vikram Sethi located, and what were the total illicit profits netted by Ananya Rao?",
+        "Where are Mohit Chawla and Karan Desai located, and what syndicate role does Mohit Chawla play?",
+        "What VoIP phone number did Mohit Chawla use to call Rahul Saraf on 24 November 2026?",
+        "Which legal sections under IPC, SEBI Act, and PMLA are applied in the case against Ananya Rao and Vikram Sethi?",
+        "Which legal sections under IPC and IT Act are applied in the case against Mohit Chawla and Karan Desai?",
+        "What are the background details and contact numbers for complainants Rajesh Khurana and Rahul Saraf?",
+        "What server breach or algorithmic trading tools were executed by Vikram Sethi and Ananya Rao?"
+    ]
 
         results = []
         for q in test_queries:

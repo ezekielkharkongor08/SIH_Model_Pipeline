@@ -1,10 +1,10 @@
 [
   {
-    "evidence_id": "EV-CASE-1(NO-1788881706851-188783",
-    "filename": "CASE_1(no.-1).png",
+    "evidence_id": "EV-GEMINI-GENERATED-IMAGE-396QRL396QRL396Q-1788811406679-188783",
+    "filename": "Gemini_Generated_Image_396qrl396qrl396q.png",
     "entities_count": 16,
     "triples_count": 9,
-    "execution_time_ms": 42295.17,
+    "execution_time_ms": 35895.49,
     "status": "SUCCESS",
     "entities": [
       {
@@ -121,47 +121,47 @@
     ]
   },
   {
-    "evidence_id": "EV-CASE-1(NO-1788881749244-ac3c33",
-    "filename": "CASE_1(no.-2).png",
-    "entities_count": 19,
-    "triples_count": 9,
-    "execution_time_ms": 34150.32,
+    "evidence_id": "EV-GEMINI-GENERATED-IMAGE-TKDS5RTKDS5RTKDS-1788811442575-524b08",
+    "filename": "Gemini_Generated_Image_tkds5rtkds5rtkds.png",
+    "entities_count": 22,
+    "triples_count": 8,
+    "execution_time_ms": 34569.61,
     "status": "SUCCESS",
     "entities": [
       {
-        "canonical_name": "9899112233",
+        "canonical_name": "9811223344",
         "entity_type": "PHONE_NUMBER"
       },
       {
-        "canonical_name": "Rs. 20,00,000",
+        "canonical_name": "Rs. 2,00,00,000",
         "entity_type": "MONEY_AMOUNT"
       },
       {
-        "canonical_name": "Rs. 4,50,000",
-        "entity_type": "MONEY_AMOUNT"
-      },
-      {
-        "canonical_name": "RTGS-2026112499",
-        "entity_type": "TRANSACTION_ID"
-      },
-      {
-        "canonical_name": "15:45 hrs",
+        "canonical_name": "12:30 hrs",
         "entity_type": "DATE_TIME"
       },
       {
-        "canonical_name": "09:30 hrs",
+        "canonical_name": "08:30 hrs",
         "entity_type": "DATE_TIME"
       },
       {
-        "canonical_name": "11:45 hrs",
+        "canonical_name": "11:15 hrs",
         "entity_type": "DATE_TIME"
       },
       {
-        "canonical_name": "IPC 384",
+        "canonical_name": "02:15 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "01:30 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "IT Act 43",
         "entity_type": "LEGAL_SECTION"
       },
       {
-        "canonical_name": "IPC 506",
+        "canonical_name": "IPC 384",
         "entity_type": "LEGAL_SECTION"
       },
       {
@@ -169,87 +169,94 @@
         "entity_type": "LEGAL_SECTION"
       },
       {
+        "canonical_name": "IPC 506",
+        "entity_type": "LEGAL_SECTION"
+      },
+      {
         "canonical_name": "IT Act Section 66A",
         "entity_type": "LEGAL_SECTION"
       },
       {
-        "canonical_name": "Rahul Saraf",
+        "canonical_name": "Dr. Arvind Patel",
         "entity_type": "PERSON"
       },
       {
-        "canonical_name": "+1-800-555-0199",
-        "entity_type": "PHONE_NUMBER"
+        "canonical_name": "catastrophic ransomware infection",
+        "entity_type": "UNKNOWN"
       },
       {
-        "canonical_name": "Mohit Chawla",
+        "canonical_name": "encrypted email",
+        "entity_type": "UNKNOWN"
+      },
+      {
+        "canonical_name": "DarkByte",
         "entity_type": "PERSON"
       },
       {
-        "canonical_name": "the syndicate",
+        "canonical_name": "Vikram Sethi",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "malicious script",
+        "entity_type": "UNKNOWN"
+      },
+      {
+        "canonical_name": "Ananya Rao",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "notorious corporate espionage and cyber-extortion syndicate",
         "entity_type": "ORGANIZATION"
       },
       {
-        "canonical_name": "Karan Desai",
+        "canonical_name": "Inspector Vikram Patil",
         "entity_type": "PERSON"
       },
       {
-        "canonical_name": "Chakan, Pune",
-        "entity_type": "LOCATION"
-      },
-      {
-        "canonical_name": "Inspector Ravi Shinde",
-        "entity_type": "PERSON"
-      },
-      {
-        "canonical_name": "the case",
+        "canonical_name": "case",
         "entity_type": "UNKNOWN"
       }
     ],
     "triples": [
       {
-        "subject": "Rahul Saraf",
-        "predicate": "received_threatening_phone_calls_from",
-        "object": "+1-800-555-0199"
+        "subject": "Dr. Arvind Patel",
+        "predicate": "reported",
+        "object": "catastrophic ransomware infection"
       },
       {
-        "subject": "Rahul Saraf",
-        "predicate": "was_called_by",
-        "object": "Mohit Chawla"
+        "subject": "Dr. Arvind Patel",
+        "predicate": "received",
+        "object": "encrypted email"
       },
       {
-        "subject": "Mohit Chawla",
-        "predicate": "demanded_compensation_from",
-        "object": "Rahul Saraf"
+        "subject": "Dr. Arvind Patel",
+        "predicate": "received",
+        "object": "encrypted email"
       },
       {
-        "subject": "Mohit Chawla",
-        "predicate": "called",
-        "object": "Rahul Saraf"
+        "subject": "DarkByte",
+        "predicate": "contacted",
+        "object": "Dr. Arvind Patel"
       },
       {
-        "subject": "Mohit Chawla",
-        "predicate": "acts_as_logistics_coordinator_for",
-        "object": "the syndicate"
+        "subject": "Vikram Sethi",
+        "predicate": "deployed",
+        "object": "malicious script"
       },
       {
-        "subject": "Karan Desai",
-        "predicate": "transferred_money_to",
-        "object": "Mohit Chawla"
+        "subject": "Vikram Sethi",
+        "predicate": "was_seen_with",
+        "object": "Ananya Rao"
       },
       {
-        "subject": "Karan Desai",
-        "predicate": "works_with",
-        "object": "Mohit Chawla"
+        "subject": "Vikram Sethi",
+        "predicate": "associated_with",
+        "object": "notorious corporate espionage and cyber-extortion syndicate"
       },
       {
-        "subject": "Mohit Chawla",
-        "predicate": "is_located_at",
-        "object": "Chakan, Pune"
-      },
-      {
-        "subject": "Inspector Ravi Shinde",
-        "predicate": "is_investigating",
-        "object": "the case"
+        "subject": "Inspector Vikram Patil",
+        "predicate": "investigating",
+        "object": "case"
       }
     ]
   },
