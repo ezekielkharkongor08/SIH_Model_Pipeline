@@ -1,10 +1,10 @@
 [
   {
-    "evidence_id": "EV-CASE-1(NO-1788881706851-188783",
+    "evidence_id": "EV-CASE-1(NO-1788894618292-188783",
     "filename": "CASE_1(no.-1).png",
-    "entities_count": 16,
-    "triples_count": 9,
-    "execution_time_ms": 42295.17,
+    "entities_count": 18,
+    "triples_count": 13,
+    "execution_time_ms": 50291.44,
     "status": "SUCCESS",
     "entities": [
       {
@@ -40,63 +40,61 @@
         "entity_type": "PERSON"
       },
       {
-        "canonical_name": "anomalous and highly aggressive short-selling of Apex Pharmaceuticals stock",
-        "entity_type": "UNKNOWN"
+        "canonical_name": "Apex Pharmaceuticals stock",
+        "entity_type": "ORGANIZATION"
       },
       {
         "canonical_name": "Ananya Rao",
         "entity_type": "PERSON"
       },
       {
-        "canonical_name": "short-selling using advanced algorithmic trades distributed across multiple proxy shell accounts",
-        "entity_type": "UNKNOWN"
-      },
-      {
-        "canonical_name": "cyber attack to create the market panic necessary for her trades to succeed",
-        "entity_type": "UNKNOWN"
-      },
-      {
-        "canonical_name": "Rs. 50,00,000 via a decentralized exchange transaction ref. DEX-2026101588",
-        "entity_type": "MONEY_AMOUNT"
+        "canonical_name": "advanced algorithmic trades",
+        "entity_type": "SOFTWARE"
       },
       {
         "canonical_name": "Vikram Sethi",
         "entity_type": "PERSON"
       },
       {
-        "canonical_name": "server breach",
-        "entity_type": "UNKNOWN"
+        "canonical_name": "DEX-2026101588",
+        "entity_type": "TRANSACTION_ID"
       },
       {
         "canonical_name": "Lower Parel, Mumbai",
         "entity_type": "LOCATION"
+      },
+      {
+        "canonical_name": "Section 15G (Insider Trading)",
+        "entity_type": "LEGAL_SECTION"
+      },
+      {
+        "canonical_name": "Section 420",
+        "entity_type": "LAW_OFFENSE"
+      },
+      {
+        "canonical_name": "Section 120B",
+        "entity_type": "LAW_OFFENSE"
+      },
+      {
+        "canonical_name": "Section 3 (PMLA)",
+        "entity_type": "LEGAL_SECTION"
       }
     ],
     "triples": [
       {
         "subject": "Rajesh Khurana",
-        "predicate": "reported",
-        "object": "anomalous and highly aggressive short-selling of Apex Pharmaceuticals stock"
+        "predicate": "reported_anomalous_short_selling_of",
+        "object": "Apex Pharmaceuticals stock"
       },
       {
         "subject": "Ananya Rao",
-        "predicate": "orchestrated",
-        "object": "short-selling using advanced algorithmic trades distributed across multiple proxy shell accounts"
+        "predicate": "orchestrated_short_selling_using",
+        "object": "advanced algorithmic trades"
       },
       {
         "subject": "Ananya Rao",
-        "predicate": "funded",
-        "object": "cyber attack to create the market panic necessary for her trades to succeed"
-      },
-      {
-        "subject": "Ananya Rao",
-        "predicate": "transferred",
-        "object": "Rs. 50,00,000"
-      },
-      {
-        "subject": "Ananya Rao",
-        "predicate": "transferred",
-        "object": "Rs. 50,00,000 via a decentralized exchange transaction ref. DEX-2026101588"
+        "predicate": "transferred_money_to",
+        "object": "Vikram Sethi"
       },
       {
         "subject": "Ananya Rao",
@@ -104,9 +102,19 @@
         "object": "Vikram Sethi"
       },
       {
+        "subject": "Ananya Rao",
+        "predicate": "netted_illicit_profits_exceeding",
+        "object": "Rs. 5,00,00,000,000"
+      },
+      {
+        "subject": "Ananya Rao",
+        "predicate": "transferred_money_via",
+        "object": "DEX-2026101588"
+      },
+      {
         "subject": "Vikram Sethi",
-        "predicate": "executed",
-        "object": "server breach"
+        "predicate": "executed_server_breach_for",
+        "object": "Ananya Rao"
       },
       {
         "subject": "Ananya Rao",
@@ -117,15 +125,35 @@
         "subject": "Vikram Sethi",
         "predicate": "located_at",
         "object": "Lower Parel, Mumbai"
+      },
+      {
+        "subject": "Ananya Rao",
+        "predicate": "charged_under",
+        "object": "Section 15G (Insider Trading)"
+      },
+      {
+        "subject": "Ananya Rao",
+        "predicate": "charged_under",
+        "object": "Section 420"
+      },
+      {
+        "subject": "Ananya Rao",
+        "predicate": "charged_under",
+        "object": "Section 120B"
+      },
+      {
+        "subject": "Ananya Rao",
+        "predicate": "charged_under",
+        "object": "Section 3 (PMLA)"
       }
     ]
   },
   {
-    "evidence_id": "EV-CASE-1(NO-1788881749244-ac3c33",
+    "evidence_id": "EV-CASE-1(NO-1788894668649-ac3c33",
     "filename": "CASE_1(no.-2).png",
     "entities_count": 19,
-    "triples_count": 9,
-    "execution_time_ms": 34150.32,
+    "triples_count": 8,
+    "execution_time_ms": 31585.88,
     "status": "SUCCESS",
     "entities": [
       {
@@ -185,7 +213,7 @@
         "entity_type": "PERSON"
       },
       {
-        "canonical_name": "the syndicate",
+        "canonical_name": "syndicate",
         "entity_type": "ORGANIZATION"
       },
       {
@@ -201,7 +229,7 @@
         "entity_type": "PERSON"
       },
       {
-        "canonical_name": "the case",
+        "canonical_name": "case",
         "entity_type": "UNKNOWN"
       }
     ],
@@ -213,7 +241,7 @@
       },
       {
         "subject": "Rahul Saraf",
-        "predicate": "was_called_by",
+        "predicate": "was_threatened_by",
         "object": "Mohit Chawla"
       },
       {
@@ -223,13 +251,8 @@
       },
       {
         "subject": "Mohit Chawla",
-        "predicate": "called",
-        "object": "Rahul Saraf"
-      },
-      {
-        "subject": "Mohit Chawla",
         "predicate": "acts_as_logistics_coordinator_for",
-        "object": "the syndicate"
+        "object": "syndicate"
       },
       {
         "subject": "Karan Desai",
@@ -237,9 +260,9 @@
         "object": "Mohit Chawla"
       },
       {
-        "subject": "Karan Desai",
+        "subject": "Mohit Chawla",
         "predicate": "works_with",
-        "object": "Mohit Chawla"
+        "object": "Karan Desai"
       },
       {
         "subject": "Mohit Chawla",
@@ -249,7 +272,495 @@
       {
         "subject": "Inspector Ravi Shinde",
         "predicate": "is_investigating",
-        "object": "the case"
+        "object": "case"
+      }
+    ]
+  },
+  {
+    "evidence_id": "EV-CASE-2(NO-1788894700224-524b08",
+    "filename": "CASE_2(no.-1).png",
+    "entities_count": 19,
+    "triples_count": 7,
+    "execution_time_ms": 36087.55,
+    "status": "SUCCESS",
+    "entities": [
+      {
+        "canonical_name": "9811223344",
+        "entity_type": "PHONE_NUMBER"
+      },
+      {
+        "canonical_name": "Rs. 2,00,00,000",
+        "entity_type": "MONEY_AMOUNT"
+      },
+      {
+        "canonical_name": "12:30 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "08:30 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "11:15 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "02:15 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "01:30 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "IT Act 43",
+        "entity_type": "LEGAL_SECTION"
+      },
+      {
+        "canonical_name": "IPC 384",
+        "entity_type": "LEGAL_SECTION"
+      },
+      {
+        "canonical_name": "IPC 120B",
+        "entity_type": "LEGAL_SECTION"
+      },
+      {
+        "canonical_name": "IPC 506",
+        "entity_type": "LEGAL_SECTION"
+      },
+      {
+        "canonical_name": "IT Act Section 66A",
+        "entity_type": "LEGAL_SECTION"
+      },
+      {
+        "canonical_name": "Dr. Arvind Patel",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "catastrophic ransomware infection",
+        "entity_type": "UNKNOWN"
+      },
+      {
+        "canonical_name": "DarkByte",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "Vikram Sethi",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "malicious script",
+        "entity_type": "DIGITAL_ARTIFACT"
+      },
+      {
+        "canonical_name": "Ananya Rao",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "notorious corporate espionage and cyber-extortion syndicate",
+        "entity_type": "ORGANIZATION"
+      }
+    ],
+    "triples": [
+      {
+        "subject": "Dr. Arvind Patel",
+        "predicate": "reported",
+        "object": "catastrophic ransomware infection"
+      },
+      {
+        "subject": "Dr. Arvind Patel",
+        "predicate": "received_encrypted_email_from",
+        "object": "DarkByte"
+      },
+      {
+        "subject": "Dr. Arvind Patel",
+        "predicate": "received_encrypted_email_from",
+        "object": "DarkByte"
+      },
+      {
+        "subject": "Dr. Arvind Patel",
+        "predicate": "received_encrypted_email_from",
+        "object": "DarkByte"
+      },
+      {
+        "subject": "Vikram Sethi",
+        "predicate": "deployed",
+        "object": "malicious script"
+      },
+      {
+        "subject": "Vikram Sethi",
+        "predicate": "was_seen_with",
+        "object": "Ananya Rao"
+      },
+      {
+        "subject": "Vikram Sethi",
+        "predicate": "was_associated_with",
+        "object": "notorious corporate espionage and cyber-extortion syndicate"
+      }
+    ]
+  },
+  {
+    "evidence_id": "EV-CASE-2(NO-1788894736344-a9ddee",
+    "filename": "CASE_2(no.-2).png",
+    "entities_count": 15,
+    "triples_count": 8,
+    "execution_time_ms": 38391.32,
+    "status": "SUCCESS",
+    "entities": [
+      {
+        "canonical_name": "9822445566",
+        "entity_type": "PHONE_NUMBER"
+      },
+      {
+        "canonical_name": "10:30 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "14:15 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "22:45 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "Sameer Gokhale",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "unauthorized_manufacturing_facility",
+        "entity_type": "ORGANIZATION"
+      },
+      {
+        "canonical_name": "Nexa EV Motors",
+        "entity_type": "ORGANIZATION"
+      },
+      {
+        "canonical_name": "Karan Desai",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "illegal_e-waste_dump_sites",
+        "entity_type": "LOCATION"
+      },
+      {
+        "canonical_name": "Bhosari MIDC",
+        "entity_type": "LOCATION"
+      },
+      {
+        "canonical_name": "Mohit Chawla",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "Bhosari industrial park",
+        "entity_type": "LOCATION"
+      },
+      {
+        "canonical_name": "Maharashtra and Gujarat",
+        "entity_type": "LOCATION"
+      },
+      {
+        "canonical_name": "Inspector Milind Kulkarni",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "1201/2026",
+        "entity_type": "FIR_NUMBER"
+      }
+    ],
+    "triples": [
+      {
+        "subject": "Sameer Gokhale",
+        "predicate": "reported_discovery_of",
+        "object": "unauthorized_manufacturing_facility"
+      },
+      {
+        "subject": "Sameer Gokhale",
+        "predicate": "discovered_massive_counterfeit_operation",
+        "object": "Nexa EV Motors"
+      },
+      {
+        "subject": "Karan Desai",
+        "predicate": "procured_degraded_lithium_cells",
+        "object": "illegal_e-waste_dump_sites"
+      },
+      {
+        "subject": "Karan Desai",
+        "predicate": "managed_forgery_of_serial_numbers",
+        "object": "Nexa EV Motors"
+      },
+      {
+        "subject": "Karan Desai",
+        "predicate": "supervised_dispatch_of_heavily_disguised_cargo_truck",
+        "object": "Bhosari MIDC"
+      },
+      {
+        "subject": "Mohit Chawla",
+        "predicate": "escorted_delivery_vehicles",
+        "object": "Bhosari industrial park"
+      },
+      {
+        "subject": "Karan Desai",
+        "predicate": "associated_with_nationwide_counterfeit_autnotiveparts_syndicate",
+        "object": "Maharashtra and Gujarat"
+      },
+      {
+        "subject": "Inspector Milind Kulkarni",
+        "predicate": "investigated_case",
+        "object": "1201/2026"
+      }
+    ]
+  },
+  {
+    "evidence_id": "EV-CASE-3(NO-1788894774741-84152f",
+    "filename": "CASE_3(no.-1).png",
+    "entities_count": 16,
+    "triples_count": 7,
+    "execution_time_ms": 36225.79,
+    "status": "SUCCESS",
+    "entities": [
+      {
+        "canonical_name": "9822114455",
+        "entity_type": "PHONE_NUMBER"
+      },
+      {
+        "canonical_name": "Rs. 4,50,000,000",
+        "entity_type": "MONEY_AMOUNT"
+      },
+      {
+        "canonical_name": "11:15 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "10:30 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "14:30 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "Section 66D",
+        "entity_type": "LEGAL_SECTION"
+      },
+      {
+        "canonical_name": "Avinash Thorat",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "government drought-relief subsidies",
+        "entity_type": "UNKNOWN"
+      },
+      {
+        "canonical_name": "Ritesh Deshmukh",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "phantom farmlands",
+        "entity_type": "UNKNOWN"
+      },
+      {
+        "canonical_name": "multi-state agro-finance fraud syndicate",
+        "entity_type": "ORGANIZATION"
+      },
+      {
+        "canonical_name": "Suraj Pawar",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "digital verification flags",
+        "entity_type": "UNKNOWN"
+      },
+      {
+        "canonical_name": "agro-finance fraud syndicate",
+        "entity_type": "ORGANIZATION"
+      },
+      {
+        "canonical_name": "Inspector Prakash Zende",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "1301/2026",
+        "entity_type": "FIR_NUMBER"
+      }
+    ],
+    "triples": [
+      {
+        "subject": "Avinash Thorat",
+        "predicate": "reported_embezzlement_of",
+        "object": "government drought-relief subsidies"
+      },
+      {
+        "subject": "Ritesh Deshmukh",
+        "predicate": "engineered_forged_geospatial_data",
+        "object": "phantom farmlands"
+      },
+      {
+        "subject": "Ritesh Deshmukh",
+        "predicate": "was_associated_with",
+        "object": "multi-state agro-finance fraud syndicate"
+      },
+      {
+        "subject": "Ritesh Deshmukh",
+        "predicate": "was_seen_with",
+        "object": "Suraj Pawar"
+      },
+      {
+        "subject": "Ritesh Deshmukh",
+        "predicate": "submitted_forged_physical_claim_dockets",
+        "object": "digital verification flags"
+      },
+      {
+        "subject": "Ritesh Deshmukh",
+        "predicate": "was_associated_with",
+        "object": "agro-finance fraud syndicate"
+      },
+      {
+        "subject": "Inspector Prakash Zende",
+        "predicate": "is_investigating_officer",
+        "object": "1301/2026"
+      }
+    ]
+  },
+  {
+    "evidence_id": "EV-CASE-3(NO-1788894810987-d56b2c",
+    "filename": "CASE_3(no.-2).png",
+    "entities_count": 20,
+    "triples_count": 10,
+    "execution_time_ms": 52365.49,
+    "status": "SUCCESS",
+    "entities": [
+      {
+        "canonical_name": "9899335577",
+        "entity_type": "PHONE_NUMBER"
+      },
+      {
+        "canonical_name": "Rs. 15,00,000",
+        "entity_type": "MONEY_AMOUNT"
+      },
+      {
+        "canonical_name": "RTGS-2026090488",
+        "entity_type": "TRANSACTION_ID"
+      },
+      {
+        "canonical_name": "14:00 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "15:45 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "10:00 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "12:45 hrs",
+        "entity_type": "DATE_TIME"
+      },
+      {
+        "canonical_name": "IPC 384",
+        "entity_type": "LEGAL_SECTION"
+      },
+      {
+        "canonical_name": "IPC 506",
+        "entity_type": "LEGAL_SECTION"
+      },
+      {
+        "canonical_name": "IPC 120B",
+        "entity_type": "LEGAL_SECTION"
+      },
+      {
+        "canonical_name": "IT Act Section 66E",
+        "entity_type": "LEGAL_SECTION"
+      },
+      {
+        "canonical_name": "IT Act Section 67",
+        "entity_type": "LEGAL_SECTION"
+      },
+      {
+        "canonical_name": "Sandeep Patil",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "encrypted Telegram channel",
+        "entity_type": "DEVICE"
+      },
+      {
+        "canonical_name": "Suraj Pawar",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "scam",
+        "entity_type": "UNKNOWN"
+      },
+      {
+        "canonical_name": "Ritesh Deshmukh",
+        "entity_type": "PERSON"
+      },
+      {
+        "canonical_name": "cooperative bank account",
+        "entity_type": "UNKNOWN"
+      },
+      {
+        "canonical_name": "RTGS transaction ref. RTGS-2026090488",
+        "entity_type": "UNKNOWN"
+      },
+      {
+        "canonical_name": "Panchavati, Nashik",
+        "entity_type": "LOCATION"
+      }
+    ],
+    "triples": [
+      {
+        "subject": "Sandeep Patil",
+        "predicate": "received_blackmail_threats_via",
+        "object": "encrypted Telegram channel"
+      },
+      {
+        "subject": "Sandeep Patil",
+        "predicate": "was_contacted_by",
+        "object": "Suraj Pawar"
+      },
+      {
+        "subject": "Suraj Pawar",
+        "predicate": "handles_intimidation_and_financial_routing_for",
+        "object": "scam"
+      },
+      {
+        "subject": "Suraj Pawar",
+        "predicate": "transferred_money_to",
+        "object": "Ritesh Deshmukh"
+      },
+      {
+        "subject": "Suraj Pawar",
+        "predicate": "works_with",
+        "object": "Ritesh Deshmukh"
+      },
+      {
+        "subject": "Suraj Pawar",
+        "predicate": "was_identified_via_digital_footprinting",
+        "object": "encrypted Telegram channel"
+      },
+      {
+        "subject": "Ritesh Deshmukh",
+        "predicate": "received_money_from",
+        "object": "Suraj Pawar"
+      },
+      {
+        "subject": "Suraj Pawar",
+        "predicate": "seized_funds_from",
+        "object": "cooperative bank account"
+      },
+      {
+        "subject": "Suraj Pawar",
+        "predicate": "transferred_funds_via",
+        "object": "RTGS transaction ref. RTGS-2026090488"
+      },
+      {
+        "subject": "Suraj Pawar",
+        "predicate": "was_located_at",
+        "object": "Panchavati, Nashik"
       }
     ]
   },

@@ -7,31 +7,35 @@ from agent1_extraction.config import settings
 from agent1_extraction.models.schemas import EntityType, RawLLMExtractionResponse, RawTripleItem
 
 
-UNIVERSAL_SYSTEM_PROMPT = """You are a universal, domain-agnostic information extraction engine.
-Your task is to parse unstructured text or data logs into clean Subject-Predicate-Object triples.
+UNIVERSAL_SYSTEM_PROMPT = """You are an elite, domain-agnostic information extraction engine specializing in forensic, legal, FIR (First Information Report), and cybercrime intelligence document analysis.
+Your task is to parse unstructured text into clean, highly structured Subject-Predicate-Object triples.
 
 CRITICAL STRUCTURAL CONSTRAINTS:
 1. SUBJECT & OBJECT BOUNDARIES:
    - Must be clean canonical entities, proper nouns, identifiers, or quantitative values.
-   - Strip all leading reporting clauses (e.g., "investigation reveals that", "records indicate that").
-   - Strip all trailing prepositional phrases or media channels (e.g., "via email", "on WhatsApp", "located near").
+   - Strip all leading reporting clauses (e.g., "investigation reveals that").
+   - Strip all trailing prepositional phrases (e.g., "via email", "located near").
 
-2. PREDICATE CLEANLINESS:
-   - Must be a concise, snake_case action or relationship verb phrase (e.g., "sent_message_to", "transferred_funds", "located_at", "associated_with").
+2. PREDICATE CLEANLINESS (SNAKE_CASE):
+   - Must be a concise action or relationship (e.g., "sent_message_to", "transferred_funds", "seized_from", "charged_under", "filed_complaint_against").
+   - Use predicates to establish roles rather than modifying the entity name (e.g., subject="John", predicate="identified_as_suspect_in", object="Incident 402").
    - NEVER embed the Subject or Object entity inside the predicate string.
-   - BAD: subject="A", predicate="called_person_B", object="B"
-   - GOOD: subject="A", predicate="called", object="B"
 
 3. METADATA SEPARATION:
    - Move temporal markers (dates, times) to the "timestamp" field.
-   - Move spatial markers (addresses, cities, coordinates) to the "location" field.
+   - Move spatial markers (addresses, coordinates, IP locations) to the "location" field.
    - Tag every triple with the 'source_document_id'.
-   - DO NOT append metadata into entity names or predicates.
 
-4. ENTITY TYPING:
-   - Classify subject_type and object_type into: PERSON, ORGANIZATION, LOCATION, PHONE_NUMBER, EMAIL, BANK_ACCOUNT, TRANSACTION_ID, MONEY_AMOUNT, DATE_TIME, IDENTIFIER, LEGAL_SECTION, UNKNOWN.
+4. STRICT ENTITY TYPING:
+   - Classify subject_type and object_type strictly into ONE of the following:
+     * CORE: PERSON, ORGANIZATION, LOCATION, PHONE_NUMBER, EMAIL, DATE_TIME, IDENTIFIER
+     * LEGAL: LAW_OFFENSE, LEGAL_SECTION, FIR_NUMBER, CASE_NUMBER, DOCUMENT, ROLE
+     * FINANCIAL: BANK_ACCOUNT, TRANSACTION_ID, MONEY_AMOUNT, FINANCIAL_INSTRUMENT, UPI_ID, CRYPTO_WALLET
+     * CYBER: DEVICE, SOFTWARE, DIGITAL_ARTIFACT, SOCIAL_MEDIA_HANDLE
+     * PHYSICAL: VEHICLE, WEAPON, PROPERTY, NARCOTIC, SUBSTANCE, PHYSICAL_EVIDENCE, INJURY_MEDICAL, MEASUREMENT
+     * CONTEXT: INCIDENT, UNKNOWN
 
-Output STRICTLY a JSON object matching this schema without preamble or conversational filler:
+Output STRICTLY a JSON object matching this schema without preamble, markdown formatting, or conversational filler:
 {
   "triples": [
     {
@@ -82,14 +86,11 @@ class UniversalLLMExtractor:
                     json_match = re.search(r"\{.*\}", content, re.DOTALL)
                     if json_match:
                         clean_json = json_match.group(0)
-                        # Pre-process JSON to replace None/string-"null" values with valid defaults
-                        # Replace null object values with empty string
+                        
+                        # Aggressive pre-processing for null/empty handling before Pydantic parsing
                         clean_json = re.sub(r'"object"\s*:\s*("null"|null)', '"object": ""', clean_json)
-                        # Replace null subject values with empty string
                         clean_json = re.sub(r'"subject"\s*:\s*("null"|null)', '"subject": ""', clean_json)
-                        # Replace null/string-"null" object_type values with UNKNOWN
                         clean_json = re.sub(r'"object_type"\s*:\s*("null"|null)', '"object_type": "UNKNOWN"', clean_json)
-                        # Replace null/string-"null" subject_type values with UNKNOWN
                         clean_json = re.sub(r'"subject_type"\s*:\s*("null"|null)', '"subject_type": "UNKNOWN"', clean_json)
 
                         parsed = RawLLMExtractionResponse.model_validate_json(clean_json)

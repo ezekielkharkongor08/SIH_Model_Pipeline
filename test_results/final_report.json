@@ -1,58 +1,58 @@
 {
   "test_name": "FIR Dataset Pipeline Test",
-  "timestamp": "2026-09-08T21:10:39.158501",
-  "documents_processed": 3,
+  "timestamp": "2026-09-09T00:49:01.943504",
+  "documents_processed": 7,
   "agents": {
     "agent1": {
       "agent": "Agent 1 - Extraction",
-      "timestamp": "2026-09-08T21:06:23.466698",
-      "total_documents": 3,
-      "total_entities_extracted": 61,
-      "total_triples_extracted": 42,
-      "avg_entities_per_doc": 20.33,
-      "avg_triples_per_doc": 14.0
+      "timestamp": "2026-09-09T00:44:23.475701",
+      "total_documents": 7,
+      "total_entities_extracted": 133,
+      "total_triples_extracted": 77,
+      "avg_entities_per_doc": 19.0,
+      "avg_triples_per_doc": 11.0
     },
     "agent2": {
       "agent": "Agent 2 - Resolution",
-      "timestamp": "2026-09-08T21:07:12.705429",
-      "run_id": "RES-7E0DD06B",
-      "total_mentions_input": 61,
-      "total_clusters_output": 53,
-      "deduplication_ratio_percent": 13.11,
-      "pending_review_pairs": 16,
-      "resolved_triples": 33,
-      "execution_time_ms": 4447.87
+      "timestamp": "2026-09-09T00:44:47.132925",
+      "run_id": "RES-7EB98218",
+      "total_mentions_input": 133,
+      "total_clusters_output": 108,
+      "deduplication_ratio_percent": 18.8,
+      "pending_review_pairs": 129,
+      "resolved_triples": 50,
+      "execution_time_ms": 5082.95
     },
     "agent3": {
       "agent": "Agent 3 - Graph Builder",
-      "timestamp": "2026-09-08T21:07:20.689254",
-      "run_id": "RES-7E0DD06B",
-      "nodes_created": 53,
-      "edges_created": 33,
-      "triples_mapped": 33,
+      "timestamp": "2026-09-09T00:44:55.020130",
+      "run_id": "RES-7EB98218",
+      "nodes_created": 108,
+      "edges_created": 50,
+      "triples_mapped": 50,
       "predictions_made": 0,
       "execution_time_ms": 0
     },
     "agent4": {
       "agent": "Agent 4 - GraphRAG",
-      "timestamp": "2026-09-08T21:10:39.136037",
-      "total_queries": 12,
-      "successful_queries": 12,
+      "timestamp": "2026-09-09T00:49:01.914730",
+      "total_queries": 15,
+      "successful_queries": 15,
       "total_query_time_ms": 0,
       "cache_hits": 0,
-      "cache_misses": 12
+      "cache_misses": 15
     }
   },
   "overall_status": "COMPLETED",
   "key_metrics": {
-    "entities_extracted": 61,
-    "triples_extracted": 42,
-    "clusters_created": 53,
-    "deduplication_achieved": 13.11,
-    "pending_review_pairs": 16,
-    "graph_nodes": 53,
-    "graph_edges": 33,
-    "queries_successful": 12,
-    "total_queries": 12
+    "entities_extracted": 133,
+    "triples_extracted": 77,
+    "clusters_created": 108,
+    "deduplication_achieved": 18.8,
+    "pending_review_pairs": 129,
+    "graph_nodes": 108,
+    "graph_edges": 50,
+    "queries_successful": 15,
+    "total_queries": 15
   }
 }

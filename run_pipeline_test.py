@@ -444,18 +444,28 @@ def run_agent4_graphrag():
 
         # Test queries
         test_queries = [
-        "Who is Ananya Rao, what role did she play in the short-selling of Apex Pharmaceuticals, and who was the complainant Rajesh Khurana?",
-        "What threats and extortion demands did Mohit Chawla make against journalist Rahul Saraf?",
-        "What relationship and financial transaction reference (DEX) exists between Ananya Rao and Vikram Sethi?",
-        "How much money did Karan Desai transfer to Mohit Chawla via RTGS, and for what purpose?",
-        "Which FIR documents were investigated by Inspector Sanjay Gupta and Inspector Ravi Shinde respectively?",
-        "Where are Ananya Rao and Vikram Sethi located, and what were the total illicit profits netted by Ananya Rao?",
-        "Where are Mohit Chawla and Karan Desai located, and what syndicate role does Mohit Chawla play?",
-        "What VoIP phone number did Mohit Chawla use to call Rahul Saraf on 24 November 2026?",
-        "Which legal sections under IPC, SEBI Act, and PMLA are applied in the case against Ananya Rao and Vikram Sethi?",
-        "Which legal sections under IPC and IT Act are applied in the case against Mohit Chawla and Karan Desai?",
-        "What are the background details and contact numbers for complainants Rajesh Khurana and Rahul Saraf?",
-        "What server breach or algorithmic trading tools were executed by Vikram Sethi and Ananya Rao?"
+        # Case 1: Stock Short-Selling & Extortion (FIR 1102/2026 & FIR 1202/2026)
+        "Who is Ananya Rao, what role did she play in the short-selling of Apex Pharmaceuticals stock, and who was the complainant Rajesh Khurana?",
+        "What threats and extortion demands did Mohit Chawla make against journalist Rahul Saraf, and what VoIP number was used?",
+        "What financial transaction reference (DEX-2026101588) and relationship exist between Ananya Rao and Vikram Sethi in Lower Parel, Mumbai?",
+        "How much money did Karan Desai transfer to Mohit Chawla via RTGS-2026112499, and where are they located in Pune?",
+
+        # Case 2: Ransomware & Counterfeit EV Batteries (FIR 1101/2026 & FIR 1201/2026)
+        "What email ransom demands were made by 'DarkByte' against Dr. Arvind Patel at Apex Pharmaceuticals HQ in Andheri East, Mumbai?",
+        "How were Vikram Sethi and Ananya Rao implicated in the server breach and ransomware deployment at MIDC Andheri East?",
+        "What role did floor manager Karan Desai and Mohit Chawla play in the counterfeit EV battery pack operation at Bhosari industrial area?",
+        "What cargo trucks, delivery vehicles, or transport logistics were identified at the Nexa EV Motors toll gate in Pune?",
+
+        # Case 3: Deepfake Subsidy Fraud & Telegram Blackmail (FIR 1301/2026 & FIR 1302/2026)
+        "How did data scientist Ritesh Deshmukh and Suraj Pawar use AI-generated deepfake satellite imagery to embezzle drought-relief subsidies in Nashik?",
+        "What blackmail threats involving AI-doctored compromising videos did Suraj Pawar send to Revenue Inspector Sandeep Patil via Telegram?",
+        "How much money was transferred from Suraj Pawar to Ritesh Deshmukh via RTGS-2026090488 in Panchavati, Nashik?",
+
+        # Cross-Case Investigations, Vehicles, Syndicates & Legal Sections
+        "Which police stations and investigating officers (Inspectors Sanjay Gupta, Ravi Shinde, Vikram Patil, Milind Kulkarni, Prakash Zende, Kavita Raut) handled each FIR case?",
+        "What organizations, companies, and criminal syndicates (BSE, Apex Pharmaceuticals, Nexa EV Motors, cyber-extortion syndicate) are referenced across all FIRs?",
+        "What physical locations, vehicles, and CCTV evidence were recorded in Andheri East, Bhosari, Chakan, and the Nashik Collectorate main gate?",
+        "Which legal sections under the IPC (such as 420, 120B, 384, 468, 285), IT Act (43, 66A, 66D, 66E, 67), SEBI Act, and PMLA apply to each set of accused persons?"
     ]
 
         results = []
