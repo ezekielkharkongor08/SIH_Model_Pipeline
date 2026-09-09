@@ -1,10 +1,10 @@
 [
   {
-    "evidence_id": "EV-CASE-1(NO-1788894618292-188783",
+    "evidence_id": "EV-CASE-1(NO-1788928290964-188783",
     "filename": "CASE_1(no.-1).png",
     "entities_count": 18,
     "triples_count": 13,
-    "execution_time_ms": 50291.44,
+    "execution_time_ms": 57320.14,
     "status": "SUCCESS",
     "entities": [
       {
@@ -149,11 +149,11 @@
     ]
   },
   {
-    "evidence_id": "EV-CASE-1(NO-1788894668649-ac3c33",
+    "evidence_id": "EV-CASE-1(NO-1788928348335-ac3c33",
     "filename": "CASE_1(no.-2).png",
     "entities_count": 19,
     "triples_count": 8,
-    "execution_time_ms": 31585.88,
+    "execution_time_ms": 32040.3,
     "status": "SUCCESS",
     "entities": [
       {
@@ -277,11 +277,11 @@
     ]
   },
   {
-    "evidence_id": "EV-CASE-2(NO-1788894700224-524b08",
+    "evidence_id": "EV-CASE-2(NO-1788928380376-524b08",
     "filename": "CASE_2(no.-1).png",
     "entities_count": 19,
     "triples_count": 7,
-    "execution_time_ms": 36087.55,
+    "execution_time_ms": 37200.02,
     "status": "SUCCESS",
     "entities": [
       {
@@ -400,11 +400,11 @@
     ]
   },
   {
-    "evidence_id": "EV-CASE-2(NO-1788894736344-a9ddee",
+    "evidence_id": "EV-CASE-2(NO-1788928417627-a9ddee",
     "filename": "CASE_2(no.-2).png",
     "entities_count": 15,
     "triples_count": 8,
-    "execution_time_ms": 38391.32,
+    "execution_time_ms": 39273.35,
     "status": "SUCCESS",
     "entities": [
       {
@@ -512,11 +512,11 @@
     ]
   },
   {
-    "evidence_id": "EV-CASE-3(NO-1788894774741-84152f",
+    "evidence_id": "EV-CASE-3(NO-1788928456893-84152f",
     "filename": "CASE_3(no.-1).png",
     "entities_count": 16,
     "triples_count": 7,
-    "execution_time_ms": 36225.79,
+    "execution_time_ms": 33766.99,
     "status": "SUCCESS",
     "entities": [
       {
@@ -623,11 +623,11 @@
     ]
   },
   {
-    "evidence_id": "EV-CASE-3(NO-1788894810987-d56b2c",
+    "evidence_id": "EV-CASE-3(NO-1788928490667-d56b2c",
     "filename": "CASE_3(no.-2).png",
     "entities_count": 20,
     "triples_count": 10,
-    "execution_time_ms": 52365.49,
+    "execution_time_ms": 52109.86,
     "status": "SUCCESS",
     "entities": [
       {
